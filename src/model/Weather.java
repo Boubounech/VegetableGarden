@@ -1,6 +1,6 @@
 package model;
 
-public class Garden implements Runnable {
+public class Weather implements Runnable {
     @Override
     public void run() {
 
