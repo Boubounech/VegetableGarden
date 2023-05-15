@@ -1,4 +1,4 @@
-package view;
+package garden.view;
 
 /**
  * The information menu of a plot

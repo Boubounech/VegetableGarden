@@ -1,4 +1,4 @@
-package model;
+package garden.model;
 
 /**
  * All possible weather

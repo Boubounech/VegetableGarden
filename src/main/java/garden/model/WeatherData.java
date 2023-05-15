@@ -1,16 +1,18 @@
-package model;
+package garden.model;
 
 import java.util.EnumMap;
 
 /**
- * Weather Data holds data for each weather type :
+ * Weather Data holds garden.data for each weather type :
  *  Humidity, sun exposure and temperature
- *  This data must be taken from json files
+ *  This garden.data must be taken from json files
  *
  *  - weatherType : WeatherType
+ *  - name : String
  *  - humidity : int
  *  - sunExposure : int
  *  - temperature : int
+ *  - weatherToName : EnumMap<WeatherType, String>
  *  - weatherToHumidity : EnumMap<WeatherType, Integer>
  *  - weatherToSunExposure : EnumMap<WeatherType, Integer>
  *  - weatherToTemperature : EnumMap<WeatherType, Integer>
@@ -25,12 +27,15 @@ import java.util.EnumMap;
  *  + setWeather(weather : WeatherType)
  */
 public class WeatherData {
-    static private EnumMap<WeatherType, Integer> weatherToHumidity;
-    static private EnumMap<WeatherType, Integer> weatherToSunExposure;
-    static private EnumMap<WeatherType, Integer> weatherToTemperature;
+    static private EnumMap<WeatherType, String> weatherToName = new EnumMap<>(WeatherType.class);
+    static private EnumMap<WeatherType, Integer> weatherToHumidity = new EnumMap<>(WeatherType.class);
+    static private EnumMap<WeatherType, Integer> weatherToSunExposure = new EnumMap<>(WeatherType.class);
+    static private EnumMap<WeatherType, Integer> weatherToTemperature = new EnumMap<>(WeatherType.class);
 
     // Holds the name of the weather
     public WeatherType weatherType;
+    // Weather's display name
+    public String name;
     // Humidity level procured by the weather
     public int humidity;
     // Sun exposure (light) getting through the weather
@@ -38,25 +43,34 @@ public class WeatherData {
     // Temperature provided by the weather
     public int temperature;
 
-    public void WeatherData() {
-        createMaps();
+    public WeatherData() {
+        if (weatherToName.isEmpty() || weatherToHumidity.isEmpty() || weatherToSunExposure.isEmpty() || weatherToTemperature.isEmpty())
+            createMaps();
     }
 
-    public void WeatherData(WeatherType weather) {
-        if (weatherToHumidity.isEmpty() || weatherToSunExposure.isEmpty() || weatherToTemperature.isEmpty())
+    public WeatherData(WeatherType weather) {
+        if (weatherToName.isEmpty() || weatherToHumidity.isEmpty() || weatherToSunExposure.isEmpty() || weatherToTemperature.isEmpty())
             createMaps();
         setWeather(weather);
     }
 
     public void setWeather(WeatherType weather) {
+        if (weatherToName.isEmpty() || weatherToHumidity.isEmpty() || weatherToSunExposure.isEmpty() || weatherToTemperature.isEmpty())
+            createMaps();
         this.weatherType = weather;
+        this.name = weatherToName.get(this.weatherType);
         this.humidity = weatherToHumidity.get(this.weatherType);
         this.sunExposure = weatherToSunExposure.get(this.weatherType);
         this.temperature = weatherToTemperature.get(this.weatherType);
+        System.out.println("Set weather to " + name);
     }
 
     public WeatherType getCurrentWeather() {
         return weatherType;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getHumidity() {
@@ -73,6 +87,14 @@ public class WeatherData {
 
     // TODO: replace manual maps with json file
     private void createMaps() {
+        weatherToName.clear();
+        weatherToName.put(WeatherType.clear, "Clear");
+        weatherToName.put(WeatherType.rain, "Rainy");
+        weatherToName.put(WeatherType.cloud, "Some clouds");
+        weatherToName.put(WeatherType.lotsofcloud, "Lots of clouds");
+        weatherToName.put(WeatherType.thunder, "Thunder");
+        weatherToName.put(WeatherType.snow, "Snowy");
+
         weatherToHumidity.clear();
         weatherToHumidity.put(WeatherType.clear, 0);
         weatherToHumidity.put(WeatherType.rain, 80);

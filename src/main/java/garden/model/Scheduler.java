@@ -1,4 +1,4 @@
-package model;
+package garden.model;
 
 import java.util.Observable;
 
@@ -22,6 +22,14 @@ public class Scheduler extends Observable implements Runnable {
 
     @Override
     public void run() {
+        while(true) {
+            try {
+                Thread.sleep(1000/20);
+                (new Thread(weather)).start();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
     }
 }

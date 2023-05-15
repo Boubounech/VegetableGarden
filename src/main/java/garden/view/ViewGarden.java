@@ -1,7 +1,7 @@
-package view;
+package garden.view;
 
 /**
- * The garden view, with all plots
+ * The garden garden.view, with all plots
  *
  * @since 1.0
  * @author

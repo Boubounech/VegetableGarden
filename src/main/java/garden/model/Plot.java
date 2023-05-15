@@ -1,4 +1,4 @@
-package model;
+package garden.model;
 
 /**
  *  - waterLevel : int
