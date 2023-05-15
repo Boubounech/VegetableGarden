@@ -2,6 +2,8 @@ package garden.model;
 
 import com.google.gson.Gson;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.EnumMap;
 
 /**
@@ -63,8 +65,31 @@ public class Vegetable {
     }
 
     //function that loads the vegetables from a JSON file
-    public static void loadVegetables(String path){
+    public static void loadVegetables(String path) throws IOException {
         Gson gson = new Gson();
+        String json = null;
+        try {
+             json = readJSON(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<Vegetable> vegetableArrayList = gson.fromJson(json, ArrayList.class);
+    }
+
+    private static String readJSON(String path) throws IOException {
+        File jsonGameInfo = new File(path);
+        FileInputStream fileIn = new FileInputStream(jsonGameInfo);
+        InputStreamReader isReader = new InputStreamReader(fileIn);
+        BufferedReader reader = new BufferedReader(isReader);
+        StringBuffer sb = new StringBuffer();
+        String str;
+        while((str = reader.readLine())!= null){
+            sb.append(str);
+        }
+        reader.close();
+        isReader.close();
+        fileIn.close();
+        return sb.toString();
     }
 
     public String getName() {
