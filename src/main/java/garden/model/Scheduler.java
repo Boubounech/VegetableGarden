@@ -6,11 +6,11 @@ public class Scheduler extends Observable implements Runnable {
 
     private static Scheduler scheduler;
     private Garden garden;
-    private Weather weather;
+    private WeatherManager weather;
 
     private Scheduler() {
         garden = new Garden();
-        weather = new Weather();
+        weather = new WeatherManager();
     }
 
     public static Scheduler getScheduler(){

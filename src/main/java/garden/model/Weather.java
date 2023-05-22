@@ -1,50 +1,90 @@
 package garden.model;
 
-import java.util.Random;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.EnumMap;
 
 /**
- * Weather manages the current weather in the garden
+ * Weather holds values for each weather type :
+ *  Humidity, sun exposure and temperature
+ *  These values must be taken from json files
  *
- *  - weather : WeatherData
- *  - timeSinceLastChange : int
- *  - timeOfNextChange : int
- *  - timeChangeBottomLimit : int
- *  - timeChangeTopLimit : int
+ *  - weatherType : WeatherType
+ *  - name : String
+ *  - humidity : int
+ *  - sunExposure : int
+ *  - temperature : int
+ *  - weatherToName : EnumMap<WeatherType, String>
+ *  - weatherToHumidity : EnumMap<WeatherType, Integer>
+ *  - weatherToSunExposure : EnumMap<WeatherType, Integer>
+ *  - weatherToTemperature : EnumMap<WeatherType, Integer>
  *
  *  + Weather()
- *
- *  + getCurrentWeather() : WeatherData
+ *  + Weather(weather : WeatherType)
+ *  - createMaps()
+ *  + getCurrentWeather() : WeatherType
+ *  + getWeatherHumidity() : int
+ *  + getWeatherSunExposure() : int
+ *  + getWeatherTemperature() : int
+ *  + setWeather(weather : WeatherType)
  */
-public class Weather implements Runnable {
-    private WeatherData weather;
-    private int timeSinceLastChange;
-    private int timeOfNextChange;
-    private final int timeChangeBottomLimit;
-    private final int timeChangeTopLimit;
+public class Weather {
 
-    public Weather() {
-        timeChangeBottomLimit = 20;
-        timeChangeTopLimit = 200;
+    public static EnumMap<WeatherType, Weather> weathers = new EnumMap<>(WeatherType.class);
 
-        // At first, it's clear for the longest period
-        timeOfNextChange = timeChangeTopLimit;
+    // Holds the name of the weather
+    public WeatherType type;
+    // Weather's display name
+    public String name;
+    // Humidity level procured by the weather
+    public int humidity;
+    // Light getting through the weather
+    public int light;
+    // Temperature provided by the weather
+    public int temperature;
 
-        weather = new WeatherData(WeatherType.clear);
-        timeSinceLastChange = 0;
+    public Weather(WeatherType type, String name, int humidity, int light, int temperature) {
+        this.type = type;
+        this.name = name;
+        this.humidity = humidity;
+        this.light = light;
+        this.temperature = temperature;
     }
 
-    public WeatherData getWeather(){
-        return weather;
+    public WeatherType getType() {
+        return type;
     }
 
-    @Override
-    public void run() {
-        timeSinceLastChange++;
-        if (timeSinceLastChange > timeOfNextChange){
-            Random rdm = new Random();
-            weather.setWeather(WeatherType.values()[rdm.nextInt(WeatherType.values().length)]);
-            timeSinceLastChange = 0;
-            timeOfNextChange = rdm.nextInt(timeChangeTopLimit - timeChangeBottomLimit) + timeChangeBottomLimit;
+    public String getName() {
+        return name;
+    }
+
+    public int getHumidity() {
+        return humidity;
+    }
+
+    public int getLight() {
+        return light;
+    }
+
+    public int getTemperature() {
+        return temperature;
+    }
+
+    //function that loads the weathers from a JSON file
+    public static void loadWeathers(String path) throws IOException {
+        Gson gson = new Gson();
+        String json = null;
+        try {
+             json = JsonFileReader.readJSON(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Weather[] weatherList = gson.fromJson(json, Weather[].class);
+        for(Weather w : weatherList){
+            weathers.put(w.getType(), w);
         }
     }
+
 }

@@ -1,0 +1,44 @@
+[
+  {
+    "type": "clear",
+    "name": "Clear",
+    "humidity": 0,
+    "light": 100,
+    "temperature": 62
+  },
+  {
+    "type": "rain",
+    "name": "Rainy",
+    "humidity": 80,
+    "light": 5,
+    "temperature": 44
+  },
+  {
+    "type": "cloud",
+    "name": "Some clouds",
+    "humidity": 0,
+    "light": 50,
+    "temperature": 56
+  },
+  {
+    "type": "lotsofcloud",
+    "name": "Lots of clouds",
+    "humidity": 10,
+    "light": 20,
+    "temperature": 50
+  },
+  {
+    "type": "thunder",
+    "name": "Thunder",
+    "humidity": 80,
+    "light": 0,
+    "temperature": 50
+  },
+  {
+    "type": "snow",
+    "name": "Snowy",
+    "humidity": 50,
+    "light": 5,
+    "temperature": 25
+  }
+]

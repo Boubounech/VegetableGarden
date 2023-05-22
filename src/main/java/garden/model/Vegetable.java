@@ -69,7 +69,7 @@ public class Vegetable implements Serializable {
         Gson gson = new Gson();
         String json = null;
         try {
-             json = readJSON(path);
+             json = JsonFileReader.readJSON(path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -77,22 +77,6 @@ public class Vegetable implements Serializable {
         for(Vegetable v : vegetableArrayList){
             vegetables.put(v.getType(), v);
         }
-    }
-
-    private static String readJSON(String path) throws IOException {
-        File jsonGameInfo = new File(path);
-        FileInputStream fileIn = new FileInputStream(jsonGameInfo);
-        InputStreamReader isReader = new InputStreamReader(fileIn);
-        BufferedReader reader = new BufferedReader(isReader);
-        StringBuffer sb = new StringBuffer();
-        String str;
-        while((str = reader.readLine())!= null){
-            sb.append(str);
-        }
-        reader.close();
-        isReader.close();
-        fileIn.close();
-        return sb.toString();
     }
 
     public String getName() {
