@@ -12,7 +12,7 @@ public class Main {
 
         th_sche.start();
         try {
-            Vegetable.loadVegetables("src/main/resources/vegetables.json");
+            Vegetable.loadVegetables("src/main/resources/json/vegetables.json");
             for(Vegetable v : Vegetable.vegetables.values()){
                 System.out.println(v.getName());
             }

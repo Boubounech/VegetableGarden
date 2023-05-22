@@ -15,10 +15,7 @@ import java.util.EnumMap;
  *  - humidity : int
  *  - sunExposure : int
  *  - temperature : int
- *  - weatherToName : EnumMap<WeatherType, String>
- *  - weatherToHumidity : EnumMap<WeatherType, Integer>
- *  - weatherToSunExposure : EnumMap<WeatherType, Integer>
- *  - weatherToTemperature : EnumMap<WeatherType, Integer>
+ *  + weathers : EnumMap<WeatherType, Weather>
  *
  *  + Weather()
  *  + Weather(weather : WeatherType)
