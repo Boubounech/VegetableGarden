@@ -35,7 +35,7 @@ import java.util.EnumMap;
  *  + getVegetableRangeLimitLight(type : VegetableType) : int
  *  + getVegetableRangeLimitTemperature(type : VegetableType) : int
  */
-public class Vegetable {
+public class Vegetable implements Serializable {
     private String name;
     private VegetableType type;
     private int seedPrice;
@@ -48,7 +48,7 @@ public class Vegetable {
     private int rangeLimitLight;
     private int rangeLimitTemperature;
 
-    public static EnumMap<VegetableType, Vegetable> vegetales = new EnumMap<>(VegetableType.class);
+    public static EnumMap<VegetableType, Vegetable> vegetables = new EnumMap<>(VegetableType.class);
 
     public Vegetable(String name, VegetableType type, int seedPrice, int sellPrice, int growTime, int idealHumidity, int idealLight, int idealTemperature, int rangeLimitHumidity, int rangeLimitLight, int rangeLimitTemperature) {
         this.name = name;
@@ -73,7 +73,10 @@ public class Vegetable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ArrayList<Vegetable> vegetableArrayList = gson.fromJson(json, ArrayList.class);
+        Vegetable[] vegetableArrayList = gson.fromJson(json, Vegetable[].class);
+        for(Vegetable v : vegetableArrayList){
+            vegetables.put(v.getType(), v);
+        }
     }
 
     private static String readJSON(String path) throws IOException {

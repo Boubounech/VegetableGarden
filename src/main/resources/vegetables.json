@@ -1,0 +1,41 @@
+[
+    {
+        "type": "potato",
+        "name": "Patate",
+        "seedPrice": 10,
+        "sellPrice": 30,
+        "growTime": 100,
+        "idealHumidity": 50,
+        "idealLight": 50,
+        "idealTemperature": 50,
+        "rangeLimitHumidity": 25,
+        "rangeLimitLight": 25,
+        "rangeLimitTemperature": 25
+    },
+    {
+        "type": "carrot",
+        "name": "Carotte",
+        "seedPrice": 15,
+        "sellPrice": 50,
+        "growTime": 50,
+        "idealHumidity": 50,
+        "idealLight": 50,
+        "idealTemperature": 50,
+        "rangeLimitHumidity": 50,
+        "rangeLimitLight": 50,
+        "rangeLimitTemperature": 50
+    },
+    {
+        "type": "eggplant",
+        "name": "Aubergine",
+        "seedPrice": 20,
+        "sellPrice": 100,
+        "growTime": 200,
+        "idealHumidity": 50,
+        "idealLight": 50,
+        "idealTemperature": 50,
+        "rangeLimitHumidity": 15,
+        "rangeLimitLight": 15,
+        "rangeLimitTemperature": 15
+    }
+]
