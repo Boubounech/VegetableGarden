@@ -53,11 +53,14 @@ public class ViewGarden extends JPanel {
                             else {
                                 propOrCultivable = new JMenuItem("Set as prop");
                                 if(p.getGrowthState() == 0){
+                                    // Carrot
                                     JMenuItem plantCarrot = new JMenuItem("Plant carrot");
                                     plantCarrot.addActionListener(e1 -> {
                                         View.getScheduler().plant(p.getX(), p.getY(), VegetableType.carrot);
                                     });
                                     popup.add(plantCarrot);
+
+                                    // Potato
                                     JMenuItem plantPotato = new JMenuItem("Plant potato");
                                     plantPotato.addActionListener(e1 -> {
                                         View.getScheduler().plant(p.getX(), p.getY(), VegetableType.potato);
