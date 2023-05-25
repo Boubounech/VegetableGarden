@@ -5,8 +5,10 @@
   "lotsofclouds",
   "thunder",
   "snow",
+
   "cultivablePlot",
   "emptyPlot",
+
   "carrot0",
   "carrot1",
   "carrot2",
@@ -15,6 +17,10 @@
   "potato1",
   "potato2",
   "potato3",
+
   "flowers",
-  "rocks"
+  "rocks",
+  "none",
+
+  "border"
 ]

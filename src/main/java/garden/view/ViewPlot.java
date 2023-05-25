@@ -19,6 +19,8 @@ public class ViewPlot extends JPanel {
     private int y;
     private int growthState;
 
+    private boolean isFocused;
+
     public ViewPlot(int x, int y) {
         this.x = x;
         this.y = y;
@@ -26,12 +28,16 @@ public class ViewPlot extends JPanel {
         this.background = null;
         this.item = null;
         this.growthState = 0;
+        isFocused = false;
     }
 
     public void paint(Graphics g) {
-         g.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), this);
-         //if(!this.isProp)
+        g.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), this);
+        //if(!this.isProp)
         g.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
+        if (this.isFocused) {
+            g.drawImage(View.pictures.get("border"), 0, 0, this.getWidth(), this.getHeight(), this);
+        }
     }
 
     public void setIsProp(Boolean isProp){
@@ -43,6 +49,10 @@ public class ViewPlot extends JPanel {
             this.background = View.pictures.get("cultivablePlot");
 
         repaint();
+    }
+
+    public void setFocused(boolean isFocused) {
+        this.isFocused = isFocused;
     }
 
     public int getX(){

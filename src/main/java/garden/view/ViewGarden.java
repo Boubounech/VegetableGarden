@@ -38,8 +38,7 @@ public class ViewGarden extends JPanel {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         ViewPlot p = (ViewPlot) e.getSource();
-                        focusedPlot[0] = p.getX();
-                        focusedPlot[1] = p.getY();
+                        setFocusedPlot(p.getX(), p.getY());
                         if(e.getButton() == MouseEvent.BUTTON1){
                             System.out.println("Left click : Done nothing");
                         }
@@ -101,6 +100,13 @@ public class ViewGarden extends JPanel {
         }
 
         this.setLayout(this.layout);
+    }
+
+    private void setFocusedPlot(int x, int y) {
+        this.plots[focusedPlot[0]][focusedPlot[1]].setFocused(false);
+        focusedPlot[0] = x;
+        focusedPlot[1] = y;
+        this.plots[x][y].setFocused(true);
     }
 
     public void update(Garden g){
