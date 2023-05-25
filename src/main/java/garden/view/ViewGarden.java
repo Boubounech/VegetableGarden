@@ -1,7 +1,9 @@
 package garden.view;
 
+import garden.model.CultivablePlot;
 import garden.model.Garden;
 import garden.model.Prop;
+import garden.model.VegetableType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +33,7 @@ public class ViewGarden extends JPanel {
             for (int j = 0; j < this.plots[i].length; j++) {
                 this.plots[i][j] = new ViewPlot(i, j);
                 this.add(this.plots[i][j]);
+                // TODO : this.plots[i][j].setComponentPopupMenu(new JPopupMenu());
                 this.plots[i][j].addMouseListener(new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -43,17 +46,37 @@ public class ViewGarden extends JPanel {
                         else if(e.getButton() == MouseEvent.BUTTON3){
                             System.out.println("Right click : Open popup");
                             JPopupMenu popup = new JPopupMenu();
-                            JMenuItem item;
+                            JMenuItem propOrCultivable;
                             if (p.getIsProp()) {
-                                item = new JMenuItem("Set as cultivable");
+                                propOrCultivable = new JMenuItem("Set as cultivable");
                             }
                             else {
-                                item = new JMenuItem("Set as prop");
+                                propOrCultivable = new JMenuItem("Set as prop");
+                                if(p.getGrowthState() == 0){
+                                    JMenuItem plantCarrot = new JMenuItem("Plant carrot");
+                                    plantCarrot.addActionListener(e1 -> {
+                                        View.getScheduler().plant(p.getX(), p.getY(), VegetableType.carrot);
+                                    });
+                                    popup.add(plantCarrot);
+                                    JMenuItem plantPotato = new JMenuItem("Plant potato");
+                                    plantPotato.addActionListener(e1 -> {
+                                        View.getScheduler().plant(p.getX(), p.getY(), VegetableType.potato);
+                                    });
+                                    popup.add(plantPotato);
+                                }
+                                else{
+                                    JMenuItem harvest = new JMenuItem("Harvest");
+                                    /*harvest.addActionListener(e1 -> {
+                                        View.getScheduler().harvest(p.getX(), p.getY());
+                                    });*/
+                                    popup.add(harvest);
+                                }
                             }
-                            item.addActionListener(e1 -> {
+                            propOrCultivable.addActionListener(e1 -> {
                                 View.getScheduler().setIsProp(p.getX(), p.getY(), !p.getIsProp());
                             });
-                            popup.add(item);
+                            popup.add(propOrCultivable);
+
                             popup.setLightWeightPopupEnabled(false);
                             popup.show(e.getComponent(), e.getX(), e.getY());
                         }
@@ -81,7 +104,11 @@ public class ViewGarden extends JPanel {
         for(int x = 0; x < g.getPlots().length; x++){
             for(int y = 0; y < g.getPlots()[x].length; y++){
                 this.plots[x][y].setIsProp(g.getPlot(x, y) instanceof Prop);
-
+                if (g.getPlot(x, y) instanceof CultivablePlot)
+                    if (!(g.getPlot(x, y)).getItem().equals("empty")) {
+                        this.plots[x][y].setItem(g.getPlot(x, y).getItem());
+                        //this.plots[x][y].setGrowthState(g.getPlot(x, y).getGrowthState());
+                    }
             }
         }
     }
@@ -89,5 +116,4 @@ public class ViewGarden extends JPanel {
     public int[] getFocusedPlot() {
         return focusedPlot;
     }
-
 }

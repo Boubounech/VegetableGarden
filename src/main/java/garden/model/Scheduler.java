@@ -9,7 +9,7 @@ public class Scheduler extends Observable implements Runnable {
     private WeatherManager weather;
 
     private Scheduler() {
-        garden = new Garden(10, 10);
+        garden = new Garden(10, 10, 5);
         weather = new WeatherManager();
     }
 
@@ -30,6 +30,7 @@ public class Scheduler extends Observable implements Runnable {
             try {
                 Thread.sleep(1000/20);
                 (new Thread(weather)).start();
+                (new Thread(garden)).start();
 
                 setChanged();
                 notifyObservers();
@@ -47,10 +48,22 @@ public class Scheduler extends Observable implements Runnable {
     public Weather getWeather() { return this.weather.getWeather();}
 
     // FUNCTION CALLED FROM VIEW
+
+
     public void setIsProp(int x, int y, boolean isProp){
         if (isProp)
             this.garden.setPlot(x, y, new Prop());
         else
             this.garden.setPlot(x, y, new CultivablePlot());
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void plant(int x, int y, VegetableType vegetableType){
+        ((CultivablePlot)(this.garden.getPlot(x, y))).plant(vegetableType);
+
+        setChanged();
+        notifyObservers();
     }
 }

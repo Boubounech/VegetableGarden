@@ -1,5 +1,6 @@
 package garden.model;
 
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -8,9 +9,17 @@ import java.util.Random;
 public class Garden implements Runnable {
 
     private Plot[][] plots;
+    private int randomTickSpeed;
 
-    public Garden(int width, int height) {
+    public Garden(int width, int height, int randomTickSpeed) {
+        this.randomTickSpeed = randomTickSpeed;
         Random r = new Random();
+
+        try {
+            Vegetable.loadVegetables();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         plots = new Plot[width][height];
 
@@ -35,7 +44,13 @@ public class Garden implements Runnable {
 
     @Override
     public void run() {
-
+        for(int x = 0; x < this.plots.length; x++){
+            for(int y = 0; y < this.plots[x].length; y++) {
+                //Update the plot with probability of randomTickSpeed/(width*height)
+                if (Math.random() < (double) this.randomTickSpeed / (double) (this.plots.length * this.plots[x].length))
+                    this.plots[x][y].update();
+            }
+        }
     }
 
     public void setPlot(int x, int y, Plot plot){

@@ -49,6 +49,10 @@ public abstract class Plot {
         temperatureSourceNumber = 0;
     }
 
+    public abstract void update();
+
+    public abstract String getItem();
+
 
     public void setWaterLevel(int waterLevel) {
         this.waterLevel = waterLevel;

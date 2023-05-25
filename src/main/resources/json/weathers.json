@@ -21,7 +21,7 @@
     "temperature": 56
   },
   {
-    "type": "lotsofcloud",
+    "type": "lotsofclouds",
     "name": "Lots of clouds",
     "humidity": 10,
     "light": 20,

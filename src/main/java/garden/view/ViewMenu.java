@@ -25,6 +25,9 @@ public class ViewMenu extends JPanel {
         this.label = new JLabel("Menu");
         this.plotInfos = new JLabel();
         this.weatherPic = new JLabel();
+
+        this.weatherPic.setPreferredSize(new Dimension(48*2, 48*2));
+
         this.add(this.label);
         this.add(this.plotInfos);
         this.add(this.weatherPic);
@@ -33,8 +36,6 @@ public class ViewMenu extends JPanel {
 
     public void update(Garden g, int[] focusedPlot, Weather currentWeather) {
         plotInfos.setText(g.getPlot(focusedPlot[0], focusedPlot[1]).toString());
-        if (currentWeather.getType() == WeatherType.clear || currentWeather.getType() == WeatherType.cloud) {
-            this.weatherPic.setIcon(new ImageIcon(View.pictures.get(currentWeather.getType().toString())));
-        }
+        this.weatherPic.setIcon(new ImageIcon(View.pictures.get(currentWeather.getType().toString())));
     }
 }

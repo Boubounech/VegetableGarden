@@ -17,22 +17,26 @@ public class ViewPlot extends JPanel {
     private boolean isProp;
     private int x;
     private int y;
+    private int growthState;
 
     public ViewPlot(int x, int y) {
         this.x = x;
         this.y = y;
         this.setPreferredSize(new Dimension(48, 48));
-        this.background = View.pictures.get("cultivablePlot");
-        this.item = View.pictures.get("carrot3");
+        this.background = null;
+        this.item = null;
+        this.growthState = 0;
     }
 
     public void paint(Graphics g) {
          g.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), this);
-         g.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
+         if(!this.isProp)
+            g.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
     }
 
     public void setIsProp(Boolean isProp){
         this.isProp = isProp;
+        this.item = null;
         if (isProp)
             this.background = View.pictures.get("emptyPlot");
         else
@@ -51,5 +55,18 @@ public class ViewPlot extends JPanel {
 
     public boolean getIsProp(){
         return this.isProp;
+    }
+
+    public void setItem(String itemName){
+        this.item = View.pictures.get(itemName);
+        repaint();
+    }
+
+    public void setGrowthState(int growthState){
+        this.growthState = growthState;
+    }
+
+    public int getGrowthState(){
+        return this.growthState;
     }
 }

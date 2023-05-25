@@ -14,7 +14,7 @@ public enum WeatherType {
     clear,
     rain,
     cloud,
-    lotsofcloud,
+    lotsofclouds,
     thunder,
     snow
 }
