@@ -30,8 +30,8 @@ public class ViewPlot extends JPanel {
 
     public void paint(Graphics g) {
          g.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), this);
-         if(!this.isProp)
-            g.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
+         //if(!this.isProp)
+        g.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
     }
 
     public void setIsProp(Boolean isProp){

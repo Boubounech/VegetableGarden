@@ -67,6 +67,13 @@ public class CultivablePlot extends Plot {
 
     @Override
     public String toString() {
-        return "It is a CULTIVABLE PLOT";
+        String text = "";
+        text += "Parcelle cultivable.\n";
+        if (vegetable != null) {
+            text += "Contient des " + this.vegetable.getName() + "s.\n";
+        } else {
+            text += "Ne contient aucun légume ou fruit.";
+        }
+        return text;
     }
 }

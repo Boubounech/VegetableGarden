@@ -1,6 +1,15 @@
 package garden.model;
 
+import java.util.Random;
+
 public class Prop extends Plot {
+    private String prop;
+
+    public Prop() {
+        String[] props = {"flowers", "rocks", "none"};
+        this.prop = props[(new Random()).nextInt(props.length)];
+    }
+
     @Override
     public void update() {
 
@@ -8,11 +17,13 @@ public class Prop extends Plot {
 
     @Override
     public String getItem() {
-        return null;
+        if (this.prop == null)
+            return "empty";
+        return this.prop;
     }
 
     @Override
     public String toString() {
-        return "It is a PROP !";
+        return "Parcelle non cultivable.\n";
     }
 }

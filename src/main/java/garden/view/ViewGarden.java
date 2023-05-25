@@ -107,11 +107,11 @@ public class ViewGarden extends JPanel {
         for(int x = 0; x < g.getPlots().length; x++){
             for(int y = 0; y < g.getPlots()[x].length; y++){
                 this.plots[x][y].setIsProp(g.getPlot(x, y) instanceof Prop);
-                if (g.getPlot(x, y) instanceof CultivablePlot)
-                    if (!(g.getPlot(x, y)).getItem().equals("empty")) {
-                        this.plots[x][y].setItem(g.getPlot(x, y).getItem());
-                        //this.plots[x][y].setGrowthState(g.getPlot(x, y).getGrowthState());
-                    }
+                //if (g.getPlot(x, y) instanceof CultivablePlot)
+                if (!(g.getPlot(x, y)).getItem().equals("empty")) {
+                    this.plots[x][y].setItem(g.getPlot(x, y).getItem());
+                    //this.plots[x][y].setGrowthState(g.getPlot(x, y).getGrowthState());
+                }
             }
         }
     }
