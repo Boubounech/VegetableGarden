@@ -1,23 +1,21 @@
 package garden;
 
+import garden.model.Garden;
 import garden.model.Scheduler;
 import garden.model.Vegetable;
+import garden.view.View;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         Scheduler scheduler = Scheduler.getScheduler();
-        Thread th_sche = new Thread(scheduler);
+        new Thread(scheduler).start();
 
-        th_sche.start();
-        try {
-            Vegetable.loadVegetables("src/main/resources/json/vegetables.json");
-            for(Vegetable v : Vegetable.vegetables.values()){
-                System.out.println(v.getName());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        View view = new View(scheduler);
+
+        scheduler.addObserver(view);
+
+        view.setVisible(true);
     }
 }

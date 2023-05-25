@@ -65,16 +65,16 @@ public class Vegetable implements Serializable {
     }
 
     //function that loads the vegetables from a JSON file
-    public static void loadVegetables(String path) throws IOException {
+    public static void loadVegetables() throws IOException {
         Gson gson = new Gson();
         String json = null;
         try {
-             json = JsonFileReader.readJSON(path);
+             json = JsonFileReader.readJSON("src/main/resources/json/vegetables.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Vegetable[] vegetableArrayList = gson.fromJson(json, Vegetable[].class);
-        for(Vegetable v : vegetableArrayList){
+        Vegetable[] vegetableList = gson.fromJson(json, Vegetable[].class);
+        for(Vegetable v : vegetableList){
             vegetables.put(v.getType(), v);
         }
     }

@@ -70,11 +70,11 @@ public class Weather {
     }
 
     //function that loads the weathers from a JSON file
-    public static void loadWeathers(String path) throws IOException {
+    public static void loadWeathers() throws IOException {
         Gson gson = new Gson();
         String json = null;
         try {
-             json = JsonFileReader.readJSON(path);
+             json = JsonFileReader.readJSON("src/main/resources/json/weathers.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

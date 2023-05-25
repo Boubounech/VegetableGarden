@@ -31,7 +31,7 @@ public class WeatherManager implements Runnable {
         timeOfNextChange = timeChangeTopLimit;
 
         try {
-            Weather.loadWeathers("src/main/resources/json/weathers.json");
+            Weather.loadWeathers();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
