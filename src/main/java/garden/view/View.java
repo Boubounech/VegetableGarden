@@ -20,7 +20,7 @@ import java.util.Observer;
  */
 public class View extends JFrame implements Observer {
     private JPanel mainPanel;
-    private Scheduler scheduler;
+    private static Scheduler scheduler;
 
     public static Map<String, Image> pictures = new HashMap<String, Image>();
 
@@ -62,5 +62,9 @@ public class View extends JFrame implements Observer {
         for(String p : picturesAsArray){
             pictures.put(p, Toolkit.getDefaultToolkit().getImage("src/main/resources/pictures/"+p+".png"));
         }
+    }
+
+    public static Scheduler getScheduler(){
+        return scheduler;
     }
 }

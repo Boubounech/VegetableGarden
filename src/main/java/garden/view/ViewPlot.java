@@ -14,8 +14,12 @@ import java.util.Map;
 public class ViewPlot extends JPanel {
     private Image background;
     private Image item;
+    private int x;
+    private int y;
 
-    public ViewPlot() {
+    public ViewPlot(int x, int y) {
+        this.x = x;
+        this.y = y;
         this.setPreferredSize(new Dimension(48, 48));
         this.background = View.pictures.get("cultivablePlot");
         this.item = View.pictures.get("carrot3");
@@ -33,5 +37,13 @@ public class ViewPlot extends JPanel {
             this.background = View.pictures.get("cultivablePlot");
 
         repaint();
+    }
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
     }
 }

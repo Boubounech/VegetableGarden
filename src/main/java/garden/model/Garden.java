@@ -37,4 +37,9 @@ public class Garden implements Runnable {
     public void run() {
 
     }
+
+    public void setPlot(int x, int y, Plot plot){
+        this.plots[x][y] = plot;
+    }
+
 }
