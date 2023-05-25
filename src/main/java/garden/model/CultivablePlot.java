@@ -5,4 +5,8 @@ package garden.model;
  */
 public class CultivablePlot extends Plot {
 
+    @Override
+    public String toString() {
+        return "It is a CULTIVABLE PLOT";
+    }
 }

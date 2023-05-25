@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 public class ViewGarden extends JPanel {
     private ViewPlot[][] plots;
     private GridLayout layout;
+    private int[] focusedPlot;
 
     /**
      * Constructor
@@ -24,6 +25,7 @@ public class ViewGarden extends JPanel {
     public ViewGarden() {
         this.plots = new ViewPlot[10][10];
         this.layout = new GridLayout(10, 10);
+        this.focusedPlot = new int[2];
 
         for (int i = 0; i < this.plots.length; i++) {
             for (int j = 0; j < this.plots[i].length; j++) {
@@ -32,15 +34,28 @@ public class ViewGarden extends JPanel {
                 this.plots[i][j].addMouseListener(new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        ViewPlot p = (ViewPlot) e.getSource();
+                        focusedPlot[0] = p.getX();
+                        focusedPlot[1] = p.getY();
                         if(e.getButton() == MouseEvent.BUTTON1){
-                            System.out.println("Left click : Set as prop");
-                            ViewPlot p = (ViewPlot) e.getSource();
-                            View.getScheduler().setIsProp(p.getX(), p.getY(), true);
+                            System.out.println("Left click : Done nothing");
                         }
                         else if(e.getButton() == MouseEvent.BUTTON3){
-                            System.out.println("Right click : Set as cultivable");
-                            ViewPlot p = (ViewPlot) e.getSource();
-                            View.getScheduler().setIsProp(p.getX(), p.getY(), false);
+                            System.out.println("Right click : Open popup");
+                            JPopupMenu popup = new JPopupMenu();
+                            JMenuItem item;
+                            if (p.getIsProp()) {
+                                item = new JMenuItem("Set as cultivable");
+                            }
+                            else {
+                                item = new JMenuItem("Set as prop");
+                            }
+                            item.addActionListener(e1 -> {
+                                View.getScheduler().setIsProp(p.getX(), p.getY(), !p.getIsProp());
+                            });
+                            popup.add(item);
+                            popup.setLightWeightPopupEnabled(false);
+                            popup.show(e.getComponent(), e.getX(), e.getY());
                         }
                     }
 
@@ -66,7 +81,13 @@ public class ViewGarden extends JPanel {
         for(int x = 0; x < g.getPlots().length; x++){
             for(int y = 0; y < g.getPlots()[x].length; y++){
                 this.plots[x][y].setIsProp(g.getPlot(x, y) instanceof Prop);
+
             }
         }
     }
+
+    public int[] getFocusedPlot() {
+        return focusedPlot;
+    }
+
 }

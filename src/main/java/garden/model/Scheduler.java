@@ -44,6 +44,8 @@ public class Scheduler extends Observable implements Runnable {
         return this.garden;
     }
 
+    public Weather getWeather() { return this.weather.getWeather();}
+
     // FUNCTION CALLED FROM VIEW
     public void setIsProp(int x, int y, boolean isProp){
         if (isProp)

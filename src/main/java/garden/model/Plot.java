@@ -97,4 +97,7 @@ public abstract class Plot {
     public TemperatureSource getTemperatureSource() {
         return temperatureSource;
     }
+
+    @Override
+    public abstract String toString();
 }

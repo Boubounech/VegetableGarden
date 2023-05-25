@@ -14,6 +14,7 @@ import java.util.Map;
 public class ViewPlot extends JPanel {
     private Image background;
     private Image item;
+    private boolean isProp;
     private int x;
     private int y;
 
@@ -31,6 +32,7 @@ public class ViewPlot extends JPanel {
     }
 
     public void setIsProp(Boolean isProp){
+        this.isProp = isProp;
         if (isProp)
             this.background = View.pictures.get("emptyPlot");
         else
@@ -45,5 +47,9 @@ public class ViewPlot extends JPanel {
 
     public int getY(){
         return this.y;
+    }
+
+    public boolean getIsProp(){
+        return this.isProp;
     }
 }

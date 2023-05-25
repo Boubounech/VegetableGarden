@@ -47,7 +47,9 @@ public class View extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+
         this.garden.update(scheduler.getGarden());
+        this.menu.update(scheduler.getGarden(), this.garden.getFocusedPlot(), scheduler.getWeather());
     }
 
     public static void loadPictures(){
