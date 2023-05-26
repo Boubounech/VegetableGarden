@@ -29,6 +29,7 @@ public class ViewPlot extends JPanel {
         this.item = null;
         this.growthState = 0;
         isFocused = false;
+        this.isProp = true;
     }
 
     public void paint(Graphics g) {
@@ -69,6 +70,11 @@ public class ViewPlot extends JPanel {
 
     public void setItem(String itemName){
         this.item = View.pictures.get(itemName);
+        repaint();
+    }
+
+    public void setItemImage(Image item) {
+        this.item = item;
         repaint();
     }
 

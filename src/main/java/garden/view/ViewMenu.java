@@ -1,9 +1,6 @@
 package garden.view;
 
-import garden.model.Garden;
-import garden.model.Player;
-import garden.model.Weather;
-import garden.model.WeatherType;
+import garden.model.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -23,26 +20,38 @@ public class ViewMenu extends JPanel {
     private JLabel label;
     private JLabel plotInfos;
 
+    // Weather
     private JPanel weather;
     private JLabel weatherPic;
     private JLabel weatherLabel;
 
+    // Random tick speed
     private JPanel rts;
     private JLabel rtsText;
     private JSlider rtsSlider;
 
-
+    // Player
     private JPanel money;
     private JPanel moneyPanel;
     private JLabel moneyText;
     private JLabel moneyAmount;
     private JLabel moneyPic;
 
+    // Player & plot
+    private JPanel center;
+
+    // Plot
+    private JPanel plot;
+    private JPanel plotGeneral;
+    private ViewPlot plotPic;
+    private JLabel plotCoords;
+
+
     /**
      * Constructor
      */
     public ViewMenu() {
-        this.setPreferredSize(new Dimension(240,480));
+        this.setPreferredSize(new Dimension(240, 480));
         this.setLayout(new BorderLayout());
 
         // Weather
@@ -52,6 +61,9 @@ public class ViewMenu extends JPanel {
         this.weatherLabel = new JLabel();
         this.weather.add(this.weatherPic, BorderLayout.LINE_START);
         this.weather.add(this.weatherLabel, BorderLayout.CENTER);
+
+        this.center = new JPanel();
+        this.center.setLayout(new BorderLayout());
 
         // Player Infos
         this.money = new JPanel();
@@ -68,6 +80,21 @@ public class ViewMenu extends JPanel {
         this.moneyPic.setIcon(new ImageIcon(View.pictures.get("gardenDollar")));
         this.money.add(this.moneyPanel, BorderLayout.CENTER);
         this.money.add(this.moneyPic, BorderLayout.LINE_END);
+
+        this.center.add(this.money, BorderLayout.PAGE_START);
+
+        // Plot
+        this.plot = new JPanel();
+        this.plot.setLayout(new BorderLayout());
+        this.plotGeneral = new JPanel();
+        this.plotGeneral.setLayout(new BorderLayout());
+        this.plotPic = new ViewPlot(0, 0);
+        this.plotCoords = new JLabel();
+        this.plotGeneral.add(this.plotPic, BorderLayout.LINE_START);
+        this.plotGeneral.add(this.plotCoords, BorderLayout.CENTER);
+        this.plot.add(this.plotGeneral, BorderLayout.PAGE_START);
+
+        this.center.add(this.plot, BorderLayout.CENTER);
 
         // Random Tick Speed
         this.rts = new JPanel();
@@ -97,8 +124,7 @@ public class ViewMenu extends JPanel {
         this.plotInfos = new JLabel();
 
         this.add(this.weather, BorderLayout.PAGE_START);
-        this.add(this.money, BorderLayout.CENTER);
-        //this.add(this.plotInfos, BorderLayout.CENTER);
+        this.add(this.center, BorderLayout.CENTER);
         this.add(this.rts, BorderLayout.PAGE_END);
     }
 
@@ -107,18 +133,30 @@ public class ViewMenu extends JPanel {
 
         // Weather infos
         this.weatherLabel.setText(currentWeather.getName());
-        this.weatherPic.setIcon(new ImageIcon(View.pictures.get(currentWeather.getType().toString()).getScaledInstance(48*2, 48*2, Image.SCALE_DEFAULT)));
+        this.weatherPic.setIcon(new ImageIcon(View.pictures.get(currentWeather.getType().toString()).getScaledInstance(48 * 2, 48 * 2, Image.SCALE_DEFAULT)));
 
         // Player infos
         this.moneyAmount.setText(String.valueOf(player.getMoney()));
+
+        // Plot infos
+        this.plotCoords.setText("   x = " + (focusedPlot[0]+1) + " ; y = " + (focusedPlot[1]+1));
+        this.plotPic.setItem(g.getPlot(focusedPlot[0], focusedPlot[1]).getItem());
+        if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof CultivablePlot) {
+            if (this.plotPic.getIsProp())
+                this.plotPic.setIsProp(false);
+            this.plotPic.setGrowthState(((CultivablePlot) g.getPlot(focusedPlot[0], focusedPlot[1])).getGrowthState());
+        } else {
+            if (!this.plotPic.getIsProp())
+                this.plotPic.setIsProp(true);
+        }
     }
 
     // Listen to rts slider
     public void rtsSliderStateChanged(ChangeEvent e) {
-    JSlider source = (JSlider)e.getSource();
-    if (!source.getValueIsAdjusting()) {
-        int randomTickSpeed = (int)(source.getValue() * source.getValue());
-        View.getScheduler().setRandomTickSpeed(randomTickSpeed);
+        JSlider source = (JSlider) e.getSource();
+        if (!source.getValueIsAdjusting()) {
+            int randomTickSpeed = (int) (source.getValue() * source.getValue());
+            View.getScheduler().setRandomTickSpeed(randomTickSpeed);
+        }
     }
-}
 }
