@@ -54,15 +54,32 @@ public class CultivablePlot extends Plot {
         return vegetable.getType().toString()+Math.min(stateGrowth-1, 3);
     }
 
-    public int getStateGrowth(){
+    public int getGrowthState(){
         return stateGrowth;
+    }
+
+    public Vegetable getVegetable(){
+        return vegetable;
     }
 
     public void plant(VegetableType vegetableType){
         this.vegetable = Vegetable.vegetables.get(vegetableType);
         stateGrowth = 1;
         growTime = 0;
-        System.out.println("Planted " + this.vegetable.getType().toString());
+    }
+
+    public void harvest(){
+        this.vegetable = null;
+        stateGrowth = 0;
+        growTime = 0;
+        emptyTime = 0;
+    }
+
+    public void delete(){
+        this.vegetable = null;
+        stateGrowth = 0;
+        growTime = 0;
+        emptyTime = 0;
     }
 
     @Override
@@ -70,10 +87,12 @@ public class CultivablePlot extends Plot {
         String text = "";
         text += "Parcelle cultivable.\n";
         if (vegetable != null) {
-            text += "Contient des " + this.vegetable.getName() + "s.\n";
+            text += "Contient des " + this.vegetable.getName() + "s.";
+            text += "\n" + this.vegetable.getDescription();
         } else {
             text += "Ne contient aucun légume ou fruit.";
         }
+
         return text;
     }
 }

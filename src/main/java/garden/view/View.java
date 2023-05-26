@@ -63,8 +63,6 @@ public class View extends JFrame implements Observer {
         for(String p : picturesAsArray){
             pictures.put(p, Toolkit.getDefaultToolkit().getImage("src/main/resources/pictures/"+p+".png"));
         }
-
-        pictures.forEach((i, p) -> System.out.println(i));
     }
 
     public static Scheduler getScheduler(){

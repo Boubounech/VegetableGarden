@@ -38,6 +38,7 @@ import java.util.EnumMap;
 public class Vegetable implements Serializable {
     private String name;
     private VegetableType type;
+    private String description;
     private int seedPrice;
     private int sellPrice;
     private int growTime;
@@ -50,9 +51,10 @@ public class Vegetable implements Serializable {
 
     public static EnumMap<VegetableType, Vegetable> vegetables = new EnumMap<>(VegetableType.class);
 
-    public Vegetable(String name, VegetableType type, int seedPrice, int sellPrice, int growTime, int idealHumidity, int idealLight, int idealTemperature, int rangeLimitHumidity, int rangeLimitLight, int rangeLimitTemperature) {
+    public Vegetable(String name, VegetableType type, String description, int seedPrice, int sellPrice, int growTime, int idealHumidity, int idealLight, int idealTemperature, int rangeLimitHumidity, int rangeLimitLight, int rangeLimitTemperature) {
         this.name = name;
         this.type = type;
+        this.description = description;
         this.seedPrice = seedPrice;
         this.sellPrice = sellPrice;
         this.growTime = growTime;
@@ -86,6 +88,8 @@ public class Vegetable implements Serializable {
     public VegetableType getType() {
         return type;
     }
+
+    public String getDescription() {return description;}
 
     public int getSeedPrice() {
         return seedPrice;

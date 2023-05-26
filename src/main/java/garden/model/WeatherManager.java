@@ -49,7 +49,7 @@ public class WeatherManager implements Runnable {
         if (timeSinceLastChange > timeOfNextChange){
             Random rdm = new Random();
             weather = Weather.weathers.get(WeatherType.values()[rdm.nextInt(WeatherType.values().length)]);
-            System.out.println("Weather is now : " + weather.getName());
+            //System.out.println("Weather is now : " + weather.getName());
             timeSinceLastChange = 0;
             timeOfNextChange = rdm.nextInt(timeChangeTopLimit - timeChangeBottomLimit) + timeChangeBottomLimit;
         }

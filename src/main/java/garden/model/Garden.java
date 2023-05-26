@@ -17,6 +17,7 @@ public class Garden implements Runnable {
 
         try {
             Vegetable.loadVegetables();
+            Prop.loadProps();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -27,7 +28,7 @@ public class Garden implements Runnable {
             for(int y = 0; y < height; y++) {
                 int alea = r.nextInt(2);
                 if (alea == 0)
-                    this.plots[x][y] = new Prop();
+                    this.plots[x][y] = new PropPlot();
                 else
                     this.plots[x][y] = new CultivablePlot();
             }
@@ -55,6 +56,14 @@ public class Garden implements Runnable {
 
     public void setPlot(int x, int y, Plot plot){
         this.plots[x][y] = plot;
+    }
+
+    public int getRandomTickSpeed() {
+        return randomTickSpeed;
+    }
+
+    public void setRandomTickSpeed(int rts) {
+        this.randomTickSpeed = rts;
     }
 
 }

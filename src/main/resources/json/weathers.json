@@ -1,42 +1,42 @@
 [
   {
     "type": "clear",
-    "name": "Clear",
+    "name": "Ensoleillé",
     "humidity": 0,
     "light": 100,
     "temperature": 62
   },
   {
     "type": "rain",
-    "name": "Rainy",
+    "name": "Pluvieux",
     "humidity": 80,
     "light": 5,
     "temperature": 44
   },
   {
     "type": "cloud",
-    "name": "Some clouds",
+    "name": "Quelques nuages",
     "humidity": 0,
     "light": 50,
     "temperature": 56
   },
   {
     "type": "lotsofclouds",
-    "name": "Lots of clouds",
+    "name": "Beaucoup de nuages",
     "humidity": 10,
     "light": 20,
     "temperature": 50
   },
   {
     "type": "thunder",
-    "name": "Thunder",
+    "name": "Orageux",
     "humidity": 80,
     "light": 0,
     "temperature": 50
   },
   {
     "type": "snow",
-    "name": "Snowy",
+    "name": "Neigeux",
     "humidity": 50,
     "light": 5,
     "temperature": 25

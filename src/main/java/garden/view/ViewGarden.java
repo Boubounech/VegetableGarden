@@ -1,14 +1,12 @@
 package garden.view;
 
-import garden.model.CultivablePlot;
-import garden.model.Garden;
-import garden.model.Prop;
-import garden.model.VegetableType;
+import garden.model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Map;
 
 /**
  * The garden garden.view, with all plots
@@ -33,59 +31,19 @@ public class ViewGarden extends JPanel {
             for (int j = 0; j < this.plots[i].length; j++) {
                 this.plots[i][j] = new ViewPlot(i, j);
                 this.add(this.plots[i][j]);
-                // TODO : this.plots[i][j].setComponentPopupMenu(new JPopupMenu());
                 this.plots[i][j].addMouseListener(new MouseListener() {
                     @Override
-                    public void mouseClicked(MouseEvent e) {
-                        ViewPlot p = (ViewPlot) e.getSource();
-                        setFocusedPlot(p.getX(), p.getY());
-                        if(e.getButton() == MouseEvent.BUTTON1){
-                            System.out.println("Left click : Done nothing");
-                        }
-                        else if(e.getButton() == MouseEvent.BUTTON3){
-                            System.out.println("Right click : Open popup");
-                            JPopupMenu popup = new JPopupMenu();
-                            JMenuItem propOrCultivable;
-                            if (p.getIsProp()) {
-                                propOrCultivable = new JMenuItem("Set as cultivable");
-                            }
-                            else {
-                                propOrCultivable = new JMenuItem("Set as prop");
-                                if(p.getGrowthState() == 0){
-                                    // Carrot
-                                    JMenuItem plantCarrot = new JMenuItem("Plant carrot");
-                                    plantCarrot.addActionListener(e1 -> {
-                                        View.getScheduler().plant(p.getX(), p.getY(), VegetableType.carrot);
-                                    });
-                                    popup.add(plantCarrot);
-
-                                    // Potato
-                                    JMenuItem plantPotato = new JMenuItem("Plant potato");
-                                    plantPotato.addActionListener(e1 -> {
-                                        View.getScheduler().plant(p.getX(), p.getY(), VegetableType.potato);
-                                    });
-                                    popup.add(plantPotato);
-                                }
-                                else{
-                                    JMenuItem harvest = new JMenuItem("Harvest");
-                                    /*harvest.addActionListener(e1 -> {
-                                        View.getScheduler().harvest(p.getX(), p.getY());
-                                    });*/
-                                    popup.add(harvest);
-                                }
-                            }
-                            propOrCultivable.addActionListener(e1 -> {
-                                View.getScheduler().setIsProp(p.getX(), p.getY(), !p.getIsProp());
-                            });
-                            popup.add(propOrCultivable);
-
-                            popup.setLightWeightPopupEnabled(false);
-                            popup.show(e.getComponent(), e.getX(), e.getY());
-                        }
-                    }
+                    public void mouseClicked(MouseEvent e) {}
 
                     @Override
-                    public void mousePressed(MouseEvent e) {}
+                    public void mousePressed(MouseEvent e) {
+                        ViewPlot p = (ViewPlot) e.getSource();
+                        setFocusedPlot(p.getX(), p.getY());
+                        if(e.getButton() == MouseEvent.BUTTON3){
+                            ContextMenu contextMenu = new ContextMenu(p.getX(), p.getY(), p.getIsProp(), p.getGrowthState());
+                            contextMenu.show(e.getComponent(), e.getX(), e.getY());
+                        }
+                    }
 
                     @Override
                     public void mouseReleased(MouseEvent e) {}
@@ -112,12 +70,12 @@ public class ViewGarden extends JPanel {
     public void update(Garden g){
         for(int x = 0; x < g.getPlots().length; x++){
             for(int y = 0; y < g.getPlots()[x].length; y++){
-                this.plots[x][y].setIsProp(g.getPlot(x, y) instanceof Prop);
-                //if (g.getPlot(x, y) instanceof CultivablePlot)
+                this.plots[x][y].setIsProp(g.getPlot(x, y) instanceof PropPlot);
                 if (!(g.getPlot(x, y)).getItem().equals("empty")) {
                     this.plots[x][y].setItem(g.getPlot(x, y).getItem());
-                    //this.plots[x][y].setGrowthState(g.getPlot(x, y).getGrowthState());
                 }
+                if (g.getPlot(x, y) instanceof CultivablePlot)
+                    this.plots[x][y].setGrowthState(((CultivablePlot)g.getPlot(x, y)).getGrowthState());
             }
         }
     }

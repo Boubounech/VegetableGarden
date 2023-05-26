@@ -1,0 +1,26 @@
+[
+  {
+    "type": "flowers",
+    "name": "Fleurs",
+    "description": "Quelles jolies fleurs, ce serait dommage de les arracher pour planter des légumes...",
+    "lightLevel": 0,
+    "humidityLevel": 0,
+    "temperatureLevel": 0
+  },
+  {
+    "type": "rocks",
+    "name": "Rochers",
+    "description": "Même s'ils n'en ont pas l'air, ces rochers sont trop lourds pour être bougé à la seule force de vos bras.",
+    "lightLevel": 0,
+    "humidityLevel": 0,
+    "temperatureLevel": 0
+  },
+  {
+    "type": "none",
+    "name": "Herbes",
+    "description": "De l'herbe toute simple, facile à travailler pour en faire un potager !",
+    "lightLevel": 0,
+    "humidityLevel": 0,
+    "temperatureLevel": 0
+  }
+]

@@ -2,6 +2,7 @@
     {
         "type": "potato",
         "name": "Patate",
+        "description": "Un français mange en moyenne entre 50 et 55kg de pommes de terre par an.",
         "seedPrice": 10,
         "sellPrice": 30,
         "growTime": 100,
@@ -15,6 +16,7 @@
     {
         "type": "carrot",
         "name": "Carotte",
+        "description": "En mangeant trop de carottes, vous pourriez être atteint de caroténémie ! Votre peau se teintera alors de leur belle couleur orange.",
         "seedPrice": 15,
         "sellPrice": 50,
         "growTime": 50,
@@ -28,6 +30,7 @@
     {
         "type": "eggplant",
         "name": "Aubergine",
+        "description": "L'aubergine est un fruit qui contient de la nicotine. En très faible quantité tout de même car il faudrait manger 10kg d'aubergines pour atteindre la même quantité de nicotine qu'une cigarette.",
         "seedPrice": 20,
         "sellPrice": 100,
         "growTime": 200,

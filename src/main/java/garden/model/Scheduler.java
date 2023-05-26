@@ -9,7 +9,7 @@ public class Scheduler extends Observable implements Runnable {
     private WeatherManager weather;
 
     private Scheduler() {
-        garden = new Garden(10, 10, 5);
+        garden = new Garden(10, 10, 3);
         weather = new WeatherManager();
     }
 
@@ -49,10 +49,17 @@ public class Scheduler extends Observable implements Runnable {
 
     // FUNCTION CALLED FROM VIEW
 
+    public int getRandomTickSpeed() {
+        return this.garden.getRandomTickSpeed();
+    }
+
+    public void setRandomTickSpeed(int rts) {
+        this.garden.setRandomTickSpeed(rts);
+    }
 
     public void setIsProp(int x, int y, boolean isProp){
         if (isProp)
-            this.garden.setPlot(x, y, new Prop());
+            this.garden.setPlot(x, y, new PropPlot());
         else
             this.garden.setPlot(x, y, new CultivablePlot());
 
@@ -61,7 +68,25 @@ public class Scheduler extends Observable implements Runnable {
     }
 
     public void plant(int x, int y, VegetableType vegetableType){
-        ((CultivablePlot)(this.garden.getPlot(x, y))).plant(vegetableType);
+        if (Player.getInstance().pay(Vegetable.vegetables.get(vegetableType).getSeedPrice())){
+            ((CultivablePlot)(this.garden.getPlot(x, y))).plant(vegetableType);
+
+            setChanged();
+            notifyObservers();
+        }
+    }
+
+    public void harvest(int x, int y){
+        CultivablePlot plot = (CultivablePlot)(this.garden.getPlot(x, y));
+        Player.getInstance().earn(plot.getVegetable().getSellPrice());
+        plot.harvest();
+
+        setChanged();
+        notifyObservers();
+    }
+
+    public void delete(int x, int y){
+        ((CultivablePlot)(this.garden.getPlot(x, y))).delete();
 
         setChanged();
         notifyObservers();
