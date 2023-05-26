@@ -2,6 +2,7 @@ package garden.view;
 
 import com.google.gson.Gson;
 import garden.model.JsonFileReader;
+import garden.model.Player;
 import garden.model.Scheduler;
 
 import javax.swing.*;
@@ -48,7 +49,7 @@ public class View extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         this.garden.update(scheduler.getGarden());
-        this.menu.update(scheduler.getGarden(), this.garden.getFocusedPlot(), scheduler.getWeather());
+        this.menu.update(scheduler.getGarden(), this.garden.getFocusedPlot(), scheduler.getWeather(), Player.getInstance());
     }
 
     public static void loadPictures(){

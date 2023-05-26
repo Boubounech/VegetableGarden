@@ -1,6 +1,7 @@
 package garden.view;
 
 import garden.model.Garden;
+import garden.model.Player;
 import garden.model.Weather;
 import garden.model.WeatherType;
 
@@ -30,6 +31,13 @@ public class ViewMenu extends JPanel {
     private JLabel rtsText;
     private JSlider rtsSlider;
 
+
+    private JPanel money;
+    private JPanel moneyPanel;
+    private JLabel moneyText;
+    private JLabel moneyAmount;
+    private JLabel moneyPic;
+
     /**
      * Constructor
      */
@@ -44,6 +52,22 @@ public class ViewMenu extends JPanel {
         this.weatherLabel = new JLabel();
         this.weather.add(this.weatherPic, BorderLayout.LINE_START);
         this.weather.add(this.weatherLabel, BorderLayout.CENTER);
+
+        // Player Infos
+        this.money = new JPanel();
+        this.money.setLayout(new BorderLayout());
+        this.moneyPanel = new JPanel();
+        this.moneyPanel.setLayout(new BorderLayout());
+        this.moneyText = new JLabel();
+        this.moneyText.setText("Argent : ");
+        this.moneyAmount = new JLabel();
+        this.moneyAmount.setText("NONE");
+        this.moneyPanel.add(this.moneyText, BorderLayout.CENTER);
+        this.moneyPanel.add(this.moneyAmount, BorderLayout.LINE_END);
+        this.moneyPic = new JLabel();
+        this.moneyPic.setIcon(new ImageIcon(View.pictures.get("gardenDollar")));
+        this.money.add(this.moneyPanel, BorderLayout.CENTER);
+        this.money.add(this.moneyPic, BorderLayout.LINE_END);
 
         // Random Tick Speed
         this.rts = new JPanel();
@@ -73,16 +97,20 @@ public class ViewMenu extends JPanel {
         this.plotInfos = new JLabel();
 
         this.add(this.weather, BorderLayout.PAGE_START);
-        this.add(this.plotInfos, BorderLayout.CENTER);
+        this.add(this.money, BorderLayout.CENTER);
+        //this.add(this.plotInfos, BorderLayout.CENTER);
         this.add(this.rts, BorderLayout.PAGE_END);
     }
 
-    public void update(Garden g, int[] focusedPlot, Weather currentWeather) {
+    public void update(Garden g, int[] focusedPlot, Weather currentWeather, Player player) {
         plotInfos.setText(g.getPlot(focusedPlot[0], focusedPlot[1]).toString());
 
         // Weather infos
         this.weatherLabel.setText(currentWeather.getName());
         this.weatherPic.setIcon(new ImageIcon(View.pictures.get(currentWeather.getType().toString()).getScaledInstance(48*2, 48*2, Image.SCALE_DEFAULT)));
+
+        // Player infos
+        this.moneyAmount.setText(String.valueOf(player.getMoney()));
     }
 
     // Listen to rts slider
