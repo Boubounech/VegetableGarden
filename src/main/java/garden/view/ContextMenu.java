@@ -31,7 +31,7 @@ public class ContextMenu extends JPopupMenu {
         else {
             if(growthState == 0){
                 Vegetable.vegetables.forEach((key, value) -> {
-                    JMenuItem plant = new JMenuItem("Planter " + value.getName() + " (" + value.getSeedPrice() + ")");
+                    JMenuItem plant = new JMenuItem("Planter " + value.getName() + " (" + value.getSeedPrice() + " g$)");
                     plant.addActionListener(e1 -> {
                         View.getScheduler().plant(x, y, key);
                     });
