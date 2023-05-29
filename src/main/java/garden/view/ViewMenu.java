@@ -160,14 +160,15 @@ public class ViewMenu extends JPanel {
         if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof CultivablePlot cp) {
             if (this.plotPic.getIsProp())
                 this.plotPic.setIsProp(false);
-
             this.plotPic.setGrowthState(cp.getGrowthState());
 
+            // Plot content infos
             if (cp.containsVegetable()) {
-                // Plot content infos
+                this.plotContentPic.setIcon(new ImageIcon(View.pictures.get(cp.getVegetable().getType().toString() + "4").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
                 this.plotContentName.setText(cp.getVegetable().getName());
                 this.plotContentDescription.setText("<html><p>" + cp.getVegetable().getDescription() + "</p></html>");
             } else {
+                this.plotContentPic.setIcon(new ImageIcon(View.pictures.get("none").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
                 this.plotContentName.setText("Terre");
                 this.plotContentDescription.setText("<html><p>De la terre qui n'atteint plus que des cultures.</p></html>");
             }
@@ -176,6 +177,7 @@ public class ViewMenu extends JPanel {
                 this.plotPic.setIsProp(true);
 
             // Plot content infos
+            this.plotContentPic.setIcon(new ImageIcon(View.pictures.get(pp.getProp().getType().toString()).getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
             this.plotContentName.setText(pp.getProp().getName());
             this.plotContentDescription.setText("<html><p>" + pp.getProp().getDescription() + "</p></html>");
         }
