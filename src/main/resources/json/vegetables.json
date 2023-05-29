@@ -40,5 +40,47 @@
         "rangeLimitHumidity": 15,
         "rangeLimitLight": 15,
         "rangeLimitTemperature": 15
+    },
+    {
+        "type": "tomato",
+        "name": "Tomate",
+        "description": "C'est un fruit rouge",
+        "seedPrice": 1,
+        "sellPrice": 3,
+        "growTime": 100,
+        "idealHumidity": 50,
+        "idealLight": 50,
+        "idealTemperature": 50,
+        "rangeLimitHumidity": 25,
+        "rangeLimitLight": 25,
+        "rangeLimitTemperature": 25
+    },
+    {
+        "type": "salad",
+        "name": "Salade",
+        "description": "A ne pas confondre avec les choux.",
+        "seedPrice": 2,
+        "sellPrice": 5,
+        "growTime": 50,
+        "idealHumidity": 50,
+        "idealLight": 50,
+        "idealTemperature": 50,
+        "rangeLimitHumidity": 50,
+        "rangeLimitLight": 50,
+        "rangeLimitTemperature": 50
+    },
+    {
+        "type": "pumpkin",
+        "name": "Pumpkin",
+        "description": "Elle ne se transformeront pas en carrosse celles-ci !",
+        "seedPrice": 4,
+        "sellPrice": 20,
+        "growTime": 200,
+        "idealHumidity": 50,
+        "idealLight": 50,
+        "idealTemperature": 50,
+        "rangeLimitHumidity": 15,
+        "rangeLimitLight": 15,
+        "rangeLimitTemperature": 15
     }
 ]

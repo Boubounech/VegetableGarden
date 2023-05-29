@@ -4,5 +4,7 @@ public enum VegetableType {
     carrot,
     potato,
     eggplant,
-
+    tomato,
+    salad,
+    pumpkin
 }
