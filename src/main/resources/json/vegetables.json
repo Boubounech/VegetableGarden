@@ -44,7 +44,7 @@
     {
         "type": "tomato",
         "name": "Tomate",
-        "description": "C'est un fruit rouge",
+        "description": "C'est un fruit rouge.",
         "seedPrice": 1,
         "sellPrice": 3,
         "growTime": 100,
@@ -72,7 +72,7 @@
     {
         "type": "pumpkin",
         "name": "Pumpkin",
-        "description": "Elle ne se transformeront pas en carrosse celles-ci !",
+        "description": "Elles ne se transformeront pas en carrosse celles-ci !",
         "seedPrice": 4,
         "sellPrice": 20,
         "growTime": 200,

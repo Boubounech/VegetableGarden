@@ -23,17 +23,13 @@ public class PropPlot extends Plot {
         return this.prop.getType().toString();
     }
 
+    public Prop getProp(){
+        return this.prop;
+    }
+
 
     @Override
     public String toString() {
-        String text = "";
-        text += "Parcelle non cultivable.\n";
-        if (this.prop != null) {
-            text += "Contient des " + this.prop.getName() + ".";
-            text += "\n" + this.prop.getDescription();
-        } else {
-            text += "Ne contient rien.";
-        }
-        return text;
+        return "Parcelle non cultivable.\n";
     }
 }

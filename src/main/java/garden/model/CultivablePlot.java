@@ -58,6 +58,10 @@ public class CultivablePlot extends Plot {
         return stateGrowth;
     }
 
+    public boolean containsVegetable() {
+        return this.vegetable != null;
+    }
+
     public Vegetable getVegetable(){
         return vegetable;
     }
@@ -84,15 +88,6 @@ public class CultivablePlot extends Plot {
 
     @Override
     public String toString() {
-        String text = "";
-        text += "Parcelle cultivable.\n";
-        if (vegetable != null) {
-            text += "Contient des " + this.vegetable.getName() + "s.";
-            text += "\n" + this.vegetable.getDescription();
-        } else {
-            text += "Ne contient aucun légume ou fruit.";
-        }
-
-        return text;
+        return "Parcelle cultivable.\n";
     }
 }

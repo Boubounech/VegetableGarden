@@ -18,7 +18,6 @@ import java.util.Hashtable;
  */
 public class ViewMenu extends JPanel {
     private JLabel label;
-    private JLabel plotInfos;
 
     // Weather
     private JPanel weather;
@@ -44,7 +43,13 @@ public class ViewMenu extends JPanel {
     private JPanel plot;
     private JPanel plotGeneral;
     private ViewPlot plotPic;
-    private JLabel plotCoords;
+    private JLabel plotInfos;
+
+    private JPanel plotContent;
+
+    private JLabel plotContentPic;
+    private JLabel plotContentName;
+    private JLabel plotContentDescription;
 
 
     /**
@@ -86,13 +91,27 @@ public class ViewMenu extends JPanel {
         // Plot
         this.plot = new JPanel();
         this.plot.setLayout(new BorderLayout());
+        // Plot plot
         this.plotGeneral = new JPanel();
         this.plotGeneral.setLayout(new BorderLayout());
         this.plotPic = new ViewPlot(0, 0);
-        this.plotCoords = new JLabel();
+        this.plotInfos = new JLabel();
         this.plotGeneral.add(this.plotPic, BorderLayout.LINE_START);
-        this.plotGeneral.add(this.plotCoords, BorderLayout.CENTER);
+        this.plotGeneral.add(this.plotInfos, BorderLayout.LINE_END);
+        // Plot content
+        this.plotContent = new JPanel();
+        this.plotContent.setLayout(new BorderLayout());
+        this.plotContentName = new JLabel();
+        this.plotContentPic = new JLabel();
+        this.plotContentDescription = new JLabel();
+        this.plotContent.add(this.plotContentName, BorderLayout.PAGE_START);
+        this.plotContent.add(this.plotContentPic, BorderLayout.LINE_START);
+        this.plotContent.add(this.plotContentDescription, BorderLayout.CENTER);
+
+
+
         this.plot.add(this.plotGeneral, BorderLayout.PAGE_START);
+        this.plot.add(this.plotContent, BorderLayout.CENTER);
 
         this.center.add(this.plot, BorderLayout.CENTER);
 
@@ -121,15 +140,12 @@ public class ViewMenu extends JPanel {
         this.rts.add(this.rtsSlider, BorderLayout.CENTER);
 
 
-        this.plotInfos = new JLabel();
-
         this.add(this.weather, BorderLayout.PAGE_START);
         this.add(this.center, BorderLayout.CENTER);
         this.add(this.rts, BorderLayout.PAGE_END);
     }
 
     public void update(Garden g, int[] focusedPlot, Weather currentWeather, Player player) {
-        plotInfos.setText(g.getPlot(focusedPlot[0], focusedPlot[1]).toString());
 
         // Weather infos
         this.weatherLabel.setText(currentWeather.getName());
@@ -138,16 +154,30 @@ public class ViewMenu extends JPanel {
         // Player infos
         this.moneyAmount.setText(String.valueOf(player.getMoney()));
 
-        // Plot infos
-        this.plotCoords.setText("   x = " + (focusedPlot[0]+1) + " ; y = " + (focusedPlot[1]+1));
+        // Plot general infos
+        this.plotInfos.setText(g.getPlot(focusedPlot[0], focusedPlot[1]).toString());
         this.plotPic.setItem(g.getPlot(focusedPlot[0], focusedPlot[1]).getItem());
-        if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof CultivablePlot) {
+        if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof CultivablePlot cp) {
             if (this.plotPic.getIsProp())
                 this.plotPic.setIsProp(false);
-            this.plotPic.setGrowthState(((CultivablePlot) g.getPlot(focusedPlot[0], focusedPlot[1])).getGrowthState());
-        } else {
+
+            this.plotPic.setGrowthState(cp.getGrowthState());
+
+            if (cp.containsVegetable()) {
+                // Plot content infos
+                this.plotContentName.setText(cp.getVegetable().getName());
+                this.plotContentDescription.setText("<html><p>" + cp.getVegetable().getDescription() + "</p></html>");
+            } else {
+                this.plotContentName.setText("Terre");
+                this.plotContentDescription.setText("<html><p>De la terre qui n'atteint plus que des cultures.</p></html>");
+            }
+        } else if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof PropPlot pp){
             if (!this.plotPic.getIsProp())
                 this.plotPic.setIsProp(true);
+
+            // Plot content infos
+            this.plotContentName.setText(pp.getProp().getName());
+            this.plotContentDescription.setText("<html><p>" + pp.getProp().getDescription() + "</p></html>");
         }
     }
 

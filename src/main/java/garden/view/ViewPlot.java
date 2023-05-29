@@ -28,8 +28,8 @@ public class ViewPlot extends JPanel {
         this.background = null;
         this.item = null;
         this.growthState = 0;
-        isFocused = false;
-        this.isProp = true;
+        this.isFocused = false;
+        this.setIsProp(true);
     }
 
     public void paint(Graphics g) {
