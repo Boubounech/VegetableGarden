@@ -71,7 +71,7 @@
     },
     {
         "type": "pumpkin",
-        "name": "Pumpkin",
+        "name": "Citrouille",
         "description": "Elles ne se transformeront pas en carrosse celles-ci !",
         "seedPrice": 4,
         "sellPrice": 20,
