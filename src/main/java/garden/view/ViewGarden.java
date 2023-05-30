@@ -25,9 +25,9 @@ public class ViewGarden extends JPanel {
      * Constructor
      */
     public ViewGarden() {
-        this.plots = new ViewPlot[10][10];
-        this.layout = new GridLayout(10, 10);
-        this.focusedPlot = new int[2];
+        this.plots = new ViewPlot[Scheduler.getScheduler().getGarden().getPlots().length][Scheduler.getScheduler().getGarden().getPlots()[0].length];
+        this.layout = new GridLayout(this.plots.length, this.plots[0].length);
+        this.focusedPlot = new int[] {0, 0};
 
         for (int i = 0; i < this.plots.length; i++) {
             for (int j = 0; j < this.plots[i].length; j++) {

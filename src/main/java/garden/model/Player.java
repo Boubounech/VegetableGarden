@@ -6,7 +6,7 @@ public class Player {
     public static Player instance;
 
     private Player() {
-        this.money = 10;
+        this.money = 10000;
     }
 
     public static Player getInstance() {

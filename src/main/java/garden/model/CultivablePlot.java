@@ -9,7 +9,8 @@ public class CultivablePlot extends Plot {
     private int emptyTime;
     private int growTime;
 
-    public CultivablePlot() {
+    public CultivablePlot(int x, int y) {
+        super(x, y);
         this.vegetable = null;
         this.stateGrowth = 0;
         this.emptyTime = 0;

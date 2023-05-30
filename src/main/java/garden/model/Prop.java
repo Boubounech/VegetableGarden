@@ -10,19 +10,25 @@ public class Prop implements Serializable {
     private PropType type;
     private String name;
     private String description;
-    private int lightLevel;
-    private int humidityLevel;
-    private int temperatureLevel;
+    private int LightStrength;
+    private int humidityStrength;
+    private int temperatureStrength;
+    private int LightLength;
+    private int humidityLength;
+    private int temperatureLength;
 
     public static EnumMap<PropType, Prop> props = new EnumMap<>(PropType.class);
 
-    public Prop(PropType type, String name, String description, int lightLevel, int humidityLevel, int temperatureLevel) {
+    public Prop(PropType type, String name, String description, int lightStrength, int humidityStrength, int temperatureStrength, int lightLength, int humidityLength, int temperatureLength) {
         this.type = type;
         this.name = name;
         this.description = description;
-        this.lightLevel = lightLevel;
-        this.humidityLevel = humidityLevel;
-        this.temperatureLevel = temperatureLevel;
+        this.LightStrength = lightStrength;
+        this.humidityStrength = humidityStrength;
+        this.temperatureStrength = temperatureStrength;
+        this.LightLength = lightLength;
+        this.humidityLength = humidityLength;
+        this.temperatureLength = temperatureLength;
     }
 
     //function that loads the props from a JSON file
@@ -52,15 +58,27 @@ public class Prop implements Serializable {
         return description;
     }
 
-    public int getLightLevel() {
-        return lightLevel;
+    public int getLightStrength() {
+        return LightStrength;
     }
 
-    public int getHumidityLevel() {
-        return humidityLevel;
+    public int getHumidityStrength() {
+        return humidityStrength;
     }
 
-    public int getTemperatureLevel() {
-        return temperatureLevel;
+    public int getTemperatureStrength() {
+        return temperatureStrength;
+    }
+
+    public int getLightLength() {
+        return LightLength;
+    }
+
+    public int getHumidityLength() {
+        return humidityLength;
+    }
+
+    public int getTemperatureLength() {
+        return temperatureLength;
     }
 }

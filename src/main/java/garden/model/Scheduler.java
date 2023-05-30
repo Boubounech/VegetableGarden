@@ -9,7 +9,7 @@ public class Scheduler extends Observable implements Runnable {
     private WeatherManager weather;
 
     private Scheduler() {
-        garden = new Garden(10, 10, 3);
+        garden = new Garden(15, 15, 3);
         weather = new WeatherManager();
     }
 
@@ -23,6 +23,7 @@ public class Scheduler extends Observable implements Runnable {
     @Override
     public void run() {
 
+        this.garden.updateAllSources();
         setChanged();
         notifyObservers();
 
@@ -47,6 +48,12 @@ public class Scheduler extends Observable implements Runnable {
 
     public Weather getWeather() { return this.weather.getWeather();}
 
+    // FUNCTION CALLED FROM THE MODEL
+
+    public void updateSourceOf(int x,int y) {
+        this.garden.updateSourceOf(x, y);
+    }
+
     // FUNCTION CALLED FROM VIEW
 
     public int getRandomTickSpeed() {
@@ -59,9 +66,9 @@ public class Scheduler extends Observable implements Runnable {
 
     public void setIsProp(int x, int y, boolean isProp){
         if (isProp)
-            this.garden.setPlot(x, y, new PropPlot());
+            this.garden.setPlot(x, y, new PropPlot(x, y));
         else
-            this.garden.setPlot(x, y, new CultivablePlot());
+            this.garden.setPlot(x, y, new CultivablePlot(x, y));
 
         setChanged();
         notifyObservers();

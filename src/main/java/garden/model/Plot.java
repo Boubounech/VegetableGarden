@@ -36,11 +36,16 @@ public abstract class Plot {
     private int lightSourceNumber;
     private int temperatureSourceNumber;
 
+    private int x;
+    private int y;
+
     private WaterSource waterSource;
     private LightSource lightSource;
     private TemperatureSource temperatureSource;
 
-    public Plot() {
+    public Plot(int x, int y) {
+        this.x = x;
+        this.y = y;
         waterLevel = 0;
         lightLevel = 0;
         temperature = 0;
@@ -90,6 +95,10 @@ public abstract class Plot {
         return temperature;
     }
 
+    public boolean hasWaterSource() {return this.waterSource != null;}
+    public boolean hasLightSource() {return this.lightSource != null;}
+    public boolean hasTemperatureSource() {return this.temperatureSource != null;}
+
     public WaterSource getWaterSource() {
         return waterSource;
     }
@@ -101,6 +110,9 @@ public abstract class Plot {
     public TemperatureSource getTemperatureSource() {
         return temperatureSource;
     }
+
+    public int getX() {return this.x;}
+    public int getY() {return this.y;}
 
     @Override
     public abstract String toString();

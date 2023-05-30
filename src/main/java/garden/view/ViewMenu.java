@@ -8,6 +8,9 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 /**
@@ -41,22 +44,27 @@ public class ViewMenu extends JPanel {
 
     // Plot
     private JPanel plot;
+
     private JPanel plotGeneral;
     private ViewPlot plotPic;
     private JLabel plotInfos;
 
     private JPanel plotContent;
-
     private JLabel plotContentPic;
     private JLabel plotContentName;
     private JLabel plotContentDescription;
+    private JLabel plotContentLevels;
+
+    private JPanel plotButtons;
+    private JButton[] plotButtonsToShow;
+
 
 
     /**
      * Constructor
      */
     public ViewMenu() {
-        this.setPreferredSize(new Dimension(240, 480));
+        this.setPreferredSize(new Dimension(240, 48 * Scheduler.getScheduler().getGarden().getPlots().length));
         this.setLayout(new BorderLayout());
 
         // Weather
@@ -104,14 +112,19 @@ public class ViewMenu extends JPanel {
         this.plotContentName = new JLabel();
         this.plotContentPic = new JLabel();
         this.plotContentDescription = new JLabel();
+        this.plotContentLevels = new JLabel();
         this.plotContent.add(this.plotContentName, BorderLayout.PAGE_START);
         this.plotContent.add(this.plotContentPic, BorderLayout.LINE_START);
         this.plotContent.add(this.plotContentDescription, BorderLayout.CENTER);
+        this.plotContent.add(this.plotContentLevels, BorderLayout.PAGE_END);
+        // Plot Buttons
+        this.plotButtons = new JPanel();
+        this.plotButtons.setLayout(new FlowLayout());
+        this.plotButtonsToShow = new JButton[0];
 
-
-
-        this.plot.add(this.plotGeneral, BorderLayout.PAGE_START);
-        this.plot.add(this.plotContent, BorderLayout.CENTER);
+        this.plotGeneral.add(this.plotContent, BorderLayout.PAGE_END);
+        this.plot.add(this.plotGeneral, BorderLayout.PAGE_END);
+        this.plot.add(this.plotButtons, BorderLayout.CENTER);
 
         this.center.add(this.plot, BorderLayout.CENTER);
 
@@ -139,7 +152,6 @@ public class ViewMenu extends JPanel {
         this.rts.add(this.rtsText, BorderLayout.LINE_START);
         this.rts.add(this.rtsSlider, BorderLayout.CENTER);
 
-
         this.add(this.weather, BorderLayout.PAGE_START);
         this.add(this.center, BorderLayout.CENTER);
         this.add(this.rts, BorderLayout.PAGE_END);
@@ -148,7 +160,12 @@ public class ViewMenu extends JPanel {
     public void update(Garden g, int[] focusedPlot, Weather currentWeather, Player player) {
 
         // Weather infos
-        this.weatherLabel.setText(currentWeather.getName());
+        this.weatherLabel.setText("<html>" +
+                "<p> Météo : " + currentWeather.getName() + "</p>" +
+                "<p> Humidité : " + currentWeather.getHumidity() + "%</p>" +
+                "<p> Luminosité : " + currentWeather.getLight() + "%</p>" +
+                "<p> Température : " + currentWeather.getTemperature() + "°C</p>" +
+                "</html>");
         this.weatherPic.setIcon(new ImageIcon(View.pictures.get(currentWeather.getType().toString()).getScaledInstance(48 * 2, 48 * 2, Image.SCALE_DEFAULT)));
 
         // Player infos
@@ -157,20 +174,32 @@ public class ViewMenu extends JPanel {
         // Plot general infos
         this.plotInfos.setText(g.getPlot(focusedPlot[0], focusedPlot[1]).toString());
         this.plotPic.setItem(g.getPlot(focusedPlot[0], focusedPlot[1]).getItem());
+        this.plotContentLevels.setText("<html>" +
+                            "<p> Humidité : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getWaterLevel() + "</p>" +
+                            "<p> Luminosité : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getLightLevel() + "</p>" +
+                            "<p> Température : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getTemperatureLevel() + "</p>" +
+                            "</html>");
         if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof CultivablePlot cp) {
             if (this.plotPic.getIsProp())
                 this.plotPic.setIsProp(false);
             this.plotPic.setGrowthState(cp.getGrowthState());
 
+
             // Plot content infos
             if (cp.containsVegetable()) {
-                this.plotContentPic.setIcon(new ImageIcon(View.pictures.get(cp.getVegetable().getType().toString() + "4").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
-                this.plotContentName.setText(cp.getVegetable().getName());
-                this.plotContentDescription.setText("<html><p>" + cp.getVegetable().getDescription() + "</p></html>");
+                if (this.plotContentName.getText() != cp.getVegetable().getName()) {
+                    this.plotContentPic.setIcon(new ImageIcon(View.pictures.get(cp.getVegetable().getType().toString() + "4").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
+                    this.plotContentName.setText(cp.getVegetable().getName());
+                    this.plotContentDescription.setText("<html>" +
+                            "<p>" + cp.getVegetable().getDescription() + "</p>" +
+                            "</html>");
+                }
             } else {
-                this.plotContentPic.setIcon(new ImageIcon(View.pictures.get("none").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
-                this.plotContentName.setText("Terre");
-                this.plotContentDescription.setText("<html><p>De la terre qui n'atteint plus que des cultures.</p></html>");
+                if (this.plotContentName.getText() != "Terre") {
+                    this.plotContentPic.setIcon(new ImageIcon(View.pictures.get("none").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
+                    this.plotContentName.setText("Terre");
+                    this.plotContentDescription.setText("<html><p>De la terre qui n'attend plus que des cultures.</p></html>");
+                }
             }
         } else if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof PropPlot pp){
             if (!this.plotPic.getIsProp())
@@ -180,6 +209,61 @@ public class ViewMenu extends JPanel {
             this.plotContentPic.setIcon(new ImageIcon(View.pictures.get(pp.getProp().getType().toString()).getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
             this.plotContentName.setText(pp.getProp().getName());
             this.plotContentDescription.setText("<html><p>" + pp.getProp().getDescription() + "</p></html>");
+        }
+        // Plot buttons
+        if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof PropPlot) {
+            JButton[] buttonsToShow = new JButton[1];
+            buttonsToShow[0] = new JButton("Rendre cultivable");
+            buttonsToShow[0].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Scheduler.getScheduler().setIsProp(focusedPlot[0], focusedPlot[1], false);
+                }
+            });
+            this.plotButtonsToShow = buttonsToShow;
+        } else if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof CultivablePlot cp) {
+            if (!cp.containsVegetable()) {
+                JButton[] buttonsToShow = new JButton[6];
+                for (int i = 0; i < 6; i++) {
+                    VegetableType vt = (VegetableType) Vegetable.vegetables.keySet().toArray()[i];
+                    buttonsToShow[i] = new JButton("Planter " + Vegetable.vegetables.get(vt).getName() + " (" + Vegetable.vegetables.get(vt).getSeedPrice() + " g$)");
+                    buttonsToShow[i].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Scheduler.getScheduler().plant(focusedPlot[0], focusedPlot[1], vt);
+                        }
+                    });
+                }
+                this.plotButtonsToShow = buttonsToShow;
+            } else {
+                if (cp.getGrowthState() >= 4) {
+                    JButton[] buttonsToShow = new JButton[1];
+                    buttonsToShow[0] = new JButton("Récolter");
+                    buttonsToShow[0].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Scheduler.getScheduler().harvest(focusedPlot[0], focusedPlot[1]);
+                        }
+                    });
+                    this.plotButtonsToShow = buttonsToShow;
+                } else {
+                    JButton[] buttonsToShow = new JButton[1];
+                    buttonsToShow[0] = new JButton("Arracher");
+                    buttonsToShow[0].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Scheduler.getScheduler().delete(focusedPlot[0], focusedPlot[1]);
+                        }
+                    });
+                    this.plotButtonsToShow = buttonsToShow;
+                }
+            }
+        }
+        this.plotButtons.removeAll();
+        this.plotButtons.revalidate();
+        this.plotButtons.repaint();
+        for (JButton jButton : this.plotButtonsToShow) {
+            this.plotButtons.add(jButton);
         }
     }
 
