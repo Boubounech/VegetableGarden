@@ -21,7 +21,6 @@ import java.util.Observer;
  */
 public class View extends JFrame implements Observer {
     private JPanel mainPanel;
-    private static Scheduler scheduler;
 
     public static Map<String, Image> pictures = new HashMap<String, Image>();
 
@@ -31,9 +30,8 @@ public class View extends JFrame implements Observer {
     /**
      * Constructor
      */
-    public View(Scheduler scheduler) {
+    public View() {
         View.loadPictures();
-        this.scheduler = scheduler;
         this.setTitle("Garden Simulator 3000");
         this.mainPanel = new JPanel();
         this.garden = new ViewGarden();
@@ -48,8 +46,8 @@ public class View extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        this.garden.update(scheduler.getGarden());
-        this.menu.update(scheduler.getGarden(), this.garden.getFocusedPlot(), scheduler.getWeather(), Player.getInstance());
+        this.garden.update(Scheduler.getScheduler().getGarden());
+        this.menu.update(Scheduler.getScheduler().getGarden(), this.garden.getFocusedPlot(), Scheduler.getScheduler().getWeather(), Player.getInstance());
     }
 
     public static void loadPictures(){
@@ -64,9 +62,5 @@ public class View extends JFrame implements Observer {
         for(String p : picturesAsArray){
             pictures.put(p, Toolkit.getDefaultToolkit().getImage("src/main/resources/pictures/"+p+".png"));
         }
-    }
-
-    public static Scheduler getScheduler(){
-        return scheduler;
     }
 }

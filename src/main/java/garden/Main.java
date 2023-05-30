@@ -12,7 +12,7 @@ public class Main {
         Scheduler scheduler = Scheduler.getScheduler();
         new Thread(scheduler).start();
 
-        View view = new View(scheduler);
+        View view = new View();
 
         scheduler.addObserver(view);
 

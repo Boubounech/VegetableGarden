@@ -6,5 +6,9 @@ public enum VegetableType {
     eggplant,
     tomato,
     salad,
-    pumpkin
+    pumpkin;
+
+    public static VegetableType get(int i) {
+        return VegetableType.values()[i];
+    }
 }

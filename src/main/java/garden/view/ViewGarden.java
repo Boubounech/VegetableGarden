@@ -4,6 +4,8 @@ import garden.model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Map;
@@ -57,6 +59,10 @@ public class ViewGarden extends JPanel {
             }
         }
 
+        setFocusedPlot(0, 0);
+
+        this.addKeyListener(new KeyListener(plots, focusedPlot));
+
         this.setLayout(this.layout);
     }
 
@@ -68,6 +74,7 @@ public class ViewGarden extends JPanel {
     }
 
     public void update(Garden g){
+        this.grabFocus();
         for(int x = 0; x < g.getPlots().length; x++){
             for(int y = 0; y < g.getPlots()[x].length; y++){
                 this.plots[x][y].setIsProp(g.getPlot(x, y) instanceof PropPlot);

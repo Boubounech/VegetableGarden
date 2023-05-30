@@ -21,6 +21,8 @@ public class Player {
     }
 
     public boolean pay(int amount) {
+        if(amount < 0)
+            return false;
         if (this.money >= amount) {
             this.money -= amount;
             return true;

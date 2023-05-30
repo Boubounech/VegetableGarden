@@ -91,4 +91,16 @@ public class Scheduler extends Observable implements Runnable {
         setChanged();
         notifyObservers();
     }
+
+    public void removeProp(int x, int y) {
+        if (this.garden.getPlot(x, y) instanceof PropPlot) {
+            if (Player.getInstance().pay(PropPlot.getPriceToRemove())) {
+                this.garden.setPlot(x, y, new CultivablePlot(x, y));
+                PropPlot.updatePriceToRemove();
+            }
+        }
+
+        setChanged();
+        notifyObservers();
+    }
 }

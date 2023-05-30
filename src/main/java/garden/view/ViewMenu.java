@@ -124,7 +124,7 @@ public class ViewMenu extends JPanel {
         this.rtsText.setPreferredSize(new Dimension(69, 50));
         this.rtsSlider = new JSlider(JSlider.HORIZONTAL, 0, 10, (int) Math.sqrt(4));
         this.rtsSlider.addChangeListener(this::rtsSliderStateChanged);
-        View.getScheduler().setRandomTickSpeed(this.rtsSlider.getValue());
+        Scheduler.getScheduler().setRandomTickSpeed(this.rtsSlider.getValue());
         //Turn on labels at major tick marks.
         this.rtsSlider.setMinorTickSpacing(1);
         this.rtsSlider.setPaintTicks(true);
@@ -188,7 +188,7 @@ public class ViewMenu extends JPanel {
         JSlider source = (JSlider) e.getSource();
         if (!source.getValueIsAdjusting()) {
             int randomTickSpeed = (int) (source.getValue() * source.getValue());
-            View.getScheduler().setRandomTickSpeed(randomTickSpeed);
+            Scheduler.getScheduler().setRandomTickSpeed(randomTickSpeed);
         }
     }
 }
