@@ -34,15 +34,15 @@ public class Pipe {
         }
     }
 
-    private PipeType getType() {
+    public PipeType getType() {
         return this.type;
     }
 
-    private int getPrice() {
+    public int getPrice() {
         return this.price;
     }
 
-    private int getWaterConduct() {
+    public int getWaterConduct() {
         return this.waterConduct;
     }
 }

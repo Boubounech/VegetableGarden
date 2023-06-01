@@ -46,7 +46,7 @@ public class PropPlot extends Plot {
             this.setLightSource(new LightSource(this.prop.getLightStrength(), this.prop.getLightLength()));
         if (this.prop.getTemperatureStrength() != 0 && this.prop.getTemperatureLength() != 0)
             this.setTemperatureSource(new TemperatureSource(this.prop.getTemperatureStrength(), this.prop.getTemperatureLength()));
-        Scheduler.getScheduler().addSourceOf(this.getX(), this.getY());
+        Scheduler.getScheduler().addImpactFromSourceOf(this.getX(), this.getY());
     }
 
     public static int getPriceToRemove() {

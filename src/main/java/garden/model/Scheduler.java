@@ -50,8 +50,16 @@ public class Scheduler extends Observable implements Runnable {
 
     // FUNCTION CALLED FROM THE MODEL
 
-    public void addSourceOf(int x,int y) {
-        this.garden.addSourceOf(x, y);
+    public void addImpactFromSourceOf(int x, int y) {
+        this.garden.addImpactFromSourceOf(x, y);
+    }
+
+    public void addWaterSourceOf(int x, int y, WaterSource ws){
+        this.garden.getPlot(x, y).setWaterSource(ws);
+    }
+
+    public void removeWaterSourceOf(int x, int y) {
+        this.garden.removeWaterSourceOf(x, y);
     }
 
     // FUNCTION CALLED FROM VIEW
@@ -126,7 +134,7 @@ public class Scheduler extends Observable implements Runnable {
 
     public void swapPipe(int x, int y){
         if (!this.garden.getPlot(x, y).hasPipe()){
-            this.garden.addPipe(x, y);
+            this.garden.addPipe(x, y, PipeType.pipe);
         } else {
             this.garden.removePipe(x, y);
         }
@@ -135,9 +143,9 @@ public class Scheduler extends Observable implements Runnable {
     public void removeWeatherSources(int waterLevel, int temperatureLevel, int lightLevel) {
         for (int x = 0; x < this.garden.getPlots().length; x++) {
             for (int y = 0; y < this.garden.getPlots()[0].length; y++) {
-                this.garden.removeWaterSource(x, y, waterLevel);
-                this.garden.removeTemperatureSource(x, y, temperatureLevel);
-                this.garden.removeLightSource(x, y, lightLevel);
+                this.garden.removeImpactFromWaterSource(x, y, waterLevel);
+                this.garden.removeImpactFromTemperatureSource(x, y, temperatureLevel);
+                this.garden.removeImpactFromLightSource(x, y, lightLevel);
             }
         }
     }
@@ -145,14 +153,11 @@ public class Scheduler extends Observable implements Runnable {
     public void addWeatherSources(int waterLevel, int temperatureLevel, int lightLevel) {
         for (int x = 0; x < this.garden.getPlots().length; x++) {
             for (int y = 0; y < this.garden.getPlots()[0].length; y++) {
-                this.garden.addWaterSource(x, y, waterLevel);
-                this.garden.addTemperatureSource(x, y, temperatureLevel);
-                this.garden.addLightSource(x, y, lightLevel);
+                this.garden.addImpactFromWaterSource(x, y, waterLevel);
+                this.garden.addImpactFromTemperatureSource(x, y, temperatureLevel);
+                this.garden.addImpactFromLightSource(x, y, lightLevel);
             }
         }
     }
 
-    public void removeWaterSourceOf(int x, int y) {
-        this.garden.removeWaterSourceOf(x, y);
-    }
 }

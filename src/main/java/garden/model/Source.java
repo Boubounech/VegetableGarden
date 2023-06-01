@@ -16,6 +16,8 @@ public abstract class Source {
     private int strength;
     private int length;
 
+    private boolean isFromProp;
+
     public int getStrength() {
         return strength;
     }
@@ -23,6 +25,8 @@ public abstract class Source {
     public int getLength() {
         return length;
     }
+
+    public boolean isFromProp() { return isFromProp; }
 
     public void setStrength(int strength) {
         this.strength = strength;
@@ -32,8 +36,11 @@ public abstract class Source {
         this.length = length;
     }
 
-    public void setSourceData(int strength, int length) {
+    public void setFromProp(boolean isFromProp) { this.isFromProp = isFromProp; }
+
+    public void setSourceData(int strength, int length, boolean isFromProp) {
         setStrength(strength);
         setLength(length);
+        setFromProp(isFromProp);
     }
 }
