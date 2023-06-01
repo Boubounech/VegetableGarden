@@ -21,8 +21,8 @@ public class CultivablePlot extends Plot {
     public void update() {
         if(stateGrowth == 0 || vegetable == null){
             emptyTime++;
-            if(emptyTime >= 10){
-                //TODO : change the type of the plot
+            if(emptyTime >= 500){
+                Scheduler.getScheduler().setIsProp(this.getX(), this.getY(), true);
                 this.emptyTime = 0;
             }
         }
