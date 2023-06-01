@@ -56,6 +56,10 @@ public class KeyListener extends KeyAdapter {
                 }
             }
         }
+
+        if (e.getKeyCode()==KeyEvent.VK_P){
+            Scheduler.getScheduler().swapPipe(focusedPlot[0], focusedPlot[1]);
+        }
     }
 
     private void setFocusedPlot(int x, int y) {

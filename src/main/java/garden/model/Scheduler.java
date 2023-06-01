@@ -124,6 +124,14 @@ public class Scheduler extends Observable implements Runnable {
         notifyObservers();
     }
 
+    public void swapPipe(int x, int y){
+        if (!this.garden.getPlot(x, y).hasPipe()){
+            this.garden.addPipe(x, y);
+        } else {
+            this.garden.removePipe(x, y);
+        }
+    }
+
     public void removeWeatherSources(int waterLevel, int temperatureLevel, int lightLevel) {
         for (int x = 0; x < this.garden.getPlots().length; x++) {
             for (int y = 0; y < this.garden.getPlots()[0].length; y++) {

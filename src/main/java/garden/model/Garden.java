@@ -19,6 +19,7 @@ public class Garden implements Runnable {
         try {
             Vegetable.loadVegetables();
             Prop.loadProps();
+            Pipe.loadPipes();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -77,6 +78,31 @@ public class Garden implements Runnable {
 
     public void setRandomTickSpeed(int rts) {
         this.randomTickSpeed = rts;
+    }
+
+    public void addPipe(int x, int y){
+        this.plots[x][y].addPipe(PipeType.pipe);
+        if (x > 0)
+            this.plots[x-1][y].addNeighbourPipe(0);
+        if (x < this.plots.length - 1)
+            this.plots[x+1][y].addNeighbourPipe(2);
+        if (y > 0)
+            this.plots[x][y-1].addNeighbourPipe(1);
+        if (y < this.plots[0].length - 1)
+            this.plots[x][y+1].addNeighbourPipe(3);
+    }
+
+
+    public void removePipe(int x, int y){
+        this.plots[x][y].removePipe();
+        if (x > 0)
+            this.plots[x-1][y].removeNeighbourPipe(0);
+        if (x < this.plots.length - 1)
+            this.plots[x+1][y].removeNeighbourPipe(2);
+        if (y > 0)
+            this.plots[x][y-1].removeNeighbourPipe(1);
+        if (y < this.plots[0].length - 1)
+            this.plots[x][y+1].removeNeighbourPipe(3);
     }
 
     public void addWaterSource(int x, int y, int level) {
@@ -209,24 +235,28 @@ public class Garden implements Runnable {
     }
 
     public void removeWaterSourceOf(int x, int y) {
-        WaterSource ws = this.plots[x][y].getWaterSource();
-        for (int xi = x - ws.getLength(); xi <= x + ws.getLength(); xi++) {
-            for (int yi = y - ws.getLength(); yi <= y + ws.getLength(); yi++) {
-                double distance = Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi));
-                if (distance < ws.getLength() + 0.5f){
-                    removeWaterSource(xi, yi, (int) (ws.getStrength() * (1.0f - distance/(ws.getLength() + 0.5f))));
+        if (this.plots[x][y].hasWaterSource()) {
+            WaterSource ws = this.plots[x][y].getWaterSource();
+            for (int xi = x - ws.getLength(); xi <= x + ws.getLength(); xi++) {
+                for (int yi = y - ws.getLength(); yi <= y + ws.getLength(); yi++) {
+                    double distance = Math.sqrt((x - xi) * (x - xi) + (y - yi) * (y - yi));
+                    if (distance < ws.getLength() + 0.5f) {
+                        removeWaterSource(xi, yi, (int) (ws.getStrength() * (1.0f - distance / (ws.getLength() + 0.5f))));
+                    }
                 }
             }
         }
     }
 
     public void removeTemperatureSourceOf(int x, int y) {
-        WaterSource ws = this.plots[x][y].getWaterSource();
-        for (int xi = x - ws.getLength(); xi <= x + ws.getLength(); xi++) {
-            for (int yi = y - ws.getLength(); yi <= y + ws.getLength(); yi++) {
-                double distance = Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi));
-                if (distance < ws.getLength() + 0.5f){
-                    removeWaterSource(xi, yi, (int) (ws.getStrength() * (1.0f - distance/(ws.getLength() + 0.5f))));
+        if (this.plots[x][y].hasTemperatureSource()) {
+            TemperatureSource ts = this.plots[x][y].getTemperatureSource();
+            for (int xi = x - ts.getLength(); xi <= x + ts.getLength(); xi++) {
+                for (int yi = y - ts.getLength(); yi <= y + ts.getLength(); yi++) {
+                    double distance = Math.sqrt((x - xi) * (x - xi) + (y - yi) * (y - yi));
+                    if (distance < ts.getLength() + 0.5f) {
+                        removeTemperatureSource(xi, yi, (int) (ts.getStrength() * (1.0f - distance / (ts.getLength() + 0.5f))));
+                    }
                 }
             }
         }

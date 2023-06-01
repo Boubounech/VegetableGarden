@@ -23,6 +23,9 @@ public class ViewPlot extends JPanel {
 
     private boolean isFocused;
 
+    private boolean hasPipe;
+    private boolean[] neighboursPipes;
+
     public ViewPlot(int x, int y) {
         this.x = x;
         this.y = y;
@@ -32,15 +35,13 @@ public class ViewPlot extends JPanel {
         this.growthState = 0;
         this.isFocused = false;
         this.setIsProp(true);
+        this.neighboursPipes = new boolean[]{false, false, false, false};
     }
 
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), this);
         //if(!this.isProp)
-        if (this.isFocused) {
-            g2d.drawImage(View.pictures.get("border"), 0, 0, this.getWidth(), this.getHeight(), this);
-        }
         if (!this.isProp) {
             if (this.humidity <= 50) {
                 float alpha = Math.max(Math.min(Math.abs((float) (this.humidity - 50.0f) / 50.0f), 1.0f), 0.0f);
@@ -59,7 +60,26 @@ public class ViewPlot extends JPanel {
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         }
 
+        if (this.hasPipe) {
+            if (this.neighboursPipes[0])
+                g2d.drawImage(View.pictures.get("pipeBottom"), 0, 0, this.getWidth(), this.getHeight(), this);
+            if (this.neighboursPipes[1])
+                g2d.drawImage(View.pictures.get("pipeRight"), 0, 0, this.getWidth(), this.getHeight(), this);
+            if (this.neighboursPipes[2])
+                g2d.drawImage(View.pictures.get("pipeTop"), 0, 0, this.getWidth(), this.getHeight(), this);
+            if (this.neighboursPipes[3])
+                g2d.drawImage(View.pictures.get("pipeLeft"), 0, 0, this.getWidth(), this.getHeight(), this);
+
+            if (this.item == View.pictures.get("pond"))
+                g2d.drawImage(View.pictures.get("pipePond"), 0, 0, this.getWidth(), this.getHeight(), this);
+        }
+
+
         g2d.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
+
+        if (this.isFocused) {
+            g2d.drawImage(View.pictures.get("border"), 0, 0, this.getWidth(), this.getHeight(), this);
+        }
     }
 
 
@@ -112,4 +132,12 @@ public class ViewPlot extends JPanel {
     public void setHumidity(int humidity) { this.humidity = humidity; }
 
     public int getHumidity() { return this.humidity; }
+
+    public void setHasPipe(boolean hasPipe){
+        this.hasPipe = hasPipe;
+    }
+
+    public void setNeighboursPipes(boolean[] neighboursPipes){
+        this.neighboursPipes = neighboursPipes;
+    }
 }

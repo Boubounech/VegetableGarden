@@ -79,6 +79,8 @@ public class ViewGarden extends JPanel {
             for(int y = 0; y < g.getPlots()[x].length; y++){
                 this.plots[x][y].setHumidity(g.getPlot(x, y).getWaterLevel());
                 this.plots[x][y].setIsProp(g.getPlot(x, y) instanceof PropPlot);
+                this.plots[x][y].setHasPipe(g.getPlot(x, y).hasPipe());
+                this.plots[x][y].setNeighboursPipes(g.getPlot(x, y).getNeighboursPipes());
                 if (!(g.getPlot(x, y)).getItem().equals("empty")) {
                     this.plots[x][y].setItem(g.getPlot(x, y).getItem());
                 }

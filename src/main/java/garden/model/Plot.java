@@ -43,6 +43,9 @@ public abstract class Plot {
     private LightSource lightSource;
     private TemperatureSource temperatureSource;
 
+    private Pipe pipe;
+    private boolean[] neighboursPipes;
+
     public Plot(int x, int y) {
         this.x = x;
         this.y = y;
@@ -52,6 +55,7 @@ public abstract class Plot {
         waterSourceNumber = 0;
         lightSourceNumber = 0;
         temperatureSourceNumber = 0;
+        neighboursPipes = new boolean[] {false, false, false, false};
     }
 
     public abstract void update();
@@ -145,6 +149,36 @@ public abstract class Plot {
         this.waterSourceNumber = waterSourceNumber;
         this.temperatureSourceNumber = temperatureSourceNumber;
         this.lightSourceNumber = lightSourceNumber;
+    }
+
+    public void addPipe(PipeType pt){
+        this.pipe = Pipe.pipes.get(pt);
+    }
+
+    public void removePipe(){
+        this.pipe = null;
+    }
+
+    public boolean hasPipe(){
+        return this.pipe != null;
+    }
+
+    public void addNeighbourPipe(int index) {
+        // 0:top, 1:right, 2:bottom, 3:left
+        if (index <= 3 && index >= 0){
+            this.neighboursPipes[index] = true;
+        }
+    }
+
+    public void removeNeighbourPipe(int index) {
+        // 0:top, 1:right, 2:bottom, 3:left
+        if (index <= 3 && index >= 0){
+            this.neighboursPipes[index] = false;
+        }
+    }
+
+    public boolean[] getNeighboursPipes() {
+        return this.neighboursPipes;
     }
 
     @Override

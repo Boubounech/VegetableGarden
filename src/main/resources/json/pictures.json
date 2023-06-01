@@ -49,5 +49,11 @@
   "gardenDollar",
 
   "dryFilter",
-  "wetFilter"
+  "wetFilter",
+
+  "pipePond",
+  "pipeTop",
+  "pipeBottom",
+  "pipeRight",
+  "pipeLeft"
 ]
