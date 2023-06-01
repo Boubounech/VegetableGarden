@@ -1,9 +1,6 @@
 package garden.view;
 
-import garden.model.Player;
-import garden.model.PropPlot;
-import garden.model.Scheduler;
-import garden.model.Vegetable;
+import garden.model.*;
 
 import javax.swing.*;
 
@@ -23,12 +20,14 @@ public class ContextMenu extends JPopupMenu {
 
     private void build() {
         if (isProp) {
-            JMenuItem propOrCultivable;
-            propOrCultivable = new JMenuItem("Rendre cultivable" + " (" + PropPlot.getPriceToRemove() + " g$)");
-            propOrCultivable.addActionListener(e1 -> {
-                Scheduler.getScheduler().removeProp(x, y);
-            });
-            this.add(propOrCultivable);
+            if(((PropPlot)(Scheduler.getScheduler().getGarden().getPlot(x, y))).getProp().getType() != PropType.pond){
+                JMenuItem propOrCultivable;
+                propOrCultivable = new JMenuItem("Rendre cultivable" + " (" + PropPlot.getPriceToRemove() + " g$)");
+                propOrCultivable.addActionListener(e1 -> {
+                    Scheduler.getScheduler().removeProp(x, y);
+                });
+                this.add(propOrCultivable);
+            }
         }
         else {
             if(growthState == 0){

@@ -1,9 +1,6 @@
 package garden.view;
 
-import garden.model.Player;
-import garden.model.PropPlot;
-import garden.model.Scheduler;
-import garden.model.VegetableType;
+import garden.model.*;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -33,7 +30,9 @@ public class KeyListener extends KeyAdapter {
             setFocusedPlot((focusedPlot[0] + 1) % plots[0].length, focusedPlot[1]);
         }
         if(e.getKeyCode()==KeyEvent.VK_C){
-            if(Player.getInstance().getMoney() >= PropPlot.getPriceToRemove() && plots[focusedPlot[0]][focusedPlot[1]].getIsProp()){
+            if(((PropPlot)(Scheduler.getScheduler().getGarden().getPlot(focusedPlot[0], focusedPlot[1]))).getProp().getType() != PropType.pond
+                    && Player.getInstance().getMoney() >= PropPlot.getPriceToRemove()
+                    && plots[focusedPlot[0]][focusedPlot[1]].getIsProp()){
                 Scheduler.getScheduler().removeProp(focusedPlot[0], focusedPlot[1]);
             }
         }

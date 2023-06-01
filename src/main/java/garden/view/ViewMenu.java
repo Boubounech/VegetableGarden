@@ -227,15 +227,20 @@ public class ViewMenu extends JPanel {
         }
         // Plot buttons
         if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof PropPlot) {
-            JButton[] buttonsToShow = new JButton[1];
-            buttonsToShow[0] = new JButton("Rendre cultivable");
-            buttonsToShow[0].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Scheduler.getScheduler().setIsProp(focusedPlot[0], focusedPlot[1], false);
-                }
-            });
-            this.plotButtonsToShow = buttonsToShow;
+            if(((PropPlot)(Scheduler.getScheduler().getGarden().getPlot(focusedPlot[0], focusedPlot[1]))).getProp().getType() != PropType.pond){
+                JButton[] buttonsToShow = new JButton[1];
+                buttonsToShow[0] = new JButton("Rendre cultivable");
+                buttonsToShow[0].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Scheduler.getScheduler().setIsProp(focusedPlot[0], focusedPlot[1], false);
+                    }
+                });
+                this.plotButtonsToShow = buttonsToShow;
+            }
+            else{
+                this.plotButtonsToShow = null;
+            }
         } else if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof CultivablePlot cp) {
             if (!cp.containsVegetable()) {
                 JButton[] buttonsToShow = new JButton[6];
@@ -277,8 +282,10 @@ public class ViewMenu extends JPanel {
         this.plotButtons.removeAll();
         this.plotButtons.revalidate();
         this.plotButtons.repaint();
-        for (JButton jButton : this.plotButtonsToShow) {
-            this.plotButtons.add(jButton);
+        if (this.plotButtonsToShow != null) {
+            for (JButton jButton : this.plotButtonsToShow) {
+                this.plotButtons.add(jButton);
+            }
         }
     }
 
