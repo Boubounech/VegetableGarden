@@ -63,23 +63,17 @@ public class WeatherManager implements Runnable {
         timeSinceLastChange += this.randomTickSpeed / this.originalRTS;
         if (timeSinceLastChange > timeOfNextChange){
 
-            Scheduler.getScheduler().removeWeatherSources(this.weather.getHumidity(), this.weather.getTemperature(), this.weather.getLight());
-
             this.weather = getNextWeather();
             Random rdm = new Random();
 
-            System.out.println("Weather is now : " + weather.getName());
             timeSinceLastChange = 0;
             timeOfNextChange = (rdm.nextInt(timeChangeTopLimit - timeChangeBottomLimit) + timeChangeBottomLimit);
-            Scheduler.getScheduler().addWeatherSources(this.weather.getHumidity(), this.weather.getTemperature(), this.weather.getLight());
-
         }
     }
 
     private Weather getNextWeather() {
         Random rdm = new Random();
         int alea = rdm.nextInt(1, this.globalWeight+1);
-        System.out.println("Alea is " + alea);
 
         for (int i = 0; i < WeatherType.values().length; i++){
             if (alea <= Weather.weathers.get(WeatherType.values()[i]).getWeight()) {
@@ -91,9 +85,5 @@ public class WeatherManager implements Runnable {
         }
 
         return Weather.weathers.get(WeatherType.clear);
-    }
-
-    public void updateWeatherSources() {
-        Scheduler.getScheduler().addWeatherSources(this.weather.getHumidity(), this.weather.getTemperature(), this.weather.getLight());
     }
 }

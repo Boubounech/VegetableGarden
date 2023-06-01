@@ -175,10 +175,11 @@ public class ViewMenu extends JPanel {
         this.plotInfos.setText(g.getPlot(focusedPlot[0], focusedPlot[1]).toString());
         this.plotPic.setItem(g.getPlot(focusedPlot[0], focusedPlot[1]).getItem());
         this.plotContentLevels.setText("<html>" +
-                            "<p> Humidité : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getWaterLevel() + "</p>" +
-                            "<p> Luminosité : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getLightLevel() + "</p>" +
-                            "<p> Température : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getTemperatureLevel() + "</p>" +
-                            "</html>");
+                "<p> waterSourceNB : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getWaterSourceNumber() + "</p>" +
+                "<p> Humidité : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getWaterLevel() + "</p>" +
+                "<p> Luminosité : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getLightLevel() + "</p>" +
+                "<p> Température : " + g.getPlot(focusedPlot[0], focusedPlot[1]).getTemperatureLevel() + "</p>" +
+                "</html>");
         if (g.getPlot(focusedPlot[0], focusedPlot[1]) instanceof CultivablePlot cp) {
             if (this.plotPic.getIsProp())
                 this.plotPic.setIsProp(false);

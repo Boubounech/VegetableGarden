@@ -38,7 +38,7 @@ public class Garden implements Runnable {
 
     public void updateAllSources(){
         this.plots[7][7] = new PropPlot(7, 7);
-        ((PropPlot)(this.plots[7][7])).setProp(PropType.pond);
+        ((PropPlot)(this.plots[7][7])).setRawProp(PropType.pond);
 
         for(int x = 0; x < this.plots.length; x++){
             for(int y = 0; y < this.plots[0].length; y++) {
@@ -81,7 +81,7 @@ public class Garden implements Runnable {
 
     public void addWaterSource(int x, int y, int level) {
         if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
-            int currentLevel = this.plots[x][y].getWaterLevel();
+            int currentLevel = this.plots[x][y].getRawWaterLevel();
             int waterSourceNumber = this.plots[x][y].getWaterSourceNumber();
             int newLevel = (currentLevel * waterSourceNumber + level) / (waterSourceNumber + 1);
             this.plots[x][y].setWaterLevel(newLevel);
@@ -91,7 +91,7 @@ public class Garden implements Runnable {
 
     public void addTemperatureSource(int x, int y, int level) {
         if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
-            int currentLevel = this.plots[x][y].getTemperatureLevel();
+            int currentLevel = this.plots[x][y].getRawTemperatureLevel();
             int temperatureSourceNumber = this.plots[x][y].getTemperatureSourceNumber();
             int newLevel = (currentLevel * temperatureSourceNumber + level) / (temperatureSourceNumber + 1);
             this.plots[x][y].setTemperatureLevel(newLevel);
@@ -101,7 +101,7 @@ public class Garden implements Runnable {
 
     public void addLightSource(int x, int y, int level) {
         if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
-            int currentLevel = this.plots[x][y].getLightLevel();
+            int currentLevel = this.plots[x][y].getRawLightLevel();
             int lightSourceNumber = this.plots[x][y].getLightSourceNumber();
             int newLevel = (currentLevel * lightSourceNumber + level) / (lightSourceNumber + 1);
             this.plots[x][y].setLightLevel(newLevel);
@@ -111,7 +111,7 @@ public class Garden implements Runnable {
 
     public void removeWaterSource(int x, int y, int level) {
         if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
-            int currentLevel = this.plots[x][y].getWaterLevel();
+            int currentLevel = this.plots[x][y].getRawWaterLevel();
             int waterSourceNumber = this.plots[x][y].getWaterSourceNumber();
             if (waterSourceNumber <= 1) {
                 this.plots[x][y].setWaterLevel(0);
@@ -127,7 +127,7 @@ public class Garden implements Runnable {
 
     public void removeTemperatureSource(int x, int y, int level) {
         if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
-            int currentLevel = this.plots[x][y].getTemperatureLevel();
+            int currentLevel = this.plots[x][y].getRawTemperatureLevel();
             int temperatureSourceNumber = this.plots[x][y].getTemperatureSourceNumber();
             if (temperatureSourceNumber <= 1) {
                 this.plots[x][y].setTemperatureLevel(0);
@@ -144,7 +144,7 @@ public class Garden implements Runnable {
 
     public void removeLightSource(int x, int y, int level) {
         if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
-            int currentLevel = this.plots[x][y].getLightLevel();
+            int currentLevel = this.plots[x][y].getRawLightLevel();
             int lightSourceNumber = this.plots[x][y].getLightSourceNumber();
             if (lightSourceNumber == 1) {
                 this.plots[x][y].setLightLevel(0);
@@ -159,14 +159,15 @@ public class Garden implements Runnable {
         }
     }
 
-    public void updateSourceOf(int x, int y) {
+    public void addSourceOf(int x, int y) {
         // Water source
         if (this.plots[x][y].hasWaterSource()){
             WaterSource ws = this.plots[x][y].getWaterSource();
             for (int xi = x - ws.getLength(); xi <= x + ws.getLength(); xi++) {
                 for (int yi = y - ws.getLength(); yi <= y + ws.getLength(); yi++) {
-                    if (Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi)) < ws.getLength() + 0.5){
-                        addWaterSource(xi, yi, ws.getStrength());
+                    double distance = Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi));
+                    if (distance < ws.getLength() + 0.5f){
+                        addWaterSource(xi, yi, (int) (ws.getStrength() * (1.0f - distance/(ws.getLength() + 0.5f))));
                     }
                 }
             }
@@ -176,8 +177,9 @@ public class Garden implements Runnable {
             TemperatureSource ts = this.plots[x][y].getTemperatureSource();
             for (int xi = x - ts.getLength(); xi <= x + ts.getLength(); xi++) {
                 for (int yi = y - ts.getLength(); yi <= y + ts.getLength(); yi++) {
-                    if (Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi)) < ts.getLength() + 0.5){
-                        addTemperatureSource(xi, yi, ts.getStrength());
+                    double distance = Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi));
+                    if (distance < ts.getLength() + 0.5){
+                        addTemperatureSource(xi, yi, (int) (ts.getStrength() * (1.0f - distance/(ts.getLength() + 0.5f))));
                     }
                 }
             }
@@ -187,8 +189,9 @@ public class Garden implements Runnable {
             LightSource ls = this.plots[x][y].getLightSource();
             for (int xi = x - ls.getLength(); xi <= x + ls.getLength(); xi++) {
                 for (int yi = y - ls.getLength(); yi <= y + ls.getLength(); yi++) {
-                    if (Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi)) < ls.getLength() + 0.5){
-                        addLightSource(xi, yi, ls.getStrength());
+                    double distance = Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi));
+                    if (distance < ls.getLength() + 0.5){
+                        addLightSource(xi, yi, (int) (ls.getStrength() * (1.0f - distance/(ls.getLength() + 0.5f))));
                     }
                 }
             }
@@ -196,4 +199,36 @@ public class Garden implements Runnable {
     }
 
 
+    public void removeSourcesOf(int x, int y){
+        if (this.plots[x][y].hasWaterSource()) {
+            removeWaterSourceOf(x, y);
+        }
+        if (this.plots[x][y].hasTemperatureSource()) {
+
+        }
+    }
+
+    public void removeWaterSourceOf(int x, int y) {
+        WaterSource ws = this.plots[x][y].getWaterSource();
+        for (int xi = x - ws.getLength(); xi <= x + ws.getLength(); xi++) {
+            for (int yi = y - ws.getLength(); yi <= y + ws.getLength(); yi++) {
+                double distance = Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi));
+                if (distance < ws.getLength() + 0.5f){
+                    removeWaterSource(xi, yi, (int) (ws.getStrength() * (1.0f - distance/(ws.getLength() + 0.5f))));
+                }
+            }
+        }
+    }
+
+    public void removeTemperatureSourceOf(int x, int y) {
+        WaterSource ws = this.plots[x][y].getWaterSource();
+        for (int xi = x - ws.getLength(); xi <= x + ws.getLength(); xi++) {
+            for (int yi = y - ws.getLength(); yi <= y + ws.getLength(); yi++) {
+                double distance = Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi));
+                if (distance < ws.getLength() + 0.5f){
+                    removeWaterSource(xi, yi, (int) (ws.getStrength() * (1.0f - distance/(ws.getLength() + 0.5f))));
+                }
+            }
+        }
+    }
 }

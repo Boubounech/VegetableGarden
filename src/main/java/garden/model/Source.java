@@ -9,6 +9,10 @@ package garden.model;
  *  + GetLength() : int
  */
 public abstract class Source {
+    /*
+    TODO:
+    isFromProp
+     */
     private int strength;
     private int length;
 

@@ -19,6 +19,8 @@ public class ViewPlot extends JPanel {
     private int y;
     private int growthState;
 
+    private int humidity;
+
     private boolean isFocused;
 
     public ViewPlot(int x, int y) {
@@ -33,13 +35,34 @@ public class ViewPlot extends JPanel {
     }
 
     public void paint(Graphics g) {
-        g.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), this);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(this.background, 0, 0, this.getWidth(), this.getHeight(), this);
         //if(!this.isProp)
-        g.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
         if (this.isFocused) {
-            g.drawImage(View.pictures.get("border"), 0, 0, this.getWidth(), this.getHeight(), this);
+            g2d.drawImage(View.pictures.get("border"), 0, 0, this.getWidth(), this.getHeight(), this);
         }
+        if (!this.isProp) {
+            if (this.humidity <= 50) {
+                float alpha = Math.max(Math.min(Math.abs((float) (this.humidity - 50.0f) / 50.0f), 1.0f), 0.0f);
+
+                AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+
+                g2d.setComposite(ac);
+                g2d.drawImage(View.pictures.get("dryFilter"), 0, 0, this.getWidth(), this.getHeight(), this);
+            } else {
+                float alpha = Math.max(Math.min((float) (this.humidity - 50.0f) / 50.0f, 1.0f), 0.0f);
+                AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+
+                g2d.setComposite(ac);
+                g2d.drawImage(View.pictures.get("wetFilter"), 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+        }
+
+        g2d.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
     }
+
+
 
     public void setIsProp(Boolean isProp){
         this.isProp = isProp;
@@ -85,4 +108,8 @@ public class ViewPlot extends JPanel {
     public int getGrowthState(){
         return this.growthState;
     }
+
+    public void setHumidity(int humidity) { this.humidity = humidity; }
+
+    public int getHumidity() { return this.humidity; }
 }

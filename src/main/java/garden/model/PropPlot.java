@@ -12,7 +12,7 @@ public class PropPlot extends Plot {
         super(x, y);
         PropType[] basicsProps = new PropType[] {PropType.none, PropType.flowers, PropType.rocks};
         int randVal = (new Random()).nextInt(basicsProps.length);
-        this.prop = Prop.props.get(basicsProps[randVal]);
+        setRawProp(basicsProps[randVal]);
         priceToRemove = 1;
         priceIncrement = 1;
 
@@ -34,15 +34,19 @@ public class PropPlot extends Plot {
         return this.prop;
     }
 
-    public void setProp(PropType pt) {
+    public void setRawProp(PropType pt) {
         this.prop = Prop.props.get(pt);
+    }
+
+    public void setProp(PropType pt) {
+        setRawProp(pt);
         if (this.prop.getHumidityStrength() != 0 && this.prop.getHumidityLength() != 0)
             this.setWaterSource(new WaterSource(this.prop.getHumidityStrength(), this.prop.getHumidityLength()));
         if (this.prop.getLightStrength() != 0 && this.prop.getLightLength() != 0)
             this.setLightSource(new LightSource(this.prop.getLightStrength(), this.prop.getLightLength()));
         if (this.prop.getTemperatureStrength() != 0 && this.prop.getTemperatureLength() != 0)
             this.setTemperatureSource(new TemperatureSource(this.prop.getTemperatureStrength(), this.prop.getTemperatureLength()));
-        Scheduler.getScheduler().updateSourceOf(this.getX(), this.getY());
+        Scheduler.getScheduler().addSourceOf(this.getX(), this.getY());
     }
 
     public static int getPriceToRemove() {

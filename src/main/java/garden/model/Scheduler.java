@@ -24,7 +24,6 @@ public class Scheduler extends Observable implements Runnable {
     public void run() {
 
         this.garden.updateAllSources();
-        this.weather.updateWeatherSources();
         setChanged();
         notifyObservers();
 
@@ -51,8 +50,8 @@ public class Scheduler extends Observable implements Runnable {
 
     // FUNCTION CALLED FROM THE MODEL
 
-    public void updateSourceOf(int x,int y) {
-        this.garden.updateSourceOf(x, y);
+    public void addSourceOf(int x,int y) {
+        this.garden.addSourceOf(x, y);
     }
 
     // FUNCTION CALLED FROM VIEW
@@ -66,9 +65,9 @@ public class Scheduler extends Observable implements Runnable {
     }
 
     public void setIsProp(int x, int y, boolean isProp){
-        int waterLevel = this.garden.getPlot(x, y).getWaterLevel();
-        int temperatureLevel = this.garden.getPlot(x, y).getTemperatureLevel();
-        int lightLevel = this.garden.getPlot(x, y).getLightLevel();
+        int waterLevel = this.garden.getPlot(x, y).getRawWaterLevel();
+        int temperatureLevel = this.garden.getPlot(x, y).getRawTemperatureLevel();
+        int lightLevel = this.garden.getPlot(x, y).getRawLightLevel();
         int waterSourceNumber = this.garden.getPlot(x, y).getWaterSourceNumber();
         int temperatureSourceNumber = this.garden.getPlot(x, y).getTemperatureSourceNumber();
         int lightSourceNumber = this.garden.getPlot(x, y).getLightSourceNumber();
@@ -115,6 +114,7 @@ public class Scheduler extends Observable implements Runnable {
     public void removeProp(int x, int y) {
         if (this.garden.getPlot(x, y) instanceof PropPlot) {
             if (Player.getInstance().pay(PropPlot.getPriceToRemove())) {
+                this.removeWaterSourceOf(x, y);
                 this.setIsProp(x, y, false);
                 PropPlot.updatePriceToRemove();
             }
@@ -142,5 +142,9 @@ public class Scheduler extends Observable implements Runnable {
                 this.garden.addLightSource(x, y, lightLevel);
             }
         }
+    }
+
+    public void removeWaterSourceOf(int x, int y) {
+        this.garden.removeWaterSourceOf(x, y);
     }
 }
