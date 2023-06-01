@@ -2,6 +2,7 @@
   {
     "type": "clear",
     "name": "Ensoleillé",
+    "weight": 10,
     "humidity": 0,
     "light": 100,
     "temperature": 62
@@ -9,6 +10,7 @@
   {
     "type": "rain",
     "name": "Pluvieux",
+    "weight": 3,
     "humidity": 80,
     "light": 5,
     "temperature": 44
@@ -16,6 +18,7 @@
   {
     "type": "cloud",
     "name": "Quelques nuages",
+    "weight": 5,
     "humidity": 0,
     "light": 50,
     "temperature": 56
@@ -23,6 +26,7 @@
   {
     "type": "lotsofclouds",
     "name": "Beaucoup de nuages",
+    "weight": 3,
     "humidity": 10,
     "light": 20,
     "temperature": 50
@@ -30,6 +34,7 @@
   {
     "type": "thunder",
     "name": "Orageux",
+    "weight": 1,
     "humidity": 80,
     "light": 0,
     "temperature": 50
@@ -37,6 +42,7 @@
   {
     "type": "snow",
     "name": "Neigeux",
+    "weight": 1,
     "humidity": 50,
     "light": 5,
     "temperature": 25

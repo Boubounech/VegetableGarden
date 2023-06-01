@@ -31,7 +31,7 @@ package garden.model;
 public abstract class Plot {
     private int waterLevel;
     private int lightLevel;
-    private int temperature;
+    private int temperatureLevel;
     private int waterSourceNumber;
     private int lightSourceNumber;
     private int temperatureSourceNumber;
@@ -48,7 +48,7 @@ public abstract class Plot {
         this.y = y;
         waterLevel = 0;
         lightLevel = 0;
-        temperature = 0;
+        temperatureLevel = 0;
         waterSourceNumber = 0;
         lightSourceNumber = 0;
         temperatureSourceNumber = 0;
@@ -67,8 +67,8 @@ public abstract class Plot {
         this.lightLevel = lightLevel;
     }
 
-    public void setTemperatureLevel(int temperature) {
-        this.temperature = temperature;
+    public void setTemperatureLevel(int temperatureLevel) {
+        this.temperatureLevel = temperatureLevel;
     }
 
     public void setWaterSource(WaterSource waterSource) {
@@ -92,8 +92,20 @@ public abstract class Plot {
     }
 
     public int getTemperatureLevel() {
-        return temperature;
+        return temperatureLevel;
     }
+
+    public int getWaterSourceNumber() { return this.waterSourceNumber; }
+
+    public void setWaterSourceNumber(int waterSourceNumber) { this.waterSourceNumber = waterSourceNumber; }
+
+    public int getLightSourceNumber() { return this.lightSourceNumber; }
+
+    public void setLightSourceNumber(int lightSourceNumber) { this.lightSourceNumber = lightSourceNumber; }
+
+    public int getTemperatureSourceNumber() { return this.temperatureSourceNumber; }
+
+    public void setTemperatureSourceNumber(int temperatureSourceNumber) { this.temperatureSourceNumber = temperatureSourceNumber; }
 
     public boolean hasWaterSource() {return this.waterSource != null;}
     public boolean hasLightSource() {return this.lightSource != null;}
@@ -113,6 +125,15 @@ public abstract class Plot {
 
     public int getX() {return this.x;}
     public int getY() {return this.y;}
+
+    public void initSources(int waterLevel, int temperatureLevel, int lightLevel, int waterSourceNumber, int temperatureSourceNumber, int lightSourceNumber){
+        this.waterLevel = waterLevel;
+        this.temperatureLevel = temperatureLevel;
+        this.lightLevel = lightLevel;
+        this.waterSourceNumber = waterSourceNumber;
+        this.temperatureSourceNumber = temperatureSourceNumber;
+        this.lightSourceNumber = lightSourceNumber;
+    }
 
     @Override
     public abstract String toString();

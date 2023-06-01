@@ -9,8 +9,8 @@ public class Scheduler extends Observable implements Runnable {
     private WeatherManager weather;
 
     private Scheduler() {
-        garden = new Garden(15, 15, 3);
-        weather = new WeatherManager();
+        garden = new Garden(15, 15, 4);
+        weather = new WeatherManager(90, 180, 4);
     }
 
     public static Scheduler getScheduler(){
@@ -24,6 +24,7 @@ public class Scheduler extends Observable implements Runnable {
     public void run() {
 
         this.garden.updateAllSources();
+        this.weather.updateWeatherSources();
         setChanged();
         notifyObservers();
 
@@ -65,10 +66,22 @@ public class Scheduler extends Observable implements Runnable {
     }
 
     public void setIsProp(int x, int y, boolean isProp){
-        if (isProp)
-            this.garden.setPlot(x, y, new PropPlot(x, y));
-        else
-            this.garden.setPlot(x, y, new CultivablePlot(x, y));
+        int waterLevel = this.garden.getPlot(x, y).getWaterLevel();
+        int temperatureLevel = this.garden.getPlot(x, y).getTemperatureLevel();
+        int lightLevel = this.garden.getPlot(x, y).getLightLevel();
+        int waterSourceNumber = this.garden.getPlot(x, y).getWaterSourceNumber();
+        int temperatureSourceNumber = this.garden.getPlot(x, y).getTemperatureSourceNumber();
+        int lightSourceNumber = this.garden.getPlot(x, y).getLightSourceNumber();
+
+        Plot plot;
+        if (isProp) {
+            plot = new PropPlot(x, y);
+        }
+        else {
+            plot = new CultivablePlot(x, y);
+        }
+        plot.initSources(waterLevel, temperatureLevel, lightLevel, waterSourceNumber, temperatureSourceNumber, lightSourceNumber);
+        this.garden.setPlot(x, y, plot);
 
         setChanged();
         notifyObservers();
@@ -102,12 +115,32 @@ public class Scheduler extends Observable implements Runnable {
     public void removeProp(int x, int y) {
         if (this.garden.getPlot(x, y) instanceof PropPlot) {
             if (Player.getInstance().pay(PropPlot.getPriceToRemove())) {
-                this.garden.setPlot(x, y, new CultivablePlot(x, y));
+                this.setIsProp(x, y, false);
                 PropPlot.updatePriceToRemove();
             }
         }
 
         setChanged();
         notifyObservers();
+    }
+
+    public void removeWeatherSources(int waterLevel, int temperatureLevel, int lightLevel) {
+        for (int x = 0; x < this.garden.getPlots().length; x++) {
+            for (int y = 0; y < this.garden.getPlots()[0].length; y++) {
+                this.garden.removeWaterSource(x, y, waterLevel);
+                this.garden.removeTemperatureSource(x, y, temperatureLevel);
+                this.garden.removeLightSource(x, y, lightLevel);
+            }
+        }
+    }
+
+    public void addWeatherSources(int waterLevel, int temperatureLevel, int lightLevel) {
+        for (int x = 0; x < this.garden.getPlots().length; x++) {
+            for (int y = 0; y < this.garden.getPlots()[0].length; y++) {
+                this.garden.addWaterSource(x, y, waterLevel);
+                this.garden.addTemperatureSource(x, y, temperatureLevel);
+                this.garden.addLightSource(x, y, lightLevel);
+            }
+        }
     }
 }

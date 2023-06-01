@@ -79,24 +79,85 @@ public class Garden implements Runnable {
         this.randomTickSpeed = rts;
     }
 
-    public void addWaterLevel(int x, int y, int level) {
+    public void addWaterSource(int x, int y, int level) {
         if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
-            this.plots[x][y].setWaterLevel(level);
+            int currentLevel = this.plots[x][y].getWaterLevel();
+            int waterSourceNumber = this.plots[x][y].getWaterSourceNumber();
+            int newLevel = (currentLevel * waterSourceNumber + level) / (waterSourceNumber + 1);
+            this.plots[x][y].setWaterLevel(newLevel);
+            this.plots[x][y].setWaterSourceNumber(waterSourceNumber + 1);
         }
     }
 
-    public void addTemperatureLevel(int x, int y, int level) {
+    public void addTemperatureSource(int x, int y, int level) {
         if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
-            this.plots[x][y].setTemperatureLevel(level);
+            int currentLevel = this.plots[x][y].getTemperatureLevel();
+            int temperatureSourceNumber = this.plots[x][y].getTemperatureSourceNumber();
+            int newLevel = (currentLevel * temperatureSourceNumber + level) / (temperatureSourceNumber + 1);
+            this.plots[x][y].setTemperatureLevel(newLevel);
+            this.plots[x][y].setTemperatureSourceNumber(temperatureSourceNumber + 1);
         }
     }
 
-    public void addLightLevel(int x, int y, int level) {
+    public void addLightSource(int x, int y, int level) {
         if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
-            this.plots[x][y].setLightLevel(level);
+            int currentLevel = this.plots[x][y].getLightLevel();
+            int lightSourceNumber = this.plots[x][y].getLightSourceNumber();
+            int newLevel = (currentLevel * lightSourceNumber + level) / (lightSourceNumber + 1);
+            this.plots[x][y].setLightLevel(newLevel);
+            this.plots[x][y].setLightSourceNumber(lightSourceNumber + 1);
         }
     }
 
+    public void removeWaterSource(int x, int y, int level) {
+        if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
+            int currentLevel = this.plots[x][y].getWaterLevel();
+            int waterSourceNumber = this.plots[x][y].getWaterSourceNumber();
+            if (waterSourceNumber <= 1) {
+                this.plots[x][y].setWaterLevel(0);
+                this.plots[x][y].setWaterSourceNumber(0);
+            }
+            else {
+                int newLevel = (currentLevel * waterSourceNumber - level) / (waterSourceNumber - 1);
+                this.plots[x][y].setWaterLevel(newLevel);
+                this.plots[x][y].setWaterSourceNumber(waterSourceNumber - 1);
+            }
+        }
+    }
+
+    public void removeTemperatureSource(int x, int y, int level) {
+        if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
+            int currentLevel = this.plots[x][y].getTemperatureLevel();
+            int temperatureSourceNumber = this.plots[x][y].getTemperatureSourceNumber();
+            if (temperatureSourceNumber <= 1) {
+                this.plots[x][y].setTemperatureLevel(0);
+                this.plots[x][y].setTemperatureSourceNumber(0);
+            }
+            else {
+                int newLevel = (currentLevel * temperatureSourceNumber - level) / (temperatureSourceNumber - 1);
+                this.plots[x][y].setTemperatureLevel(newLevel);
+                this.plots[x][y].setTemperatureSourceNumber(temperatureSourceNumber - 1);
+            }
+
+        }
+    }
+
+    public void removeLightSource(int x, int y, int level) {
+        if (x >= 0 && x < this.plots.length && y >= 0 && y < this.plots[0].length){
+            int currentLevel = this.plots[x][y].getLightLevel();
+            int lightSourceNumber = this.plots[x][y].getLightSourceNumber();
+            if (lightSourceNumber == 1) {
+                this.plots[x][y].setLightLevel(0);
+                this.plots[x][y].setLightSourceNumber(0);
+            }
+            else {
+                int newLevel = (currentLevel * lightSourceNumber - level) / (lightSourceNumber - 1);
+                this.plots[x][y].setLightLevel(newLevel);
+                this.plots[x][y].setLightSourceNumber(lightSourceNumber - 1);
+            }
+
+        }
+    }
 
     public void updateSourceOf(int x, int y) {
         // Water source
@@ -105,7 +166,7 @@ public class Garden implements Runnable {
             for (int xi = x - ws.getLength(); xi <= x + ws.getLength(); xi++) {
                 for (int yi = y - ws.getLength(); yi <= y + ws.getLength(); yi++) {
                     if (Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi)) < ws.getLength() + 0.5){
-                        addWaterLevel(xi, yi, ws.getStrength());
+                        addWaterSource(xi, yi, ws.getStrength());
                     }
                 }
             }
@@ -116,7 +177,7 @@ public class Garden implements Runnable {
             for (int xi = x - ts.getLength(); xi <= x + ts.getLength(); xi++) {
                 for (int yi = y - ts.getLength(); yi <= y + ts.getLength(); yi++) {
                     if (Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi)) < ts.getLength() + 0.5){
-                        addTemperatureLevel(xi, yi, ts.getStrength());
+                        addTemperatureSource(xi, yi, ts.getStrength());
                     }
                 }
             }
@@ -127,7 +188,7 @@ public class Garden implements Runnable {
             for (int xi = x - ls.getLength(); xi <= x + ls.getLength(); xi++) {
                 for (int yi = y - ls.getLength(); yi <= y + ls.getLength(); yi++) {
                     if (Math.sqrt((x-xi)*(x-xi) + (y-yi)*(y-yi)) < ls.getLength() + 0.5){
-                        addLightLevel(xi, yi, ls.getStrength());
+                        addLightSource(xi, yi, ls.getStrength());
                     }
                 }
             }

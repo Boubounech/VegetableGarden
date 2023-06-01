@@ -34,6 +34,8 @@ public class Weather {
     public WeatherType type;
     // Weather's display name
     public String name;
+    // Weather's probability
+    public int weight;
     // Humidity level procured by the weather
     public int humidity;
     // Light getting through the weather
@@ -41,9 +43,10 @@ public class Weather {
     // Temperature provided by the weather
     public int temperature;
 
-    public Weather(WeatherType type, String name, int humidity, int light, int temperature) {
+    public Weather(WeatherType type, String name, int weight, int humidity, int light, int temperature) {
         this.type = type;
         this.name = name;
+        this.weight = weight;
         this.humidity = humidity;
         this.light = light;
         this.temperature = temperature;
@@ -56,6 +59,8 @@ public class Weather {
     public String getName() {
         return name;
     }
+
+    public int getWeight() { return this.weight; }
 
     public int getHumidity() {
         return humidity;
