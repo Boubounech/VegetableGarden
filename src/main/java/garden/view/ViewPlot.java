@@ -1,22 +1,14 @@
 package garden.view;
 
-import com.google.gson.Gson;
-import garden.model.JsonFileReader;
-import garden.model.VegetableType;
-import garden.model.Weather;
-
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ViewPlot extends JPanel {
     private Image background;
     private Image item;
     private boolean isProp;
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     private int growthState;
 
     private int humidity;
@@ -44,14 +36,14 @@ public class ViewPlot extends JPanel {
         //if(!this.isProp)
         if (!this.isProp) {
             if (this.humidity <= 50) {
-                float alpha = Math.max(Math.min(Math.abs((float) (this.humidity - 50.0f) / 50.0f), 1.0f), 0.0f);
+                float alpha = Math.max(Math.min(Math.abs((this.humidity - 50.0f) / 50.0f), 1.0f), 0.0f);
 
                 AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 
                 g2d.setComposite(ac);
                 g2d.drawImage(View.pictures.get("dryFilter"), 0, 0, this.getWidth(), this.getHeight(), this);
             } else {
-                float alpha = Math.max(Math.min((float) (this.humidity - 50.0f) / 50.0f, 1.0f), 0.0f);
+                float alpha = Math.max(Math.min((this.humidity - 50.0f) / 50.0f, 1.0f), 0.0f);
                 AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 
                 g2d.setComposite(ac);
