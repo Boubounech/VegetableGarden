@@ -1,5 +1,7 @@
 package garden.model;
 
+import java.util.ArrayList;
+
 /**
  *  - waterLevel : int
  *  - lightLevel : int
@@ -36,15 +38,15 @@ public abstract class Plot {
     private int lightSourceNumber;
     private int temperatureSourceNumber;
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     private WaterSource waterSource;
     private LightSource lightSource;
     private TemperatureSource temperatureSource;
 
-    private Pipe pipe;
-    private boolean[] neighboursPipes;
+    private final PipeHolder pipeHolder;
+
 
     public Plot(int x, int y) {
         this.x = x;
@@ -55,7 +57,7 @@ public abstract class Plot {
         waterSourceNumber = 0;
         lightSourceNumber = 0;
         temperatureSourceNumber = 0;
-        neighboursPipes = new boolean[] {false, false, false, false};
+        this.pipeHolder = new PipeHolder();
     }
 
     public abstract void update();
@@ -77,6 +79,7 @@ public abstract class Plot {
 
     public void setWaterSource(WaterSource waterSource) {
         this.waterSource = waterSource;
+        this.pipeHolder.setWaterSource(this.waterSource);
     }
 
     public void setLightSource(LightSource lightSource) {
@@ -151,35 +154,81 @@ public abstract class Plot {
         this.lightSourceNumber = lightSourceNumber;
     }
 
-    public void addPipe(PipeType pt){
-        this.pipe = Pipe.pipes.get(pt);
+    public PipeHolder addPipe(PipeType pt){
+        Pipe p = this.pipeHolder.setPipe(pt);
+
+        // Look for near water
+        calcWaterSourceFromPipe(-1);
+
+        return this.pipeHolder;
     }
 
-    public void removePipe(){
-        this.pipe = null;
-    }
+    private void calcWaterSourceFromPipe(int indexToIgnore) {
 
-    public boolean hasPipe(){
-        return this.pipe != null;
-    }
+        // If he has any nearby pipe :
+        boolean[] neighbourPipes = this.pipeHolder.hasNeighboursPipes();
+        boolean hasAnyNbP = false;
+        for (boolean neighbourPipe : neighbourPipes) {
+            if (neighbourPipe) {
+                hasAnyNbP = true;
+                break;
+            }
+        }
 
-    public void addNeighbourPipe(int index) {
-        // 0:top, 1:right, 2:bottom, 3:left
-        if (index <= 3 && index >= 0){
-            this.neighboursPipes[index] = true;
+        if (hasAnyNbP) {
+            ArrayList<WaterSource> wss = new ArrayList<>();
+
+            // There is a pipe here
+            for (int i = 0; i < neighbourPipes.length; i++) {
+                if (neighbourPipes[i] && i != indexToIgnore) {
+                    // The pipe has water
+                    if (this.pipeHolder.getNeighbourPipe(i).hasWaterSource()) {
+                        // We get this water
+                        wss.add(this.pipeHolder.getNeighbourPipe(i).getWaterSource());
+                    }
+                }
+            }
+
+            // If we did find water :
+            if (!wss.isEmpty()) {
+                // Taking them all ;) (if there is no water source)
+                if (!this.hasWaterSource()) {
+                    int totalStrength = 0;
+                    int totalLength = 0;
+                    for (WaterSource source : wss) {
+                        totalStrength += source.getStrength();
+                        totalLength += source.getLength();
+                    }
+
+                    WaterSource ws = new WaterSource(totalStrength, totalLength);
+                    ws.setFromProp(false);
+
+                    // Remove ancient sources
+                    Scheduler.getScheduler().removeWaterSourceOf(x, y);
+
+                    this.setWaterSource(ws);
+
+                    Scheduler.getScheduler().addImpactFromSourceOf(x, y);
+                }
+            }
         }
     }
 
-    public void removeNeighbourPipe(int index) {
-        // 0:top, 1:right, 2:bottom, 3:left
-        if (index <= 3 && index >= 0){
-            this.neighboursPipes[index] = false;
+    public void setAsNeighbourPipe(int index, PipeHolder ph){
+        this.pipeHolder.addNeighbourPipe(index, ph);
+
+        if (this.hasWaterSource()){
+            if (!this.waterSource.isFromProp()) {
+                calcWaterSourceFromPipe((index + 2) % 4);
+            }
         }
     }
 
-    public boolean[] getNeighboursPipes() {
-        return this.neighboursPipes;
+    public PipeHolder getPipeHolder() {
+        return this.pipeHolder;
     }
+
+
 
     @Override
     public abstract String toString();

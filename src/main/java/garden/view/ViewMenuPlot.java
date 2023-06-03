@@ -80,7 +80,7 @@ public class ViewMenuPlot extends JPanel {
         // Plot information
         if (g.getPlot(fp[0], fp[1]).hasWaterSource()) {
             this.plotContentLevels.setText("<html>" +
-                    "<p> ws:" + g.getPlot(fp[0], fp[1]).hasWaterSource() + " - p:" + g.getPlot(fp[0], fp[1]).hasPipe() + "</p>" +
+                    "<p> ws:" + g.getPlot(fp[0], fp[1]).hasWaterSource() + " - p:" + g.getPlot(fp[0], fp[1]).getPipeHolder().hasPipe() + "</p>" +
                     "<p> str: " + g.getPlot(fp[0], fp[1]).getWaterSource().getStrength() + " l:" + g.getPlot(fp[0], fp[1]).getWaterSource().getLength() + "</p>" +
                     "<p> nbsrc: " + g.getPlot(fp[0], fp[1]).getWaterSourceNumber() + "</p>" +
                     "<p> Humidité : " + g.getPlot(fp[0], fp[1]).getWaterLevel() + "</p>" +
@@ -89,7 +89,7 @@ public class ViewMenuPlot extends JPanel {
                     "</html>");
         } else {
             this.plotContentLevels.setText("<html>" +
-                    "<p> ws:" + g.getPlot(fp[0], fp[1]).hasWaterSource() + " - p:" + g.getPlot(fp[0], fp[1]).hasPipe() + "</p>" +
+                    "<p> ws:" + g.getPlot(fp[0], fp[1]).hasWaterSource() + " - p:" + g.getPlot(fp[0], fp[1]).getPipeHolder().hasPipe() + "</p>" +
                     "<p> nbsrc: " + g.getPlot(fp[0], fp[1]).getWaterSourceNumber() + "</p>" +
                     "<p> Humidité : " + g.getPlot(fp[0], fp[1]).getWaterLevel() + "</p>" +
                     "<p> Luminosité : " + g.getPlot(fp[0], fp[1]).getLightLevel() + "</p>" +
