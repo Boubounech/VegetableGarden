@@ -151,8 +151,17 @@ public abstract class Plot {
         this.lightSourceNumber = lightSourceNumber;
     }
 
+    public void initPipes(Pipe pipe, boolean[] neighboursPipes){
+        this.pipe = pipe;
+        this.neighboursPipes = neighboursPipes;
+    }
+
     public void addPipe(PipeType pt){
         this.pipe = Pipe.pipes.get(pt);
+    }
+
+    public Pipe getPipe() {
+        return this.pipe;
     }
 
     public void removePipe(){

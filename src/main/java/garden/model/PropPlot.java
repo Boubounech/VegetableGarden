@@ -40,12 +40,18 @@ public class PropPlot extends Plot {
 
     public void setProp(PropType pt) {
         setRawProp(pt);
-        if (this.prop.getHumidityStrength() != 0 && this.prop.getHumidityLength() != 0)
+        if (this.prop.getHumidityStrength() != 0 && this.prop.getHumidityLength() != 0) {
             this.setWaterSource(new WaterSource(this.prop.getHumidityStrength(), this.prop.getHumidityLength()));
-        if (this.prop.getLightStrength() != 0 && this.prop.getLightLength() != 0)
+            this.getWaterSource().setFromProp(true);
+        }
+        if (this.prop.getLightStrength() != 0 && this.prop.getLightLength() != 0) {
             this.setLightSource(new LightSource(this.prop.getLightStrength(), this.prop.getLightLength()));
-        if (this.prop.getTemperatureStrength() != 0 && this.prop.getTemperatureLength() != 0)
+            this.getLightSource().setFromProp(true);
+        }
+        if (this.prop.getTemperatureStrength() != 0 && this.prop.getTemperatureLength() != 0) {
             this.setTemperatureSource(new TemperatureSource(this.prop.getTemperatureStrength(), this.prop.getTemperatureLength()));
+            this.getTemperatureSource().setFromProp(true);
+        }
         Scheduler.getScheduler().addImpactFromSourceOf(this.getX(), this.getY());
     }
 

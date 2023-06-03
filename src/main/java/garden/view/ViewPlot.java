@@ -64,6 +64,9 @@ public class ViewPlot extends JPanel {
 
             if (this.item == View.pictures.get("pond"))
                 g2d.drawImage(View.pictures.get("pipePond"), 0, 0, this.getWidth(), this.getHeight(), this);
+
+            if (!this.neighboursPipes[0] && !this.neighboursPipes[1] && !this.neighboursPipes[2] && !this.neighboursPipes[3])
+                g2d.drawImage(View.pictures.get("pipeCenter"), 0, 0, this.getWidth(), this.getHeight(), this);
         }
 
 
