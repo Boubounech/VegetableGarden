@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class PropPlot extends Plot {
     private Prop prop;
-    private static int priceToRemove;
-    private static int priceIncrement;
+    private static int priceToRemove = 1;
+    private static int priceIncrement = 1;
 
 
     public PropPlot(int x, int y) {
@@ -13,9 +13,6 @@ public class PropPlot extends Plot {
         PropType[] basicsProps = new PropType[] {PropType.none, PropType.flowers, PropType.rocks};
         int randVal = (new Random()).nextInt(basicsProps.length);
         setRawProp(basicsProps[randVal]);
-        priceToRemove = 1;
-        priceIncrement = 1;
-
     }
 
     @Override
@@ -28,6 +25,10 @@ public class PropPlot extends Plot {
         if (this.prop == null)
             return "empty";
         return this.prop.getType().toString();
+    }
+
+    public boolean isPlantable() {
+        return false;
     }
 
     public Prop getProp(){

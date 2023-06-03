@@ -78,24 +78,7 @@ public class ViewMenuPlot extends JPanel {
         this.plotPic.setHumidity(g.getPlot(fp[0], fp[1]).getWaterLevel());
 
         // Plot information
-        if (g.getPlot(fp[0], fp[1]).hasWaterSource()) {
-            this.plotContentLevels.setText("<html>" +
-                    "<p> ws:" + g.getPlot(fp[0], fp[1]).hasWaterSource() + " - p:" + g.getPlot(fp[0], fp[1]).hasPipe() + "</p>" +
-                    "<p> str: " + g.getPlot(fp[0], fp[1]).getWaterSource().getStrength() + " l:" + g.getPlot(fp[0], fp[1]).getWaterSource().getLength() + "</p>" +
-                    "<p> nbsrc: " + g.getPlot(fp[0], fp[1]).getWaterSourceNumber() + "</p>" +
-                    "<p> Humidité : " + g.getPlot(fp[0], fp[1]).getWaterLevel() + "</p>" +
-                    "<p> Luminosité : " + g.getPlot(fp[0], fp[1]).getLightLevel() + "</p>" +
-                    "<p> Température : " + g.getPlot(fp[0], fp[1]).getTemperatureLevel() + "</p>" +
-                    "</html>");
-        } else {
-            this.plotContentLevels.setText("<html>" +
-                    "<p> ws:" + g.getPlot(fp[0], fp[1]).hasWaterSource() + " - p:" + g.getPlot(fp[0], fp[1]).hasPipe() + "</p>" +
-                    "<p> nbsrc: " + g.getPlot(fp[0], fp[1]).getWaterSourceNumber() + "</p>" +
-                    "<p> Humidité : " + g.getPlot(fp[0], fp[1]).getWaterLevel() + "</p>" +
-                    "<p> Luminosité : " + g.getPlot(fp[0], fp[1]).getLightLevel() + "</p>" +
-                    "<p> Température : " + g.getPlot(fp[0], fp[1]).getTemperatureLevel() + "</p>" +
-                    "</html>");
-        }
+        showLevels(g, fp);
 
         // if plot is cultivable
         if (g.getPlot(fp[0], fp[1]) instanceof CultivablePlot cp) {
@@ -218,5 +201,14 @@ public class ViewMenuPlot extends JPanel {
                 }
             }
         }
+    }
+
+    private void showLevels(Garden g, int[] fp) {
+        this.plotContentLevels.setText("<html>" +
+                (g.getPlot(fp[0], fp[1]).isPlantable() ? (((CultivablePlot)g.getPlot(fp[0], fp[1])).containsVegetable() ? "<p> Multiplicateur de pousse : x" + ((CultivablePlot)g.getPlot(fp[0], fp[1])).getGrowMultiplier() + "</p>" : "") : "") +
+                "<p> Humidité : " + g.getPlot(fp[0], fp[1]).getWaterLevel() + "</p>" +
+                "<p> Luminosité : " + g.getPlot(fp[0], fp[1]).getLightLevel() + "</p>" +
+                "<p> Température : " + g.getPlot(fp[0], fp[1]).getTemperatureLevel() + "</p>" +
+                "</html>");
     }
 }

@@ -29,7 +29,7 @@ public class KeyListener extends KeyAdapter {
         if(e.getKeyCode()==KeyEvent.VK_S || e.getKeyCode()==KeyEvent.VK_DOWN){
             setFocusedPlot((focusedPlot[0] + 1) % plots[0].length, focusedPlot[1]);
         }
-        if(e.getKeyCode()==KeyEvent.VK_C){
+        if(plots[focusedPlot[0]][focusedPlot[1]].getIsProp() && e.getKeyCode()==KeyEvent.VK_C){
             if(((PropPlot)(Scheduler.getScheduler().getGarden().getPlot(focusedPlot[0], focusedPlot[1]))).getProp().getType() != PropType.pond
                     && Player.getInstance().getMoney() >= PropPlot.getPriceToRemove()
                     && plots[focusedPlot[0]][focusedPlot[1]].getIsProp()){

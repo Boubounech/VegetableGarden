@@ -142,6 +142,8 @@ public abstract class Plot {
     public int getX() {return this.x;}
     public int getY() {return this.y;}
 
+    public abstract boolean isPlantable();
+
     public void initSources(int waterLevel, int temperatureLevel, int lightLevel, int waterSourceNumber, int temperatureSourceNumber, int lightSourceNumber){
         this.waterLevel = waterLevel;
         this.temperatureLevel = temperatureLevel;
