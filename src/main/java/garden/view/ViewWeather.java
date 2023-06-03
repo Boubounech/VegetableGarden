@@ -14,7 +14,6 @@ public class ViewWeather extends JPanel {
     private WeatherType displayedWeather;
 
     public ViewWeather() {
-
         // Weather
         this.setLayout(new BorderLayout());
         this.weatherPic = new JLabel();

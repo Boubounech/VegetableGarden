@@ -139,8 +139,8 @@ public class ViewMenuPlot extends JPanel {
         if (g.getPlot(fp[0], fp[1]) instanceof PropPlot) {
             if(((PropPlot)(Scheduler.getScheduler().getGarden().getPlot(fp[0], fp[1]))).getProp().getType() != PropType.pond){
                 newButtonsToShow = new JButton[1];
-                newButtonsToShow[0] = new JButton("Rendre cultivable");
-                newButtonsToShow[0].addActionListener(e -> Scheduler.getScheduler().setIsProp(fp[0], fp[1], false));
+                newButtonsToShow[0] = new JButton("Rendre cultivable (" + PropPlot.getPriceToRemove() + " g$)");
+                newButtonsToShow[0].addActionListener(e -> Scheduler.getScheduler().removeProp(fp[0], fp[1]));
             }
             else{
                 newButtonsToShow = new JButton[0];
