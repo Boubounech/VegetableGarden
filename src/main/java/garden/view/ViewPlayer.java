@@ -1,5 +1,6 @@
 package garden.view;
 
+import garden.PictureLoader;
 import garden.model.Player;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class ViewPlayer extends JPanel {
         this.moneyAmount.setHorizontalAlignment(SwingConstants.RIGHT);
 
         JLabel moneyPic = new JLabel();
-        moneyPic.setIcon(new ImageIcon(View.pictures.get("gardenDollar")));
+        moneyPic.setIcon(new ImageIcon(PictureLoader.get("gardenDollar")));
 
         this.add(new JSeparator(), BorderLayout.PAGE_START);
         this.add(moneyText, BorderLayout.LINE_START);

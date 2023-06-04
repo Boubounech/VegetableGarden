@@ -1,5 +1,6 @@
 package garden.view;
 
+import garden.PictureLoader;
 import garden.model.*;
 
 import javax.swing.*;
@@ -103,7 +104,7 @@ public class ViewMenuPlot extends JPanel {
             // Plot content infos
             if (cp.containsVegetable()) {
                 if (!Objects.equals(this.plotContentName.getText(), cp.getVegetable().getName())) {
-                    this.plotContentPic.setIcon(new ImageIcon(View.pictures.get(cp.getVegetable().getType().toString() + "4").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
+                    this.plotContentPic.setIcon(new ImageIcon(PictureLoader.get(cp.getVegetable().getType().toString() + "4").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
                     this.plotContentName.setText(cp.getVegetable().getName());
                     this.plotContentDescription.setText("<html>" +
                             "<p>" + cp.getVegetable().getDescription() + "</p>" +
@@ -113,7 +114,7 @@ public class ViewMenuPlot extends JPanel {
                 vmb.update(cp, g.getPlot(fp[0], fp[1]).getWaterLevel(), g.getPlot(fp[0], fp[1]).getLightLevel(), g.getPlot(fp[0], fp[1]).getTemperatureLevel());
             } else {
                 if (!Objects.equals(this.plotContentName.getText(), "Terre")) {
-                    this.plotContentPic.setIcon(new ImageIcon(View.pictures.get("none").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
+                    this.plotContentPic.setIcon(new ImageIcon(PictureLoader.get("none").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
                     this.plotContentName.setText("Terre");
                     this.plotContentDescription.setText("<html><p>De la terre qui n'attend plus que des cultures.</p></html>");
                 }
@@ -127,7 +128,7 @@ public class ViewMenuPlot extends JPanel {
                 this.plotPic.setIsProp(true);
 
             // Plot content infos
-            this.plotContentPic.setIcon(new ImageIcon(View.pictures.get(pp.getProp().getType().toString()).getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
+            this.plotContentPic.setIcon(new ImageIcon(PictureLoader.get(pp.getProp().getType().toString()).getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
             this.plotContentName.setText(pp.getProp().getName());
             this.plotContentDescription.setText("<html><p>" + pp.getProp().getDescription() + "</p></html>");
 

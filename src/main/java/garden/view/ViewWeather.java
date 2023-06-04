@@ -1,5 +1,6 @@
 package garden.view;
 
+import garden.PictureLoader;
 import garden.model.Weather;
 import garden.model.WeatherType;
 
@@ -68,7 +69,7 @@ public class ViewWeather extends JPanel {
             this.weatherWater.setText(String.valueOf(currentWeather.getHumidity()) + " %");
             this.weatherLight.setText(String.valueOf(currentWeather.getLight()) + " %");
             this.weatherTemperature.setText(df.format((currentWeather.getTemperature() * 0.8) - 20) + " °C");
-            this.weatherPic.setIcon(new ImageIcon(View.pictures.get(currentWeather.getType().toString()).getScaledInstance(48 * 2, 48 * 2, Image.SCALE_DEFAULT)));
+            this.weatherPic.setIcon(new ImageIcon(PictureLoader.get(currentWeather.getType().toString()).getScaledInstance(48 * 2, 48 * 2, Image.SCALE_DEFAULT)));
 
             this.displayedWeather = currentWeather.getType();
         }
