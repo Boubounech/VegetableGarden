@@ -8,10 +8,10 @@
         "growTime": 50,
         "idealHumidity": 40,
         "idealLight": 70,
-        "idealTemperature": 50,
+        "idealTemperature": 47,
         "rangeLimitHumidity": 60,
         "rangeLimitLight": 40,
-        "rangeLimitTemperature": 25
+        "rangeLimitTemperature": 28
     },
     {
         "type": "carrot",
@@ -22,10 +22,10 @@
         "growTime": 25,
         "idealHumidity": 50,
         "idealLight": 70,
-        "idealTemperature": 50,
+        "idealTemperature": 54,
         "rangeLimitHumidity": 50,
         "rangeLimitLight": 50,
-        "rangeLimitTemperature": 50
+        "rangeLimitTemperature": 29
     },
     {
         "type": "eggplant",
@@ -36,10 +36,10 @@
         "growTime": 75,
         "idealHumidity": 50,
         "idealLight": 60,
-        "idealTemperature": 30,
+        "idealTemperature": 43,
         "rangeLimitHumidity": 25,
         "rangeLimitLight": 15,
-        "rangeLimitTemperature": 15
+        "rangeLimitTemperature": 27
     },
     {
         "type": "tomato",
@@ -50,10 +50,10 @@
         "growTime": 75,
         "idealHumidity": 60,
         "idealLight": 80,
-        "idealTemperature": 50,
+        "idealTemperature": 53,
         "rangeLimitHumidity": 20,
         "rangeLimitLight": 20,
-        "rangeLimitTemperature": 25
+        "rangeLimitTemperature": 31
     },
     {
         "type": "salad",
@@ -64,10 +64,10 @@
         "growTime": 100,
         "idealHumidity": 75,
         "idealLight": 80,
-        "idealTemperature": 50,
+        "idealTemperature": 48,
         "rangeLimitHumidity": 15,
         "rangeLimitLight": 40,
-        "rangeLimitTemperature": 50
+        "rangeLimitTemperature": 29
     },
     {
         "type": "pumpkin",
@@ -78,9 +78,9 @@
         "growTime": 125,
         "idealHumidity": 90,
         "idealLight": 90,
-        "idealTemperature": 50,
+        "idealTemperature": 48,
         "rangeLimitHumidity": 10,
         "rangeLimitLight": 20,
-        "rangeLimitTemperature": 15
+        "rangeLimitTemperature": 29
     }
 ]

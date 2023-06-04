@@ -4,6 +4,7 @@ import garden.model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 public class ViewMenuPlot extends JPanel {
@@ -204,11 +205,12 @@ public class ViewMenuPlot extends JPanel {
     }
 
     private void showLevels(Garden g, int[] fp) {
+        DecimalFormat df = new DecimalFormat("0.0");
         this.plotContentLevels.setText("<html>" +
                 (g.getPlot(fp[0], fp[1]).isPlantable() ? (((CultivablePlot)g.getPlot(fp[0], fp[1])).containsVegetable() ? "<p> Multiplicateur de pousse : x" + ((CultivablePlot)g.getPlot(fp[0], fp[1])).getGrowMultiplier() + "</p>" : "") : "") +
-                "<p> Humidité : " + g.getPlot(fp[0], fp[1]).getWaterLevel() + "</p>" +
-                "<p> Luminosité : " + g.getPlot(fp[0], fp[1]).getLightLevel() + "</p>" +
-                "<p> Température : " + g.getPlot(fp[0], fp[1]).getTemperatureLevel() + "</p>" +
+                "<p> Humidité : " + g.getPlot(fp[0], fp[1]).getWaterLevel() + "%</p>" +
+                "<p> Luminosité : " + g.getPlot(fp[0], fp[1]).getLightLevel() + "%</p>" +
+                "<p> Température : " + df.format((g.getPlot(fp[0], fp[1]).getTemperatureLevel() * 0.8) - 20) + "°C</p>" +
                 "</html>");
     }
 }

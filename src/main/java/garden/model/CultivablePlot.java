@@ -110,7 +110,7 @@ public class CultivablePlot extends Plot {
             waterMultiplier = 0.5;
         }
         if(this.getLightLevel() - vegetable.getIdealLight() <= vegetable.getRangeLimitLight()/2){
-            lightMultiplier = 4;
+            lightMultiplier = 3;
         }
         else if(this.getLightLevel() - vegetable.getIdealLight() <= vegetable.getRangeLimitLight()){
             lightMultiplier = 2;
@@ -124,8 +124,7 @@ public class CultivablePlot extends Plot {
         else{
             temperatureMultiplier = 1;
         }
-        //TODO : modify temperature
-        growMultiplier = waterMultiplier * lightMultiplier/* * temperatureMultiplier*/;
+        growMultiplier = waterMultiplier * lightMultiplier * temperatureMultiplier;
         if(growMultiplier < 1){
            growMultiplier = new Random().nextInt(0, 1);
         }
