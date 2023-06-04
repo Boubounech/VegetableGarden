@@ -1,5 +1,7 @@
 package garden.view;
 
+import garden.PictureLoader;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -41,36 +43,36 @@ public class ViewPlot extends JPanel {
                 AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 
                 g2d.setComposite(ac);
-                g2d.drawImage(View.pictures.get("dryFilter"), 0, 0, this.getWidth(), this.getHeight(), this);
+                g2d.drawImage(PictureLoader.get("dryFilter"), 0, 0, this.getWidth(), this.getHeight(), this);
             } else {
                 float alpha = Math.max(Math.min((this.humidity - 50.0f) / 50.0f, 1.0f), 0.0f);
                 AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 
                 g2d.setComposite(ac);
-                g2d.drawImage(View.pictures.get("wetFilter"), 0, 0, this.getWidth(), this.getHeight(), this);
+                g2d.drawImage(PictureLoader.get("wetFilter"), 0, 0, this.getWidth(), this.getHeight(), this);
             }
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         }
 
         if (this.hasPipe) {
             if (this.neighboursPipes[0])
-                g2d.drawImage(View.pictures.get("pipeBottom"), 0, 0, this.getWidth(), this.getHeight(), this);
+                g2d.drawImage(PictureLoader.get("pipeBottom"), 0, 0, this.getWidth(), this.getHeight(), this);
             if (this.neighboursPipes[1])
-                g2d.drawImage(View.pictures.get("pipeRight"), 0, 0, this.getWidth(), this.getHeight(), this);
+                g2d.drawImage(PictureLoader.get("pipeRight"), 0, 0, this.getWidth(), this.getHeight(), this);
             if (this.neighboursPipes[2])
-                g2d.drawImage(View.pictures.get("pipeTop"), 0, 0, this.getWidth(), this.getHeight(), this);
+                g2d.drawImage(PictureLoader.get("pipeTop"), 0, 0, this.getWidth(), this.getHeight(), this);
             if (this.neighboursPipes[3])
-                g2d.drawImage(View.pictures.get("pipeLeft"), 0, 0, this.getWidth(), this.getHeight(), this);
+                g2d.drawImage(PictureLoader.get("pipeLeft"), 0, 0, this.getWidth(), this.getHeight(), this);
 
-            if (this.item == View.pictures.get("pond"))
-                g2d.drawImage(View.pictures.get("pipePond"), 0, 0, this.getWidth(), this.getHeight(), this);
+            if (this.item == PictureLoader.get("pond"))
+                g2d.drawImage(PictureLoader.get("pipePond"), 0, 0, this.getWidth(), this.getHeight(), this);
         }
 
 
         g2d.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
 
         if (this.isFocused) {
-            g2d.drawImage(View.pictures.get("border"), 0, 0, this.getWidth(), this.getHeight(), this);
+            g2d.drawImage(PictureLoader.get("border"), 0, 0, this.getWidth(), this.getHeight(), this);
         }
     }
 
@@ -80,9 +82,9 @@ public class ViewPlot extends JPanel {
         this.isProp = isProp;
         this.item = null;
         if (isProp)
-            this.background = View.pictures.get("emptyPlot");
+            this.background = PictureLoader.get("emptyPlot");
         else
-            this.background = View.pictures.get("cultivablePlot");
+            this.background = PictureLoader.get("cultivablePlot");
 
         repaint();
     }
@@ -104,7 +106,7 @@ public class ViewPlot extends JPanel {
     }
 
     public void setItem(String itemName){
-        this.item = View.pictures.get(itemName);
+        this.item = PictureLoader.get(itemName);
         repaint();
     }
 

@@ -7,6 +7,7 @@ import garden.model.Scheduler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,19 +23,18 @@ import java.util.Observer;
 public class View extends JFrame implements Observer {
     private JPanel mainPanel;
 
-    public static Map<String, Image> pictures = new HashMap<String, Image>();
-
     private ViewGarden garden;
     private ViewMenu menu;
     private ViewMenuHelp menuHelp;
     private GridBagLayout mainLayout;
     private GridBagConstraints constraints;
 
+    public static boolean isActive = true;
+
     /**
      * Constructor
      */
     public View() {
-        View.loadPictures();
         build();
     }
 
@@ -85,21 +85,16 @@ public class View extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if(!isActive) {
+            setEnabled(false);
+        }
+        else {
+            if(!isEnabled()) {
+                setEnabled(true);
+                requestFocus();
+            }
+        }
         this.garden.update(Scheduler.getScheduler().getGarden());
         this.menu.update(Scheduler.getScheduler().getGarden(), this.garden.getFocusedPlot(), Scheduler.getScheduler().getWeather(), Player.getInstance());
-    }
-
-    public static void loadPictures(){
-        Gson gson = new Gson();
-        String json = null;
-        try {
-             json = JsonFileReader.readJSON("src/main/resources/json/pictures.json");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        String[] picturesAsArray = gson.fromJson(json, String[].class);
-        for(String p : picturesAsArray){
-            pictures.put(p, Toolkit.getDefaultToolkit().getImage("src/main/resources/pictures/"+p+".png"));
-        }
     }
 }

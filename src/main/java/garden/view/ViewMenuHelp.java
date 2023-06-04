@@ -36,8 +36,14 @@ public class ViewMenuHelp extends JToolBar {
 
         this.setFloatable(false);
 
-        keyHelpItem.addActionListener(e -> System.out.println("keyHelp"));
+        keyHelpItem.addActionListener(e -> {
+            View.isActive = false;
+            new ViewKeyHelp().requestFocus();
+        });
 
-        vegetableHelpItem.addActionListener(e -> System.out.println("vegetableHelp"));
+        vegetableHelpItem.addActionListener(e -> {
+            View.isActive = false;
+            new ViewVegetableHelp().requestFocus();
+        });
     }
 }

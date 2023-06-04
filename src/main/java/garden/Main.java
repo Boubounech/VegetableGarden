@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
+        PictureLoader.loadPictures();
         Scheduler scheduler = Scheduler.getScheduler();
         new Thread(scheduler).start();
 
