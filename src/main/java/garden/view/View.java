@@ -26,19 +26,58 @@ public class View extends JFrame implements Observer {
 
     private ViewGarden garden;
     private ViewMenu menu;
+    private ViewMenuHelp menuHelp;
+    private GridBagLayout mainLayout;
+    private GridBagConstraints constraints;
 
     /**
      * Constructor
      */
     public View() {
         View.loadPictures();
-        this.setTitle("Garden Simulator 3000");
+        build();
+    }
+
+    private void build() {
+        //Create the main panel
         this.mainPanel = new JPanel();
+
+        //Create the garden and the menus
         this.garden = new ViewGarden();
         this.menu = new ViewMenu();
+        this.menuHelp = new ViewMenuHelp();
+        this.mainLayout = new GridBagLayout();
+        this.mainPanel.setLayout(this.mainLayout);
+        this.constraints = new GridBagConstraints();
+        this.constraints.fill = GridBagConstraints.BOTH;
+
+        //Add the component menuHelp to the main panel
+        this.constraints.gridx = 0;
+        this.constraints.gridy = 0;
+        this.constraints.gridwidth = 2;
+        this.mainLayout.setConstraints(this.menuHelp, this.constraints);
+        this.mainPanel.add(this.menuHelp);
+
+        //Add the component garden to the main panel
+        this.constraints.insets = new Insets(0, 10, 10, 10);
+        this.constraints.gridx = 0;
+        this.constraints.gridy = 1;
+        this.constraints.gridwidth = 1;
+        this.mainLayout.setConstraints(this.garden, this.constraints);
         this.mainPanel.add(this.garden);
+
+        //Add the component menu to the main panel
+                this.constraints.insets = new Insets(0, 10, 10, 10);
+        this.constraints.gridx = 1;
+        this.constraints.gridy = 1;
+        this.mainLayout.setConstraints(this.menu, this.constraints);
         this.mainPanel.add(this.menu);
+
+        //Set the main panel as the content pane
         this.setContentPane(this.mainPanel);
+
+        //Set the window's properties
+        this.setTitle("Garden Simulator 3000");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1000, 1000);
         this.pack();
