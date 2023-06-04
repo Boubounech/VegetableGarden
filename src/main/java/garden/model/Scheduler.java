@@ -138,7 +138,9 @@ public class Scheduler extends Observable implements Runnable {
 
     public void swapPipe(int x, int y){
         if (!this.garden.getPlot(x, y).hasPipe()){
-            this.garden.addPipe(x, y, PipeType.pipe);
+            if (Player.getInstance().pay(Pipe.pipes.get(PipeType.pipe).getPrice())) {
+                this.garden.addPipe(x, y, PipeType.pipe);
+            }
         } else {
             this.garden.removePipe(x, y);
         }

@@ -173,7 +173,7 @@ public class ViewMenuPlot extends JPanel {
         if (g.getPlot(fp[0], fp[1]).hasPipe()) {
             this.pipeButton.setText("Retirer le tuyau");
         } else {
-            this.pipeButton.setText("Poser un tuyau");
+            this.pipeButton.setText("Poser un tuyau (" + Pipe.pipes.get(PipeType.pipe).getPrice() + " g$)");
         }
 
         // Remove all buttons

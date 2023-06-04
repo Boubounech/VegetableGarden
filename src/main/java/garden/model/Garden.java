@@ -1,10 +1,7 @@
 package garden.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  *
@@ -31,18 +28,25 @@ public class Garden implements Runnable {
 
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++) {
-                int alea = r.nextInt(2);
-                if (alea == 0)
-                    this.plots[x][y] = new PropPlot(x, y);
-                else
-                    this.plots[x][y] = new CultivablePlot(x, y);
+                this.plots[x][y] = new PropPlot(x, y);
             }
         }
+
+        ((PropPlot)(this.plots[7][7])).setRawProp(PropType.pond);
+
+        int[][] cult = new int[][] {
+                { 6, 6 }, { 6, 7 }, { 6, 8 }, { 6, 9 },
+                { 7, 6 },           { 7, 8 }, { 7, 9 },
+                { 8, 6 }, { 8, 7 }, { 8, 8 }, { 8, 9 },
+                { 9, 6 }, { 9, 7 }, { 9, 8 }, { 9, 9 }
+        };
+        for (int[] cultPlot : cult) {
+            this.plots[cultPlot[0]][cultPlot[1]] = new CultivablePlot(cultPlot[0], cultPlot[1]);
+        }
+
     }
 
     public void updateAllSources(){
-        this.plots[7][7] = new PropPlot(7, 7);
-        ((PropPlot)(this.plots[7][7])).setRawProp(PropType.pond);
 
         for(int x = 0; x < this.plots.length; x++){
             for(int y = 0; y < this.plots[0].length; y++) {

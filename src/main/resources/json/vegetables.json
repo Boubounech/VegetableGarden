@@ -44,7 +44,7 @@
     {
         "type": "tomato",
         "name": "Tomate",
-        "description": "C'est un fruit rouge.",
+        "description": "Plus de 500 000 graines de tomates sont allées sur l'ISS. Et en sont revenues !",
         "seedPrice": 250,
         "sellPrice": 500,
         "growTime": 75,
@@ -58,7 +58,7 @@
     {
         "type": "salad",
         "name": "Salade",
-        "description": "A ne pas confondre avec les choux.",
+        "description": "Dans un frigo avec des pommes ou des bananes, la salade s'abîme plus vite...",
         "seedPrice": 2500,
         "sellPrice": 5000,
         "growTime": 100,

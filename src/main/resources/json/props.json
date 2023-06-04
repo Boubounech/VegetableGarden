@@ -44,7 +44,7 @@
     "humidityStrength": 100,
     "temperatureStrength": 0,
     "lightLength": 0,
-    "humidityLength": 5,
+    "humidityLength": 4,
     "temperatureLength": 0
   }
 ]
