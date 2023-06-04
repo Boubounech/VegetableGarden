@@ -55,5 +55,6 @@
   "pipeTop",
   "pipeBottom",
   "pipeRight",
-  "pipeLeft"
+  "pipeLeft",
+  "pipeCenter"
 ]

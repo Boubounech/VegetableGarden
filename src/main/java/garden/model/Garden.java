@@ -2,6 +2,7 @@ package garden.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -93,51 +94,96 @@ public class Garden implements Runnable {
         if (y < this.plots[0].length - 1)
             this.plots[x][y+1].addNeighbourPipe(3);
 
-        addWaterSourceFromPipe(x, y, pt);
+        recalcPipesWaterSources();
     }
 
-    public void addWaterSourceFromPipe(int x, int y, PipeType pt) {
-        if (!this.plots[x][y].hasWaterSource()) { // remove pond from this function
-            // Get water source strength and level from around
-            WaterSource ws = getUsableWaterSource(x, y);
-            if (ws != null) {
-                float waterConduct = (float) Pipe.pipes.get(pt).getWaterConduct() / 100.0f;
-                ws.setSourceData((int) (ws.getStrength() * waterConduct), Math.max((int) (ws.getLength() * waterConduct), 1), false);
-                this.plots[x][y].setWaterSource(ws);
-                // Remove existing sources to not count them twice
-                Scheduler.getScheduler().addImpactFromSourceOf(x, y);
+    private void recalcPipesWaterSources() {
+        // Get prop water sources
+        ArrayList<int[]> propWaterSources = new ArrayList<>();
+
+        for (int x = 0; x < this.plots.length; x++){
+            for (int y = 0; y < this.plots[0].length; y++){
+                if (this.plots[x][y].hasWaterSource()) {
+                    if (this.plots[x][y].getWaterSource().isFromProp()) {
+                        propWaterSources.add(new int[] {x, y});
+                    } else {
+                        Scheduler.getScheduler().removeWaterSourceOf(x, y);
+                    }
+                }
+            }
+        }
+
+        if (propWaterSources.isEmpty()){
+            System.out.println("No Water Source with pipe");
+            return;
+        }
+
+        //ArrayList<int[]> directSurroundings = getNearPipes(propWaterSources.get(0)[0], propWaterSources.get(0)[1]);
+        // Recursively add water sources to each pipe surroundings water source
+        recurAddWaterSources(propWaterSources.get(0)[0], propWaterSources.get(0)[1], propWaterSources);
+
+        // Enjoy :D
+    }
+
+    private void recurAddWaterSources(int x, int y, ArrayList<int[]> alreadyDone) {
+        //System.out.println("Going for " + x + ", " + y);
+
+        alreadyDone.add(new int[] {x, y});
+
+        ArrayList<int[]> around = getNearPipes(x, y);
+
+        if (around.isEmpty())
+            return;
+
+        for (int[] p : around) {
+            if (!this.plots[p[0]][p[1]].hasWaterSource()) {
+                int strength = 0;
+                int length = 0;
+                if (this.plots[x][y].getWaterSource().isFromProp()) {
+                    strength = (int) (this.plots[x][y].getWaterSource().getStrength() * ((float) this.plots[p[0]][p[1]].getPipe().getWaterConduct() / 100.0f));
+                    length = (int) (this.plots[x][y].getWaterSource().getLength() * ((float) this.plots[p[0]][p[1]].getPipe().getWaterConduct() / 100.0f));
+                } else {
+                    strength = this.plots[x][y].getWaterSource().getStrength();
+                    length = this.plots[x][y].getWaterSource().getLength();
+                }
+                WaterSource ws = new WaterSource(strength, length);
+                ws.setFromProp(false);
+                this.plots[p[0]][p[1]].setWaterSource(ws);
+                Scheduler.getScheduler().addImpactFromSourceOf(p[0], p[1]);
+            }
+
+            // If we haven't done the next one
+            boolean alrDone = false;
+            for (int[] ad : alreadyDone) {
+                if (ad[0] == p[0] && ad[1] == p[1]) {
+                    alrDone = true;
+                }
+            }
+
+            if (!alrDone) {
+                recurAddWaterSources(p[0], p[1], alreadyDone);
             }
         }
     }
 
-    public WaterSource getUsableWaterSource(int x, int y) {
-        ArrayList<WaterSource> wss = new ArrayList<WaterSource>();
-        for (int xi = -1; xi < 2; xi += 2) {
-            if (x+xi >= 0 && x+xi < this.plots.length)
-                if (this.plots[x+xi][y].hasPipe()) {
-                    if (this.plots[x+xi][y].hasWaterSource())
-                        wss.add(this.plots[x+xi][y].getWaterSource());
-                }
-        }
-        for (int yi = -1; yi < 2; yi++) {
-            if (y+yi >= 0 && y+yi < this.plots[0].length)
-                if (this.plots[x][y+yi].hasPipe()) {
-                    if (this.plots[x][y+yi].hasWaterSource())
-                        wss.add(this.plots[x][y+yi].getWaterSource());
-                }
-        }
-        if (wss.isEmpty()) { // No water nearby
-            return null;
-        } else {
-            WaterSource higher = new WaterSource(0, 0);
-            for (int i = 0; i < wss.size(); i++) {
-                if (wss.get(i).getStrength() > higher.getStrength()) {
-                    higher.setStrength(wss.get(i).getStrength());
-                    higher.setLength(wss.get(i).getLength());
-                }
+    private ArrayList<int[]> getNearPipes(int x, int y) {
+        ArrayList<int[]> nearPipes = new ArrayList<>();
+
+        boolean[] hasNearPipes = this.plots[x][y].getNeighboursPipes();
+        for (int i = 0; i < hasNearPipes.length; i++) {
+            if (hasNearPipes[i]) {
+                if (i == 0)
+                    nearPipes.add(new int[] {x+1, y});
+                else if (i == 1)
+                    nearPipes.add(new int[] {x, y+1});
+                else if (i == 2)
+                    nearPipes.add(new int[] {x-1, y});
+                else if (i == 3)
+                    nearPipes.add(new int[] {x, y-1});
             }
-            return higher;
         }
+
+        return nearPipes;
     }
 
     public void removePipe(int x, int y){
@@ -151,16 +197,7 @@ public class Garden implements Runnable {
         if (y < this.plots[0].length - 1)
             this.plots[x][y+1].removeNeighbourPipe(3);
 
-        removeWaterSourceFromPipe(x, y);
-    }
-
-    public void removeWaterSourceFromPipe(int x, int y){
-        if (this.plots[x][y].hasWaterSource()){
-            if (!this.plots[x][y].getWaterSource().isFromProp()){ // Remove pond from process
-                Scheduler.getScheduler().removeWaterSourceOf(x, y);
-                // TODO: check if neighbours can keep their water source
-            }
-        }
+        recalcPipesWaterSources();
     }
 
     public void addImpactFromWaterSource(int x, int y, int level) {
@@ -203,7 +240,7 @@ public class Garden implements Runnable {
                 this.plots[x][y].setWaterSourceNumber(0);
             }
             else {
-                int newLevel = (currentLevel * waterSourceNumber - level) / (waterSourceNumber - 1);
+                int newLevel = currentLevel - level;
                 this.plots[x][y].setWaterLevel(newLevel);
                 this.plots[x][y].setWaterSourceNumber(waterSourceNumber - 1);
             }

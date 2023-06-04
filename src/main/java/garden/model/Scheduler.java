@@ -80,6 +80,9 @@ public class Scheduler extends Observable implements Runnable {
         int temperatureSourceNumber = this.garden.getPlot(x, y).getTemperatureSourceNumber();
         int lightSourceNumber = this.garden.getPlot(x, y).getLightSourceNumber();
 
+        Pipe pipe = this.garden.getPlot(x, y).getPipe();
+        boolean[] neighboursPipes = this.garden.getPlot(x, y).getNeighboursPipes();
+
         Plot plot;
         if (isProp) {
             plot = new PropPlot(x, y);
@@ -88,6 +91,7 @@ public class Scheduler extends Observable implements Runnable {
             plot = new CultivablePlot(x, y);
         }
         plot.initSources(waterLevel, temperatureLevel, lightLevel, waterSourceNumber, temperatureSourceNumber, lightSourceNumber);
+        plot.initPipes(pipe, neighboursPipes);
         this.garden.setPlot(x, y, plot);
 
         setChanged();
