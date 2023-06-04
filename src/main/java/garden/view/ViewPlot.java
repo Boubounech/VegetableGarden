@@ -52,6 +52,8 @@ public class ViewPlot extends JPanel {
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         }
 
+        g2d.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
+
         if (this.hasPipe) {
             if (this.neighboursPipes[0])
                 g2d.drawImage(View.pictures.get("pipeBottom"), 0, 0, this.getWidth(), this.getHeight(), this);
@@ -70,7 +72,6 @@ public class ViewPlot extends JPanel {
         }
 
 
-        g2d.drawImage(this.item, 0, 0, this.getWidth(), this.getHeight(), this);
 
         if (this.isFocused) {
             g2d.drawImage(View.pictures.get("border"), 0, 0, this.getWidth(), this.getHeight(), this);

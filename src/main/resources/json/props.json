@@ -24,7 +24,7 @@
     "temperatureLength": 0
   },
   {
-    "type": "none",
+    "type": "grass",
     "name": "Herbes",
     "description": "De l'herbe toute simple, facile à travailler pour en faire un potager !",
     "costToRemove": 0,

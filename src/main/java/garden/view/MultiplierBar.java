@@ -21,14 +21,18 @@ public class MultiplierBar extends JComponent {
         if (fracs.length == 6) {
             for (int i = 0; i < fracs.length - 1; i++) {
                 g2d.setColor(colors[i]);
-                g2d.fillRect((int) (fracs[i]*this.getWidth()),  this.getHeight() / 4, (int) (fracs[i+1]*this.getWidth()) - (int) (fracs[i]*this.getWidth()), this.getHeight() / 2);
+                g2d.fillRect(
+                        (int) (fracs[i]*this.getWidth()),
+                        this.getHeight() / 4,
+                        (int) (fracs[i+1]*this.getWidth()) - (int) (fracs[i]*this.getWidth()),
+                        this.getHeight() / 2);
             }
         } else {
-            g2d.setColor(Color.gray);
+            g2d.setColor(Color.lightGray);
             g2d.fillRect(0, this.getHeight() / 4, this.getWidth(), this.getHeight() / 2);
         }
 
-        g2d.setColor(Color.black);
+        g2d.setColor(Color.darkGray);
         g2d.fillRect((int) (this.cursor*this.getWidth()) - 5,  0, 10, this.getHeight());
     }
 

@@ -10,7 +10,7 @@ public class PropPlot extends Plot {
 
     public PropPlot(int x, int y) {
         super(x, y);
-        PropType[] basicsProps = new PropType[] {PropType.none, PropType.flowers, PropType.rocks};
+        PropType[] basicsProps = new PropType[] {PropType.grass, PropType.flowers, PropType.rocks};
         int randVal = (new Random()).nextInt(basicsProps.length);
         setRawProp(basicsProps[randVal]);
     }

@@ -21,7 +21,9 @@ public class ViewMenuPlot extends JPanel {
     private final JPanel plotButtons;
     private JButton[] plotButtonsToShow;
 
-    private ViewMultiplierBars vmb;
+    private final JButton pipeButton;
+
+    private final ViewMultiplierBars vmb;
 
 
     public ViewMenuPlot(){
@@ -38,9 +40,8 @@ public class ViewMenuPlot extends JPanel {
         
         this.plotInfo = new JLabel();
         
-        plotGeneral.add(this.plotPic, BorderLayout.LINE_START);
-        plotGeneral.add(this.plotInfo, BorderLayout.LINE_END);
-        
+        //plotGeneral.add(this.plotPic, BorderLayout.LINE_START);
+        //plotGeneral.add(this.plotInfo, BorderLayout.LINE_END);
         
         // Plot content
         JPanel plotContent = new JPanel();
@@ -49,17 +50,20 @@ public class ViewMenuPlot extends JPanel {
         this.plotContentName = new JLabel();
         
         this.plotContentPic = new JLabel();
+        this.plotContentPic.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 10));
         
         this.plotContentDescription = new JLabel();
+        this.plotContentDescription.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         
         this.plotContentLevels = new JLabel();
-        
+        this.vmb = new ViewMultiplierBars();
+
         plotContent.add(this.plotContentName, BorderLayout.PAGE_START);
         plotContent.add(this.plotContentPic, BorderLayout.LINE_START);
         plotContent.add(this.plotContentDescription, BorderLayout.CENTER);
-        plotContent.add(this.plotContentLevels, BorderLayout.PAGE_END);
-        
-        
+        //plotContent.add(this.plotContentLevels, BorderLayout.PAGE_END);
+        plotContent.add(this.vmb, BorderLayout.PAGE_END);
+
         // Plot Buttons
         this.plotButtons = new JPanel();
         this.plotButtons.setLayout(new FlowLayout());
@@ -67,14 +71,19 @@ public class ViewMenuPlot extends JPanel {
 
         plotGeneral.add(plotContent, BorderLayout.PAGE_END);
 
-        this.vmb = new ViewMultiplierBars();
+        this.pipeButton = new JButton();
         
         this.add(plotGeneral, BorderLayout.PAGE_END);
         this.add(this.plotButtons, BorderLayout.CENTER);
-        this.add(this.vmb, BorderLayout.PAGE_START);
+        this.add(this.pipeButton, BorderLayout.PAGE_START);
+
+        //this.add(this.vmb, BorderLayout.PAGE_START);
     }
     
     public void update(Garden g, int[] fp) {
+
+        if (this.pipeButton.getActionListeners().length == 0)
+            this.pipeButton.addActionListener((e) -> { Scheduler.getScheduler().swapPipe(fp[0], fp[1]); });
 
         // Plot cultivable or prop
         this.plotInfo.setText(g.getPlot(fp[0], fp[1]).toString());
@@ -101,7 +110,7 @@ public class ViewMenuPlot extends JPanel {
                             "</html>");
 
                 }
-                vmb.update(cp.getVegetable(), g.getPlot(fp[0], fp[1]).getWaterLevel(), g.getPlot(fp[0], fp[1]).getLightLevel(), g.getPlot(fp[0], fp[1]).getTemperatureLevel());
+                vmb.update(cp, g.getPlot(fp[0], fp[1]).getWaterLevel(), g.getPlot(fp[0], fp[1]).getLightLevel(), g.getPlot(fp[0], fp[1]).getTemperatureLevel());
             } else {
                 if (!Objects.equals(this.plotContentName.getText(), "Terre")) {
                     this.plotContentPic.setIcon(new ImageIcon(View.pictures.get("none").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
@@ -158,6 +167,13 @@ public class ViewMenuPlot extends JPanel {
                     newButtonsToShow[0].addActionListener(e -> Scheduler.getScheduler().delete(fp[0], fp[1]));
                 }
             }
+        }
+
+
+        if (g.getPlot(fp[0], fp[1]).hasPipe()) {
+            this.pipeButton.setText("Retirer le tuyau");
+        } else {
+            this.pipeButton.setText("Poser un tuyau");
         }
 
         // Remove all buttons

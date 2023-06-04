@@ -23,9 +23,11 @@ public class ViewPlayer extends JPanel {
         JLabel moneyPic = new JLabel();
         moneyPic.setIcon(new ImageIcon(View.pictures.get("gardenDollar")));
 
+        this.add(new JSeparator(), BorderLayout.PAGE_START);
         this.add(moneyText, BorderLayout.LINE_START);
         this.add(this.moneyAmount, BorderLayout.CENTER);
         this.add(moneyPic, BorderLayout.LINE_END);
+        this.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
     }
 
     public void update(Player player) {
