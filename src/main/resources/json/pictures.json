@@ -56,5 +56,9 @@
   "pipeBottom",
   "pipeRight",
   "pipeLeft",
-  "pipeCenter"
+  "pipeCenter",
+
+  "waterIcon",
+  "lightIcon",
+  "temperatureIcon"
 ]

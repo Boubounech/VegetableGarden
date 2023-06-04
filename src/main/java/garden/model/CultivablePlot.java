@@ -30,7 +30,7 @@ public class CultivablePlot extends Plot {
         }
         else {
             double growMultiplier = getGrowMultiplier();
-            growTime+=growMultiplier;
+            growTime += growMultiplier;
 
             double growPercent = ((double) growTime / (double) vegetable.getGrowTime()) * 100;
             if(growPercent >= 200){
@@ -97,38 +97,50 @@ public class CultivablePlot extends Plot {
 
     public double getGrowMultiplier(){
         double growMultiplier = 1;
-        double waterMultiplier = 1;
-        double lightMultiplier = 1;
-        double temperatureMultiplier = 1;
-        if(this.getWaterLevel() - vegetable.getIdealHumidity() <= vegetable.getRangeLimitHumidity()/2){
-            waterMultiplier = 2;
-        }
-        else if(this.getWaterLevel() - vegetable.getIdealHumidity() <= vegetable.getRangeLimitHumidity()){
-            waterMultiplier = 1;
-        }
-        else{
-            waterMultiplier = 0.5;
-        }
-        if(this.getLightLevel() - vegetable.getIdealLight() <= vegetable.getRangeLimitLight()/2){
-            lightMultiplier = 3;
-        }
-        else if(this.getLightLevel() - vegetable.getIdealLight() <= vegetable.getRangeLimitLight()){
-            lightMultiplier = 2;
-        }
-        else{
-            lightMultiplier = 1;
-        }
-        if(this.getTemperatureLevel() - vegetable.getIdealTemperature() <= vegetable.getRangeLimitTemperature()){
-            temperatureMultiplier = 2;
-        }
-        else{
-            temperatureMultiplier = 1;
-        }
+
+        double waterMultiplier = getWaterMultiplier();
+        double lightMultiplier = getLightMultiplier();
+        double temperatureMultiplier = getTemperatureMultiplier();
+
         growMultiplier = waterMultiplier * lightMultiplier * temperatureMultiplier;
         if(growMultiplier < 1){
            growMultiplier = new Random().nextInt(0, 1);
         }
+
         return growMultiplier;
+    }
+
+    public double getWaterMultiplier() {
+        if(this.getWaterLevel() - vegetable.getIdealHumidity() <= vegetable.getRangeLimitHumidity()/2){
+            return 2;
+        }
+        else if(this.getWaterLevel() - vegetable.getIdealHumidity() <= vegetable.getRangeLimitHumidity()){
+            return 1;
+        }
+        else{
+            return 0.5;
+        }
+    }
+
+    public double getLightMultiplier() {
+        if(this.getLightLevel() - vegetable.getIdealLight() <= vegetable.getRangeLimitLight()/2){
+            return 3;
+        }
+        else if(this.getLightLevel() - vegetable.getIdealLight() <= vegetable.getRangeLimitLight()){
+            return 2;
+        }
+        else{
+            return 1;
+        }
+    }
+
+    public double getTemperatureMultiplier() {
+        if(this.getTemperatureLevel() - vegetable.getIdealTemperature() <= vegetable.getRangeLimitTemperature()){
+            return 2;
+        }
+        else{
+            return 1;
+        }
     }
 
     @Override

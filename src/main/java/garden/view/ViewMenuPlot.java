@@ -21,6 +21,8 @@ public class ViewMenuPlot extends JPanel {
     private final JPanel plotButtons;
     private JButton[] plotButtonsToShow;
 
+    private ViewMultiplierBars vmb;
+
 
     public ViewMenuPlot(){
 
@@ -64,10 +66,12 @@ public class ViewMenuPlot extends JPanel {
         this.plotButtonsToShow = new JButton[0];
 
         plotGeneral.add(plotContent, BorderLayout.PAGE_END);
-        
+
+        this.vmb = new ViewMultiplierBars();
         
         this.add(plotGeneral, BorderLayout.PAGE_END);
         this.add(this.plotButtons, BorderLayout.CENTER);
+        this.add(this.vmb, BorderLayout.PAGE_START);
     }
     
     public void update(Garden g, int[] fp) {
@@ -95,13 +99,16 @@ public class ViewMenuPlot extends JPanel {
                     this.plotContentDescription.setText("<html>" +
                             "<p>" + cp.getVegetable().getDescription() + "</p>" +
                             "</html>");
+
                 }
+                vmb.update(cp.getVegetable(), g.getPlot(fp[0], fp[1]).getWaterLevel(), g.getPlot(fp[0], fp[1]).getLightLevel(), g.getPlot(fp[0], fp[1]).getTemperatureLevel());
             } else {
                 if (!Objects.equals(this.plotContentName.getText(), "Terre")) {
                     this.plotContentPic.setIcon(new ImageIcon(View.pictures.get("none").getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
                     this.plotContentName.setText("Terre");
                     this.plotContentDescription.setText("<html><p>De la terre qui n'attend plus que des cultures.</p></html>");
                 }
+                vmb.update(g.getPlot(fp[0], fp[1]).getWaterLevel(), g.getPlot(fp[0], fp[1]).getLightLevel(), g.getPlot(fp[0], fp[1]).getTemperatureLevel());
             }
         }
 
@@ -114,6 +121,8 @@ public class ViewMenuPlot extends JPanel {
             this.plotContentPic.setIcon(new ImageIcon(View.pictures.get(pp.getProp().getType().toString()).getScaledInstance(24 * 2, 24 * 2, Image.SCALE_DEFAULT)));
             this.plotContentName.setText(pp.getProp().getName());
             this.plotContentDescription.setText("<html><p>" + pp.getProp().getDescription() + "</p></html>");
+
+            vmb.update(g.getPlot(fp[0], fp[1]).getWaterLevel(), g.getPlot(fp[0], fp[1]).getLightLevel(), g.getPlot(fp[0], fp[1]).getTemperatureLevel());
         }
 
 
