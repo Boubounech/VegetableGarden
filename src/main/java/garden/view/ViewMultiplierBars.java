@@ -1,5 +1,6 @@
 package garden.view;
 
+import garden.PictureLoader;
 import garden.model.CultivablePlot;
 import garden.model.Vegetable;
 import garden.model.VegetableType;
@@ -28,11 +29,11 @@ public class ViewMultiplierBars extends JPanel {
         this.add(new JSeparator());
 
         JLabel waterIcon = new JLabel();
-        waterIcon.setIcon(new ImageIcon(View.pictures.get("waterIcon").getScaledInstance(24, 24,  Image.SCALE_DEFAULT)));
+        waterIcon.setIcon(new ImageIcon(PictureLoader.get("waterIcon").getScaledInstance(24, 24,  Image.SCALE_DEFAULT)));
         JLabel lightIcon = new JLabel();
-        lightIcon.setIcon(new ImageIcon(View.pictures.get("lightIcon").getScaledInstance(24, 24,  Image.SCALE_DEFAULT)));
+        lightIcon.setIcon(new ImageIcon(PictureLoader.get("lightIcon").getScaledInstance(24, 24,  Image.SCALE_DEFAULT)));
         JLabel temperatureIcon = new JLabel();
-        temperatureIcon.setIcon(new ImageIcon(View.pictures.get("temperatureIcon").getScaledInstance(24, 24,  Image.SCALE_DEFAULT)));
+        temperatureIcon.setIcon(new ImageIcon(PictureLoader.get("temperatureIcon").getScaledInstance(24, 24,  Image.SCALE_DEFAULT)));
 
         waterBar = new MultiplierBar(new float[]{0.0f}, 0.5f);
         lightBar = new MultiplierBar(new float[]{0.0f}, 0.5f);

@@ -36,13 +36,13 @@ public class ViewWeather extends JPanel {
         this.weatherTemperature = new JLabel();
 
         JLabel waterIcon = new JLabel();
-        waterIcon.setIcon(new ImageIcon(View.pictures.get("waterIcon").getScaledInstance(24, 24, Image.SCALE_DEFAULT)));
+        waterIcon.setIcon(new ImageIcon(PictureLoader.get("waterIcon").getScaledInstance(24, 24, Image.SCALE_DEFAULT)));
         waterIcon.setHorizontalAlignment(SwingConstants.RIGHT);
         JLabel lightIcon = new JLabel();
-        lightIcon.setIcon(new ImageIcon(View.pictures.get("lightIcon").getScaledInstance(24, 24, Image.SCALE_DEFAULT)));
+        lightIcon.setIcon(new ImageIcon(PictureLoader.get("lightIcon").getScaledInstance(24, 24, Image.SCALE_DEFAULT)));
         lightIcon.setHorizontalAlignment(SwingConstants.RIGHT);
         JLabel temperatureIcon = new JLabel();
-        temperatureIcon.setIcon(new ImageIcon(View.pictures.get("temperatureIcon").getScaledInstance(24, 24, Image.SCALE_DEFAULT)));
+        temperatureIcon.setIcon(new ImageIcon(PictureLoader.get("temperatureIcon").getScaledInstance(24, 24, Image.SCALE_DEFAULT)));
         temperatureIcon.setHorizontalAlignment(SwingConstants.RIGHT);
 
         weatherPanel.add(this.weatherName);
