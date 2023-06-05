@@ -7,6 +7,7 @@ import garden.model.VegetableType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.DecimalFormat;
 
 public class ViewMultiplierBars extends JPanel {
     private MultiplierBar waterBar;
@@ -40,13 +41,13 @@ public class ViewMultiplierBars extends JPanel {
         temperatureBar = new MultiplierBar(new float[]{0.0f}, 0.5f);
 
         waterAmount = new JLabel();
-        waterAmount.setPreferredSize(new Dimension(40, 20));
+        waterAmount.setPreferredSize(new Dimension(45, 20));
         waterAmount.setHorizontalAlignment(SwingConstants.RIGHT);
         lightAmount = new JLabel();
-        lightAmount.setPreferredSize(new Dimension(40, 20));
+        lightAmount.setPreferredSize(new Dimension(45, 20));
         lightAmount.setHorizontalAlignment(SwingConstants.RIGHT);
         temperatureAmount = new JLabel();
-        temperatureAmount.setPreferredSize(new Dimension(40, 20));
+        temperatureAmount.setPreferredSize(new Dimension(45, 20));
         temperatureAmount.setHorizontalAlignment(SwingConstants.RIGHT);
 
         JPanel water = new JPanel();
@@ -106,7 +107,8 @@ public class ViewMultiplierBars extends JPanel {
 
         this.waterAmount.setText(String.valueOf(waterLevel) + " %");
         this.lightAmount.setText(String.valueOf(lightLevel) + " %");
-        this.temperatureAmount.setText(String.valueOf(temperatureLevel) + " °C");
+        DecimalFormat df = new DecimalFormat("0.0");
+        this.temperatureAmount.setText(String.valueOf(df.format((temperatureLevel * 0.8) - 20)) + " °C");
 
         this.total.setVisible(false);
     }
@@ -135,12 +137,13 @@ public class ViewMultiplierBars extends JPanel {
                     1.0f
             });
 
+            // No red values for temperature
             temperatureBar.setFracs(new float[]{
                     0.0f,
-                    ((float)(v.getIdealTemperature() - v.getRangeLimitTemperature())) * 0.01f,
+                    0.0f,
                     ((float)(v.getIdealTemperature() - (v.getRangeLimitTemperature()) * 0.5f)) * 0.01f,
                     ((float)(v.getIdealTemperature() + (v.getRangeLimitTemperature()) * 0.5f)) * 0.01f,
-                    ((float)(v.getIdealTemperature() + v.getRangeLimitTemperature())) * 0.01f,
+                    1.0f,
                     1.0f
             });
 
@@ -153,7 +156,8 @@ public class ViewMultiplierBars extends JPanel {
 
         this.waterAmount.setText(String.valueOf(waterLevel) + " %");
         this.lightAmount.setText(String.valueOf(lightLevel) + " %");
-        this.temperatureAmount.setText(String.valueOf(temperatureLevel) + " °C");
+        DecimalFormat df = new DecimalFormat("0.0");
+        this.temperatureAmount.setText(String.valueOf(df.format((temperatureLevel * 0.8) - 20)) + " °C");
 
         this.totalMultiplier.setText("x" + cp.getGrowMultiplier());
         this.total.setVisible(true);

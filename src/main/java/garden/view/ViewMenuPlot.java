@@ -97,7 +97,7 @@ public class ViewMenuPlot extends JPanel {
         this.plotPic.setHumidity(g.getPlot(fp[0], fp[1]).getWaterLevel());
 
         // Plot information
-        showLevels(g, fp);
+        //showLevels(g, fp);
 
         // if plot is cultivable
         if (g.getPlot(fp[0], fp[1]) instanceof CultivablePlot cp) {
@@ -180,14 +180,15 @@ public class ViewMenuPlot extends JPanel {
             }
         }
 
-
-        this.pipeButton.setEnabled(true);
         if (g.getPlot(fp[0], fp[1]).hasPipe()) {
             this.pipeButton.setText("Retirer le tuyau");
+            this.pipeButton.setEnabled(true);
         } else {
             this.pipeButton.setText("Poser un tuyau (" + Pipe.pipes.get(PipeType.pipe).getPrice() + " g$)");
             if (Pipe.pipes.get(PipeType.pipe).getPrice() > Player.getInstance().getMoney()) {
                 this.pipeButton.setEnabled(false);
+            } else {
+                this.pipeButton.setEnabled(true);
             }
         }
 
