@@ -84,7 +84,7 @@ public class ViewMenuPlot extends JPanel {
     public void update(Garden g, int[] fp) {
 
         if (this.pipeButton.getActionListeners().length == 0)
-            this.pipeButton.addActionListener((e) -> { Scheduler.getScheduler().swapPipe(fp[0], fp[1]); });
+            this.pipeButton.addActionListener((e) -> { Scheduler.getInstance().swapPipe(fp[0], fp[1]); });
 
         // Plot cultivable or prop
         this.plotInfo.setText(g.getPlot(fp[0], fp[1]).toString());
@@ -140,10 +140,10 @@ public class ViewMenuPlot extends JPanel {
 
         // Plot buttons
         if (g.getPlot(fp[0], fp[1]) instanceof PropPlot) {
-            if(((PropPlot)(Scheduler.getScheduler().getGarden().getPlot(fp[0], fp[1]))).getProp().getType() != PropType.pond){
+            if(((PropPlot)(Scheduler.getInstance().getGarden().getPlot(fp[0], fp[1]))).getProp().getType() != PropType.pond){
                 newButtonsToShow = new JButton[1];
                 newButtonsToShow[0] = new JButton("Rendre cultivable (" + PropPlot.getPriceToRemove() + " g$)");
-                newButtonsToShow[0].addActionListener(e -> Scheduler.getScheduler().removeProp(fp[0], fp[1]));
+                newButtonsToShow[0].addActionListener(e -> Scheduler.getInstance().removeProp(fp[0], fp[1]));
             }
             else{
                 newButtonsToShow = new JButton[0];
@@ -155,17 +155,17 @@ public class ViewMenuPlot extends JPanel {
                 for (int i = 0; i < 6; i++) {
                     VegetableType vt = (VegetableType) Vegetable.vegetables.keySet().toArray()[i];
                     newButtonsToShow[i] = new JButton("Planter " + Vegetable.vegetables.get(vt).getName() + " (" + Vegetable.vegetables.get(vt).getSeedPrice() + " g$)");
-                    newButtonsToShow[i].addActionListener(e -> Scheduler.getScheduler().plant(fp[0], fp[1], vt));
+                    newButtonsToShow[i].addActionListener(e -> Scheduler.getInstance().plant(fp[0], fp[1], vt));
                 }
             } else {
                 if (cp.getGrowthState() >= 4) {
                     newButtonsToShow = new JButton[1];
                     newButtonsToShow[0] = new JButton("Récolter");
-                    newButtonsToShow[0].addActionListener(e -> Scheduler.getScheduler().harvest(fp[0], fp[1]));
+                    newButtonsToShow[0].addActionListener(e -> Scheduler.getInstance().harvest(fp[0], fp[1]));
                 } else {
                     newButtonsToShow = new JButton[1];
                     newButtonsToShow[0] = new JButton("Arracher");
-                    newButtonsToShow[0].addActionListener(e -> Scheduler.getScheduler().delete(fp[0], fp[1]));
+                    newButtonsToShow[0].addActionListener(e -> Scheduler.getInstance().delete(fp[0], fp[1]));
                 }
             }
         }

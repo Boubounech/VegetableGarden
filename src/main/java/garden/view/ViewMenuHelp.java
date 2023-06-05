@@ -23,26 +23,22 @@ public class ViewMenuHelp extends JToolBar {
 
     private void build(){
         keyHelpItem = new JButton("Touches clavier");
-        //keyHelpItem.setPreferredSize(new Dimension(150, 20));
-        //keyHelpItem.setMaximumSize(new Dimension(150, 20));
         keyHelpItem.setActionCommand("keyHelp");
         this.add(keyHelpItem);
 
         vegetableHelpItem = new JButton("Informations légumes");
-        //vegetableHelpItem.setPreferredSize(new Dimension(150, 20));
-        //vegetableHelpItem.setMaximumSize(new Dimension(150, 20));
         vegetableHelpItem.setActionCommand("vegetableHelp");
         this.add(vegetableHelpItem);
 
         this.setFloatable(false);
 
         keyHelpItem.addActionListener(e -> {
-            View.isActive = false;
+            View.getInstance().isActive = false;
             new ViewKeyHelp().requestFocus();
         });
 
         vegetableHelpItem.addActionListener(e -> {
-            View.isActive = false;
+            View.getInstance().isActive = false;
             new ViewVegetableHelp().requestFocus();
         });
     }

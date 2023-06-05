@@ -26,7 +26,9 @@ public class ViewWeather extends JPanel {
 
         // Name & icon & value
         JPanel weatherPanel = new JPanel();
-        weatherPanel.setLayout(new GridLayout(4, 2));
+        weatherPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints c = new GridBagConstraints();
 
         this.weatherName = new JLabel();
         this.weatherName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -45,15 +47,32 @@ public class ViewWeather extends JPanel {
         temperatureIcon.setIcon(new ImageIcon(PictureLoader.get("temperatureIcon").getScaledInstance(24, 24, Image.SCALE_DEFAULT)));
         temperatureIcon.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        weatherPanel.add(this.weatherName);
+        c.fill = GridBagConstraints.HORIZONTAL;
 
-        weatherPanel.add(new JLabel());
-        weatherPanel.add(waterIcon);
-        weatherPanel.add(this.weatherWater);
-        weatherPanel.add(lightIcon);
-        weatherPanel.add(this.weatherLight);
-        weatherPanel.add(temperatureIcon);
-        weatherPanel.add(this.weatherTemperature);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        weatherPanel.add(this.weatherName, c);
+        c.gridwidth = 1;
+
+        c.gridx = 0;
+        c.gridy = 1;
+        weatherPanel.add(waterIcon, c);
+        c.gridx = 1;
+        c.gridy = 1;
+        weatherPanel.add(this.weatherWater, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        weatherPanel.add(lightIcon, c);
+        c.gridx = 1;
+        c.gridy = 2;
+        weatherPanel.add(this.weatherLight, c);
+        c.gridx = 0;
+        c.gridy = 3;
+        weatherPanel.add(temperatureIcon, c);
+        c.gridx = 1;
+        c.gridy = 3;
+        weatherPanel.add(this.weatherTemperature, c);
 
 
         this.add(this.weatherPic, BorderLayout.LINE_START);

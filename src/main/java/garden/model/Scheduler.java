@@ -13,7 +13,7 @@ public class Scheduler extends Observable implements Runnable {
         weather = new WeatherManager(90, 180, 4);
     }
 
-    public static Scheduler getScheduler(){
+    public static Scheduler getInstance(){
         if (scheduler == null){
             scheduler = new Scheduler();
         }

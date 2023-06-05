@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PictureLoader {
-    private static Map<String, Image> pictures = new HashMap<String, Image>();
+    private static final Map<String, Image> pictures = new HashMap<String, Image>();
 
     public static Image get(String name){
         return pictures.get(name);

@@ -4,11 +4,8 @@ import garden.model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Map;
 
 /**
  * The garden garden.view, with all plots
@@ -25,7 +22,7 @@ public class ViewGarden extends JPanel {
      * Constructor
      */
     public ViewGarden() {
-        this.plots = new ViewPlot[Scheduler.getScheduler().getGarden().getPlots().length][Scheduler.getScheduler().getGarden().getPlots()[0].length];
+        this.plots = new ViewPlot[Scheduler.getInstance().getGarden().getPlots().length][Scheduler.getInstance().getGarden().getPlots()[0].length];
         this.layout = new GridLayout(this.plots.length, this.plots[0].length);
         this.focusedPlot = new int[] {0, 0};
 

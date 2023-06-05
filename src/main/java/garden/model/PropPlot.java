@@ -53,7 +53,7 @@ public class PropPlot extends Plot {
             this.setTemperatureSource(new TemperatureSource(this.prop.getTemperatureStrength(), this.prop.getTemperatureLength()));
             this.getTemperatureSource().setFromProp(true);
         }
-        Scheduler.getScheduler().addImpactFromSourceOf(this.getX(), this.getY());
+        Scheduler.getInstance().addImpactFromSourceOf(this.getX(), this.getY());
     }
 
     public static int getPriceToRemove() {

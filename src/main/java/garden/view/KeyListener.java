@@ -30,34 +30,34 @@ public class KeyListener extends KeyAdapter {
             setFocusedPlot((focusedPlot[0] + 1) % plots[0].length, focusedPlot[1]);
         }
         if(plots[focusedPlot[0]][focusedPlot[1]].getIsProp() && e.getKeyCode()==KeyEvent.VK_C){
-            if(((PropPlot)(Scheduler.getScheduler().getGarden().getPlot(focusedPlot[0], focusedPlot[1]))).getProp().getType() != PropType.pond
+            if(((PropPlot)(Scheduler.getInstance().getGarden().getPlot(focusedPlot[0], focusedPlot[1]))).getProp().getType() != PropType.pond
                     && Player.getInstance().getMoney() >= PropPlot.getPriceToRemove()
                     && plots[focusedPlot[0]][focusedPlot[1]].getIsProp()){
-                Scheduler.getScheduler().removeProp(focusedPlot[0], focusedPlot[1]);
+                Scheduler.getInstance().removeProp(focusedPlot[0], focusedPlot[1]);
             }
         }
         if(!plots[focusedPlot[0]][focusedPlot[1]].getIsProp()){
             if(e.getKeyCode()==KeyEvent.VK_R){
                 if(plots[focusedPlot[0]][focusedPlot[1]].getGrowthState() >= 4)
-                    Scheduler.getScheduler().harvest(focusedPlot[0], focusedPlot[1]);
+                    Scheduler.getInstance().harvest(focusedPlot[0], focusedPlot[1]);
             }
             if(e.getKeyCode()==KeyEvent.VK_A){
                 if(plots[focusedPlot[0]][focusedPlot[1]].getGrowthState() < 4)
-                    Scheduler.getScheduler().delete(focusedPlot[0], focusedPlot[1]);
+                    Scheduler.getInstance().delete(focusedPlot[0], focusedPlot[1]);
             }
             if(plots[focusedPlot[0]][focusedPlot[1]].getGrowthState() == 0){
                 int[] keys = {KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6};
                 int[] numKeys = {KeyEvent.VK_NUMPAD1, KeyEvent.VK_NUMPAD2, KeyEvent.VK_NUMPAD3, KeyEvent.VK_NUMPAD4, KeyEvent.VK_NUMPAD5, KeyEvent.VK_NUMPAD6};
                 for(int i = 0; i < keys.length; i++){
                     if(e.getKeyCode() == keys[i] || e.getKeyCode() == numKeys[i]){
-                        Scheduler.getScheduler().plant(focusedPlot[0], focusedPlot[1], VegetableType.get(i));
+                        Scheduler.getInstance().plant(focusedPlot[0], focusedPlot[1], VegetableType.get(i));
                     }
                 }
             }
         }
 
         if (e.getKeyCode()==KeyEvent.VK_P){
-            Scheduler.getScheduler().swapPipe(focusedPlot[0], focusedPlot[1]);
+            Scheduler.getInstance().swapPipe(focusedPlot[0], focusedPlot[1]);
         }
     }
 

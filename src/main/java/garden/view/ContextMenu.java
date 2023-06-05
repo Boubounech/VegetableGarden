@@ -20,11 +20,11 @@ public class ContextMenu extends JPopupMenu {
 
     private void build() {
         if (isProp) {
-            if(((PropPlot)(Scheduler.getScheduler().getGarden().getPlot(x, y))).getProp().getType() != PropType.pond){
+            if(((PropPlot)(Scheduler.getInstance().getGarden().getPlot(x, y))).getProp().getType() != PropType.pond){
                 JMenuItem propOrCultivable;
                 propOrCultivable = new JMenuItem("Rendre cultivable" + " (" + PropPlot.getPriceToRemove() + " g$)");
                 propOrCultivable.addActionListener(e1 -> {
-                    Scheduler.getScheduler().removeProp(x, y);
+                    Scheduler.getInstance().removeProp(x, y);
                 });
                 this.add(propOrCultivable);
             }
@@ -34,7 +34,7 @@ public class ContextMenu extends JPopupMenu {
                 Vegetable.vegetables.forEach((key, value) -> {
                     JMenuItem plant = new JMenuItem("Planter " + value.getName() + " (" + value.getSeedPrice() + " g$)");
                     plant.addActionListener(e1 -> {
-                        Scheduler.getScheduler().plant(x, y, key);
+                        Scheduler.getInstance().plant(x, y, key);
                     });
                     if(value.getSeedPrice() > Player.getInstance().getMoney())
                         plant.setEnabled(false);
@@ -45,14 +45,14 @@ public class ContextMenu extends JPopupMenu {
             else if(growthState >= 4){
                 JMenuItem harvest = new JMenuItem("Récolter");
                 harvest.addActionListener(e1 -> {
-                    Scheduler.getScheduler().harvest(x, y);
+                    Scheduler.getInstance().harvest(x, y);
                 });
                 this.add(harvest);
             }
             else{
                 JMenuItem delete = new JMenuItem("Arracher");
                 delete.addActionListener(e1 -> {
-                    Scheduler.getScheduler().delete(x, y);
+                    Scheduler.getInstance().delete(x, y);
                 });
                 this.add(delete);
             }

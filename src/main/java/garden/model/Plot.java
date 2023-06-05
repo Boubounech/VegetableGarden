@@ -88,7 +88,7 @@ public abstract class Plot {
     }
 
     public int getWaterLevel() {
-        return Math.min(waterLevel + Scheduler.getScheduler().getWeather().getHumidity(), 100);
+        return Math.min(waterLevel + Scheduler.getInstance().getWeather().getHumidity(), 100);
     }
 
     public int getRawWaterLevel() {
@@ -96,7 +96,7 @@ public abstract class Plot {
     }
 
     public int getLightLevel() {
-        return (lightLevel * lightSourceNumber + Scheduler.getScheduler().getWeather().getLight()) / (lightSourceNumber + 1);
+        return (lightLevel * lightSourceNumber + Scheduler.getInstance().getWeather().getLight()) / (lightSourceNumber + 1);
     }
 
     public int getRawLightLevel() {
@@ -104,7 +104,7 @@ public abstract class Plot {
     }
 
     public int getTemperatureLevel() {
-        return (temperatureLevel * temperatureSourceNumber + Scheduler.getScheduler().getWeather().getTemperature()) / (temperatureSourceNumber + 1);
+        return (temperatureLevel * temperatureSourceNumber + Scheduler.getInstance().getWeather().getTemperature()) / (temperatureSourceNumber + 1);
     }
 
     public int getRawTemperatureLevel() {

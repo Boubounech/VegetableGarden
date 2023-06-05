@@ -21,7 +21,7 @@ public class ViewRTS extends JPanel {
 
         JSlider rtsSlider = new JSlider(JSlider.HORIZONTAL, 0, 10, (int) Math.sqrt(4));
         rtsSlider.addChangeListener(this::rtsSliderStateChanged);
-        Scheduler.getScheduler().setRandomTickSpeed(rtsSlider.getValue());
+        Scheduler.getInstance().setRandomTickSpeed(rtsSlider.getValue());
 
         //Turn on labels at major tick marks.
         rtsSlider.setMinorTickSpacing(1);
@@ -44,7 +44,7 @@ public class ViewRTS extends JPanel {
         JSlider source = (JSlider) e.getSource();
         if (!source.getValueIsAdjusting()) {
             int randomTickSpeed = (source.getValue() * source.getValue());
-            Scheduler.getScheduler().setRandomTickSpeed(randomTickSpeed);
+            Scheduler.getInstance().setRandomTickSpeed(randomTickSpeed);
         }
     }
 }

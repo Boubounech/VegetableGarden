@@ -19,12 +19,12 @@ public class ViewVegetableHelp extends JFrame{
     private GridBagConstraints constraints;
 
     public ViewVegetableHelp(){
-        super("Touches clavier");
+        super("Informations sur les légumes");
         build();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
-                View.isActive = true;
+                View.getInstance().isActive = true;
             }
         });
         this.pack();
@@ -34,7 +34,7 @@ public class ViewVegetableHelp extends JFrame{
     }
 
     private void build(){
-        panel = new JPanel();setTitle("Informations sur les légumes");
+        panel = new JPanel();setTitle("");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         DecimalFormat df = new DecimalFormat("0.0");
@@ -43,11 +43,11 @@ public class ViewVegetableHelp extends JFrame{
         for(Vegetable vegetable : Vegetable.vegetables.values()){
             donnees[i][0] = vegetable.getName();
             donnees[i][1] = vegetable.getGrowTime();
-            donnees[i][2] = vegetable.getSeedPrice() + "g$";
-            donnees[i][3] = vegetable.getSellPrice() + "g$";
-            donnees[i][4] = vegetable.getIdealHumidity() + "%";
-            donnees[i][5] = vegetable.getIdealLight() + "%";
-            donnees[i][6] = df.format((vegetable.getIdealTemperature()*0.8)-20) + "°C";
+            donnees[i][2] = vegetable.getSeedPrice() + " g$";
+            donnees[i][3] = vegetable.getSellPrice() + " g$";
+            donnees[i][4] = vegetable.getIdealHumidity() + " %";
+            donnees[i][5] = vegetable.getIdealLight() + " %";
+            donnees[i][6] = df.format((vegetable.getIdealTemperature()*0.8)-20) + " °C";
             i++;
         }
 
@@ -59,9 +59,11 @@ public class ViewVegetableHelp extends JFrame{
         table.getColumnModel().getColumn(5).setPreferredWidth(125);
         table.getColumnModel().getColumn(6).setPreferredWidth(125);
         header = table.getTableHeader();
+        header.setOpaque(true);
+        header.setBackground(Color.lightGray);
         exitButton = new JButton("Fermer");
         exitButton.addActionListener(e -> {
-            View.isActive = true;
+            View.getInstance().isActive = true;
             this.dispose();
         });
 

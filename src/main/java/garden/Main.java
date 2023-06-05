@@ -1,19 +1,15 @@
 package garden;
 
-import garden.model.Garden;
 import garden.model.Scheduler;
-import garden.model.Vegetable;
 import garden.view.View;
-
-import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         PictureLoader.loadPictures();
-        Scheduler scheduler = Scheduler.getScheduler();
+        Scheduler scheduler = Scheduler.getInstance();
         new Thread(scheduler).start();
 
-        View view = new View();
+        View view = View.getInstance();
 
         scheduler.addObserver(view);
 

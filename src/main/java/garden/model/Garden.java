@@ -26,24 +26,27 @@ public class Garden implements Runnable {
 
         plots = new Plot[width][height];
 
+        int xBottomRange = 3;
+        int yBottomRange = 3;
+        int xTopRange = this.plots.length - xBottomRange;
+        int yTopRange = this.plots[0].length - yBottomRange;
+
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++) {
-                this.plots[x][y] = new PropPlot(x, y);
+                if (x < xTopRange && x >= xBottomRange && y < yTopRange && y >= yBottomRange) {
+                    if (r.nextInt(3) < 2) {
+                        this.plots[x][y] = new CultivablePlot(x, y);
+                    } else {
+                        this.plots[x][y] = new PropPlot(x, y);
+                    }
+                } else {
+                    this.plots[x][y] = new PropPlot(x, y);
+                }
             }
         }
 
+        this.plots[7][7] = new PropPlot(7, 7);
         ((PropPlot)(this.plots[7][7])).setRawProp(PropType.pond);
-
-        int[][] cult = new int[][] {
-                { 6, 6 }, { 6, 7 }, { 6, 8 }, { 6, 9 },
-                { 7, 6 },           { 7, 8 }, { 7, 9 },
-                { 8, 6 }, { 8, 7 }, { 8, 8 }, { 8, 9 },
-                { 9, 6 }, { 9, 7 }, { 9, 8 }, { 9, 9 }
-        };
-        for (int[] cultPlot : cult) {
-            this.plots[cultPlot[0]][cultPlot[1]] = new CultivablePlot(cultPlot[0], cultPlot[1]);
-        }
-
     }
 
     public void updateAllSources(){
@@ -111,14 +114,14 @@ public class Garden implements Runnable {
                     if (this.plots[x][y].getWaterSource().isFromProp()) {
                         propWaterSources.add(new int[] {x, y});
                     } else {
-                        Scheduler.getScheduler().removeWaterSourceOf(x, y);
+                        Scheduler.getInstance().removeWaterSourceOf(x, y);
                     }
                 }
             }
         }
 
         if (propWaterSources.isEmpty()){
-            System.out.println("No Water Source with pipe");
+            System.err.println("No Water Source without pipe");
             return;
         }
 
@@ -153,7 +156,7 @@ public class Garden implements Runnable {
                 WaterSource ws = new WaterSource(strength, length);
                 ws.setFromProp(false);
                 this.plots[p[0]][p[1]].setWaterSource(ws);
-                Scheduler.getScheduler().addImpactFromSourceOf(p[0], p[1]);
+                Scheduler.getInstance().addImpactFromSourceOf(p[0], p[1]);
             }
 
             // If we haven't done the next one

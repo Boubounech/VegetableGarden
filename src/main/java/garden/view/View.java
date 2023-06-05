@@ -1,16 +1,10 @@
 package garden.view;
 
-import com.google.gson.Gson;
-import garden.model.JsonFileReader;
 import garden.model.Player;
 import garden.model.Scheduler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,63 +12,66 @@ import java.util.Observer;
  * The main window of our vegetable garden
  *
  * @since 1.0
- * @author
  */
 public class View extends JFrame implements Observer {
-    private JPanel mainPanel;
 
+    private static View view;
     private ViewGarden garden;
     private ViewMenu menu;
-    private ViewMenuHelp menuHelp;
-    private GridBagLayout mainLayout;
-    private GridBagConstraints constraints;
 
-    public static boolean isActive = true;
+    public boolean isActive = true;
 
     /**
      * Constructor
      */
-    public View() {
+    private View() {
         build();
+    }
+
+    public static View getInstance(){
+        if(view == null){
+            view = new View();
+        }
+        return view;
     }
 
     private void build() {
         //Create the main panel
-        this.mainPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
 
         //Create the garden and the menus
         this.garden = new ViewGarden();
         this.menu = new ViewMenu();
-        this.menuHelp = new ViewMenuHelp();
-        this.mainLayout = new GridBagLayout();
-        this.mainPanel.setLayout(this.mainLayout);
-        this.constraints = new GridBagConstraints();
-        this.constraints.fill = GridBagConstraints.BOTH;
+        ViewMenuHelp menuHelp = new ViewMenuHelp();
+        GridBagLayout mainLayout = new GridBagLayout();
+        mainPanel.setLayout(mainLayout);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
 
         //Add the component menuHelp to the main panel
-        this.constraints.gridx = 0;
-        this.constraints.gridy = 0;
-        this.constraints.gridwidth = 2;
-        this.mainLayout.setConstraints(this.menuHelp, this.constraints);
-        this.mainPanel.add(this.menuHelp);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 2;
+        mainLayout.setConstraints(menuHelp, constraints);
+        mainPanel.add(menuHelp);
 
         //Add the component garden to the main panel
-        this.constraints.insets = new Insets(0, 10, 10, 10);
-        this.constraints.gridx = 0;
-        this.constraints.gridy = 1;
-        this.constraints.gridwidth = 1;
-        this.mainLayout.setConstraints(this.garden, this.constraints);
-        this.mainPanel.add(this.garden);
+        constraints.insets = new Insets(0, 10, 10, 10);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        mainLayout.setConstraints(this.garden, constraints);
+        mainPanel.add(this.garden);
 
         //Add the component menu to the main panel
-                this.constraints.insets = new Insets(0, 10, 10, 10);
-        this.constraints.gridx = 1;
-        this.constraints.gridy = 1;
-        this.mainLayout.setConstraints(this.menu, this.constraints);
-        this.mainPanel.add(this.menu);
+                constraints.insets = new Insets(0, 10, 10, 10);
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        mainLayout.setConstraints(this.menu, constraints);
+        mainPanel.add(this.menu);
 
         //Set the main panel as the content pane
-        this.setContentPane(this.mainPanel);
+        this.setContentPane(mainPanel);
 
         //Set the window's properties
         this.setTitle("Garden Simulator 3000");
@@ -94,7 +91,7 @@ public class View extends JFrame implements Observer {
                 requestFocus();
             }
         }
-        this.garden.update(Scheduler.getScheduler().getGarden());
-        this.menu.update(Scheduler.getScheduler().getGarden(), this.garden.getFocusedPlot(), Scheduler.getScheduler().getWeather(), Player.getInstance());
+        this.garden.update(Scheduler.getInstance().getGarden());
+        this.menu.update(Scheduler.getInstance().getGarden(), this.garden.getFocusedPlot(), Scheduler.getInstance().getWeather(), Player.getInstance());
     }
 }

@@ -27,7 +27,7 @@ public class ViewMenu extends JPanel {
      * Constructor
      */
     public ViewMenu() {
-        this.setPreferredSize(new Dimension(240, 48 * Scheduler.getScheduler().getGarden().getPlots().length));
+        this.setPreferredSize(new Dimension(240, 48 * Scheduler.getInstance().getGarden().getPlots().length));
         this.setLayout(new BorderLayout());
 
         // Weather = TOP OF VIEW
