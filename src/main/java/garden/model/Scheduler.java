@@ -10,7 +10,7 @@ public class Scheduler extends Observable implements Runnable {
 
     private Scheduler() {
         garden = new Garden(15, 15, 4);
-        weather = new WeatherManager(90, 180, 4);
+        weather = new WeatherManager(720, 1200, 4);
     }
 
     public static Scheduler getInstance(){
@@ -69,7 +69,9 @@ public class Scheduler extends Observable implements Runnable {
     }
 
     public void setRandomTickSpeed(int rts) {
+
         this.garden.setRandomTickSpeed(rts);
+        this.weather.setRandomTickSpeed(rts);
     }
 
     public void setIsProp(int x, int y, boolean isProp){
