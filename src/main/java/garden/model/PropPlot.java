@@ -62,8 +62,8 @@ public class PropPlot extends Plot {
 
     public static void updatePriceToRemove() {
         priceToRemove += priceIncrement;
-        if (priceToRemove % (10*priceIncrement) == 0)
-            priceIncrement *= 10;
+        if (priceToRemove % (5*priceIncrement) == 0)
+            priceIncrement *= 5;
     }
 
     @Override

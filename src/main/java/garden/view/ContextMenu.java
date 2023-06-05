@@ -19,6 +19,24 @@ public class ContextMenu extends JPopupMenu {
     }
 
     private void build() {
+        // Pipe
+
+        JMenuItem pipe;
+        if (Scheduler.getInstance().getGarden().getPlot(x, y).hasPipe()) {
+            pipe = new JMenuItem("Retirer le tuyau");
+        } else {
+            pipe = new JMenuItem("Poser un tuyau" + " (" + Pipe.pipes.get(PipeType.pipe).getPrice() + " g$)");
+            if (Pipe.pipes.get(PipeType.pipe).getPrice() > Player.getInstance().getMoney()) {
+                pipe.setEnabled(false);
+            }
+        }
+        pipe.addActionListener(e1 -> {
+            Scheduler.getInstance().swapPipe(x, y);
+        });
+        this.add(pipe);
+
+        this.add(new JSeparator());
+
         if (isProp) {
             if(((PropPlot)(Scheduler.getInstance().getGarden().getPlot(x, y))).getProp().getType() != PropType.pond){
                 JMenuItem propOrCultivable;

@@ -26,6 +26,8 @@ public class ViewMenuPlot extends JPanel {
 
     private final ViewMultiplierBars vmb;
 
+    private int moneyAmountAtLastUpdate;
+
 
     public ViewMenuPlot(){
 
@@ -79,6 +81,8 @@ public class ViewMenuPlot extends JPanel {
         this.add(this.pipeButton, BorderLayout.PAGE_START);
 
         //this.add(this.vmb, BorderLayout.PAGE_START);
+
+        this.moneyAmountAtLastUpdate = 0;
     }
     
     public void update(Garden g, int[] fp) {
@@ -144,6 +148,9 @@ public class ViewMenuPlot extends JPanel {
                 newButtonsToShow = new JButton[1];
                 newButtonsToShow[0] = new JButton("Rendre cultivable (" + PropPlot.getPriceToRemove() + " g$)");
                 newButtonsToShow[0].addActionListener(e -> Scheduler.getInstance().removeProp(fp[0], fp[1]));
+                if (PropPlot.getPriceToRemove() > Player.getInstance().getMoney()) {
+                    newButtonsToShow[0].setEnabled(false);
+                }
             }
             else{
                 newButtonsToShow = new JButton[0];
@@ -156,6 +163,9 @@ public class ViewMenuPlot extends JPanel {
                     VegetableType vt = (VegetableType) Vegetable.vegetables.keySet().toArray()[i];
                     newButtonsToShow[i] = new JButton("Planter " + Vegetable.vegetables.get(vt).getName() + " (" + Vegetable.vegetables.get(vt).getSeedPrice() + " g$)");
                     newButtonsToShow[i].addActionListener(e -> Scheduler.getInstance().plant(fp[0], fp[1], vt));
+                    if (Vegetable.vegetables.get(vt).getSeedPrice() > Player.getInstance().getMoney()) {
+                        newButtonsToShow[i].setEnabled(false);
+                    }
                 }
             } else {
                 if (cp.getGrowthState() >= 4) {
@@ -171,10 +181,14 @@ public class ViewMenuPlot extends JPanel {
         }
 
 
+        this.pipeButton.setEnabled(true);
         if (g.getPlot(fp[0], fp[1]).hasPipe()) {
             this.pipeButton.setText("Retirer le tuyau");
         } else {
             this.pipeButton.setText("Poser un tuyau (" + Pipe.pipes.get(PipeType.pipe).getPrice() + " g$)");
+            if (Pipe.pipes.get(PipeType.pipe).getPrice() > Player.getInstance().getMoney()) {
+                this.pipeButton.setEnabled(false);
+            }
         }
 
         // Remove all buttons
@@ -228,6 +242,21 @@ public class ViewMenuPlot extends JPanel {
                 }
             }
         }
+
+        if (this.plotButtonsToShow != newButtonsToShow && this.moneyAmountAtLastUpdate != Player.getInstance().getMoney()) {
+            this.plotButtonsToShow = newButtonsToShow;
+
+            this.plotButtons.removeAll();
+            this.plotButtons.revalidate();
+            this.plotButtons.repaint();
+            if (this.plotButtonsToShow != null) {
+                for (JButton jButton : this.plotButtonsToShow) {
+                    this.plotButtons.add(jButton);
+                }
+            }
+        }
+
+        this.moneyAmountAtLastUpdate = Player.getInstance().getMoney();
     }
 
     private void showLevels(Garden g, int[] fp) {
