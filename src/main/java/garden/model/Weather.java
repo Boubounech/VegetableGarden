@@ -79,7 +79,7 @@ public class Weather {
         Gson gson = new Gson();
         String json = null;
         try {
-             json = JsonFileReader.readJSON("src/main/resources/json/weathers.json");
+             json = JsonFileReader.readJSON("json/weathers.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

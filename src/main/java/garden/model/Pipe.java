@@ -24,7 +24,7 @@ public class Pipe {
         Gson gson = new Gson();
         String json = null;
         try {
-            json = JsonFileReader.readJSON("src/main/resources/json/pipes.json");
+            json = JsonFileReader.readJSON("json/pipes.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

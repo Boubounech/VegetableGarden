@@ -36,7 +36,7 @@ public class Prop implements Serializable {
         Gson gson = new Gson();
         String json = null;
         try {
-             json = JsonFileReader.readJSON("src/main/resources/json/props.json");
+             json = JsonFileReader.readJSON("json/props.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

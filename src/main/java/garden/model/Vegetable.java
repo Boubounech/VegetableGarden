@@ -71,7 +71,7 @@ public class Vegetable implements Serializable {
         Gson gson = new Gson();
         String json = null;
         try {
-             json = JsonFileReader.readJSON("src/main/resources/json/vegetables.json");
+             json = JsonFileReader.readJSON("json/vegetables.json");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
