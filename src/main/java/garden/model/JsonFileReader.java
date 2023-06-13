@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public abstract class JsonFileReader {
     public static String readJSON(String name) throws IOException {
-        InputStream is = PictureLoader.class.getClassLoader().getResourceAsStream(name);
+        InputStream is = JsonFileReader.class.getClassLoader().getResourceAsStream(name);
         if (is == null){
             System.err.println("Null.........................");
         }
