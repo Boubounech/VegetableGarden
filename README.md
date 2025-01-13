@@ -1,5 +1,7 @@
 # VegetableGarden (Garden simulator 3000)
 
+![Garden simulator 3000](img/overview.png)
+
 ## Description
 
 An arcade simulation game of a garden where the goal is to earn the most money. Game made by Alban Bernard and Florian Burdairon.
